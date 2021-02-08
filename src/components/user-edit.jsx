@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import * as actions from "../actions";
 import { connect } from "react-redux";
 import { reduxForm, Field, change } from "redux-form";
 import { Input } from "@material-ui/core";
