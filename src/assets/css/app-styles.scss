@@ -1,0 +1,215 @@
+/*$blue-accent: rgb(36, 85, 160);
+$bg-item-container: #ebebeb;
+$l-text: rgb(39, 39, 39);
+$table-even-row: #d4d4d4;
+$table-icons: $l-text;
+$t-blue-l: rgb(59, 107, 185);*/
+
+$blue-accent: rgb(69, 87, 114);
+$table-even-row: #575757;
+
+$l-text: rgb(235, 235, 235);
+$t-blue-l: rgb(132, 153, 187);
+
+$bg-item-container: #333131;
+$bg-black: rgb(34, 34, 34);
+$bg-page-container: rgb(82, 82, 82);
+
+$table-icons: $l-text;
+
+.page-container {
+  position: relative;
+  background-color: $bg-page-container;
+  min-height: 76vh;
+}
+
+.header {
+  min-height: 11vh;
+  background-color: $bg-black;
+}
+
+.footer {
+  min-height: 13vh;
+  background-color: $bg-black;
+}
+
+.t-bold {
+  font-weight: bold;
+}
+
+.c-btn {
+  background-color: $blue-accent;
+  border: 0px;
+  border-radius: 3px;
+  padding: 6px;
+  font-size: 0.92rem;
+}
+
+.bg-gray {
+  background-color: $table-even-row;
+}
+
+.bg-blue-a {
+  background-color: $blue-accent;
+}
+
+.t-blue-l {
+  color: $t-blue-l;
+}
+
+p {
+  font-family: Helvetica, sans-serif;
+}
+
+.l-text {
+  color: $l-text;
+  font-family: Helvetica, sans-serif;
+}
+
+.t-sm {
+  font-size: 0.8rem;
+}
+
+.t-md {
+  font-size: 1.1rem;
+}
+
+.t-lg {
+  font-size: 1.5rem;
+}
+
+.t-xl {
+  font-size: 2rem;
+}
+
+.btn-link {
+  color: $table-icons;
+}
+
+th {
+  background-color: $blue-accent;
+}
+
+table {
+  tr {
+    background-color: #424040;
+  }
+  tr:nth-child(even) {
+    background-color: $table-even-row;
+  }
+  .table-data {
+    color: $l-text;
+    font-family: Helvetica, sans-serif;
+  }
+  .table-data-header {
+    color: $l-text;
+    font-family: Helvetica, sans-serif;
+  }
+  .btn-link {
+    color: $l-text;
+  }
+}
+
+.item-container {
+  background-color: $bg-item-container;
+  border-width: 0px;
+  border-style: solid;
+  border-radius: 3px;
+  color: $l-text;
+}
+
+.icon-t {
+  cursor: pointer;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+}
+
+//ScrollBar
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: $bg-item-container;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $blue-accent;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $blue-accent * 1.6;
+}
+
+.MuiTable-root {
+  .MuiTableCell-body {
+    padding: 0.4rem 1rem 0.4rem 1rem;
+  }
+}
+
+.MuiTablePagination-root {
+  p {
+    color: $l-text;
+  }
+}
+
+.MuiTablePagination-selectRoot {
+  .MuiInputBase-input {
+    color: $l-text;
+  }
+}
+
+.MuiInputBase-root,
+.MuiInput-root {
+  input {
+    color: $l-text;
+  }
+}
+
+.c-input{
+  margin-top: 10px;
+  label{
+    position:relative;
+    top: 4px;
+  }
+  input{
+    position: relative;
+    width: 94%;
+    color: $l-text;
+    background: $bg-item-container;
+    outline: none;
+    border-width: 0px;
+  }
+  .c-input-line{
+    position: relative;
+    background: $l-text;
+    width: 94%;
+    height: 2px;
+    top: 22px
+  }
+  color: $l-text;
+}
+
+.c-input:hover{
+  label{
+    top: -12px;
+    font-size: 10px;
+    color: $l-text;
+    transition: font-size .2s, top .3s, color .3s; 
+  }
+  .c-input-line{
+    height: 3px;
+    background: $blue-accent;
+    top: 24px;
+    transition: top .3s, height .3s, background .3s; 
+  }
+}
