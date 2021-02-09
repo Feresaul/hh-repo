@@ -13,56 +13,31 @@ import Input from "@material-ui/core/Input";
 import TablePagination from "@material-ui/core/TablePagination";
 
 class UserList extends Component {
-    tableHeaders= ["Usuario", "Nombre", "Cargo", "Acciones"];
-    users= [];
-    s_users= [];
-    rows= 5;
-    page= 0;
+  state = {
+    tableHeaders: ["Usuario", "Nombre", "Cargo", "Acciones"],
+    users: [],
+    rows: 5,
+    page: 0,
+  };
 
   async componentDidMount() {
     let api = new API_Service();
     await api.start({ username: "carrot", password: "1234" });
-    this.users = await api.getUserList();
-    this.s_users = this.users;
-    this.updateList();
+    this.setState({ users: await api.getUserList() });
   }
 
   onDelete(id) {}
 
-  filter = (event) => {
-    let val = event.target.value;
-    if (val === "") return;
-    let username = this.users.filter((item) =>
-      item.username.includes(val)
-    );
-    let name = this.users.filter((item) =>
-      `${item.first_name} ${item.last_name}`.includes(val)
-    );
-    let charge = this.users.filter((item) => item.shift.includes(val));
-    let newUsers = username.concat(name).concat(charge);
-    this.s_users = newUsers;
-    this.forceUpdate();
-  };
-
   handleChangePage = (event, newPage) => {
-    this.page = newPage;
-    this.updateList()
+    this.setState({
+      page: newPage,
+    });
   };
 
   handleChangeRowsPerPage = (event) => {
-    this.rows = event.target.value;
-    this.updateList();
+    this.setState({ rows: event.target.value });
+    this.forceUpdate()
   };
-
-  updateList(){
-    this.s_users = [];
-    let index = this.page * this.rows;
-    for (let i = index; i < index + this.rows; i++) {
-      if (i < this.users.length)
-        this.s_users.push(this.users[i]);
-    }
-    this.forceUpdate();
-  }
 
   render() {
     return (
@@ -75,14 +50,14 @@ class UserList extends Component {
                 className="col-12"
                 placeholder="Buscar"
                 name="filter"
-                onChange={this.filter}
+                onChange={null}
               />
             </div>
             <TableContainer>
               <Table>
                 <TableHead>
                   <TableRow>
-                    {this.tableHeaders.map((item) => (
+                    {this.state.tableHeaders.map((item) => (
                       <TableCell key={item} className="table-data-header">
                         {item}
                       </TableCell>
@@ -90,7 +65,7 @@ class UserList extends Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {this.s_users.map((item) => (
+                  {this.state.users.map((item) => (
                     <TableRow key={item?.id}>
                       <TableCell className="table-data">
                         {item?.username}
@@ -125,13 +100,13 @@ class UserList extends Component {
                 </TableBody>
               </Table>
 
-              {this.users.length < 1 ? (
+              {this.state.users.length < 1 ? (
                 <div className="col-12 bg-blue-a">
                   <p className="p-2 l-text t-sm">Cargando ...</p>
                 </div>
               ) : null}
 
-              {this.s_users.length < 1 ? (
+              {this.state.users.length < 1 ? (
                 <div className="col-12 bg-blue-a">
                   <p className="p-2 l-text t-sm">Sin datos</p>
                 </div>
@@ -140,9 +115,9 @@ class UserList extends Component {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={this.users.length}
-              rowsPerPage={this.rows}
-              page={this.page}
+              count={this.state.users.length}
+              rowsPerPage={this.state.rows}
+              page={this.state.page}
               onChangePage={this.handleChangePage}
               onChangeRowsPerPage={this.handleChangeRowsPerPage}
             />

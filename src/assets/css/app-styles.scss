@@ -5,11 +5,12 @@ $table-even-row: #d4d4d4;
 $table-icons: $l-text;
 $t-blue-l: rgb(59, 107, 185);*/
 
-$blue-accent: rgb(69, 87, 114);
+$blue-accent: rgb(63, 88, 124);
 $table-even-row: #575757;
 
 $l-text: rgb(235, 235, 235);
-$t-blue-l: rgb(132, 153, 187);
+$t-blue-l: rgb(132, 164, 214);
+$t-input: rgb(121, 163, 173);
 
 $bg-item-container: #333131;
 $bg-black: rgb(34, 34, 34);
@@ -175,41 +176,76 @@ table {
   }
 }
 
-.c-input{
-  margin-top: 10px;
-  label{
-    position:relative;
-    top: 4px;
+/// Custom Inputs
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  box-shadow: 0px;
+  -webkit-box-shadow: 0 0 0 30px $bg-item-container inset !important;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: $l-text !important;
+}
+
+.c-input {
+  font-family: sans-serif ,monospace;
+  label {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 14px;
+    transition: font-size 0.2s, top 0.3s, color 0.3s;
   }
-  input{
-    position: relative;
-    width: 94%;
+  input {
+    font-family: Helvetica;
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    bottom: 2px;
     color: $l-text;
-    background: $bg-item-container;
     outline: none;
     border-width: 0px;
+    background: $bg-item-container;
+    
   }
-  .c-input-line{
-    position: relative;
+
+  .c-input-line {
+    position: absolute;
     background: $l-text;
-    width: 94%;
-    height: 2px;
-    top: 22px
+    width: 100%;
+    height: 1px;
+    bottom: 2px;
+    left: 0px;
+    transition: top 0.3s, height 0.3s, background 0.3s;
   }
   color: $l-text;
 }
 
-.c-input:hover{
-  label{
-    top: -12px;
-    font-size: 10px;
-    color: $l-text;
-    transition: font-size .2s, top .3s, color .3s; 
+.c-input:focus-within {
+  .c-input-label {
+    top: -10px;
+    font-size: 12px;
+    color: $t-input;
   }
-  .c-input-line{
-    height: 3px;
+  .c-input-line {
     background: $blue-accent;
-    top: 24px;
-    transition: top .3s, height .3s, background .3s; 
   }
+}
+
+.c-input-input:not(:placeholder-shown) ~ .c-input-label {
+  top: -10px;
+  font-size: 12px;
+  color: $t-input;
+}
+
+.c-input-input:not(:placeholder-shown):required:invalid ~ .c-input-label {
+  top: -10px;
+  font-size: 12px;
+  color: red;
+}
+
+.c-input-input:not(:placeholder-shown):required:invalid ~ .c-input-line {
+  background: red;
 }

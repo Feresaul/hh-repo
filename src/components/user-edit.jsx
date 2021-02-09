@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { reduxForm, Field, change } from "redux-form";
-import { Input } from "@material-ui/core";
+//import { connect } from "react-redux";
+//import { reduxForm, Field, change } from "redux-form";
+import CustomInput from "./utilities/custom-inputs";
+import { Link } from "react-router-dom";
+import { API_Service } from "../services/api-service";
 
 class EditUser extends Component {
   checkbox = {
@@ -14,12 +16,35 @@ class EditUser extends Component {
     ],
   };
 
-  componentDidMount() {
+  state = {
+    medico: false,
+  };
+
+  async componentDidMount() {
     let state = this.props.location.state;
     if (state === undefined || state?.id === undefined)
       this.props.history.push("/");
-    else console.log(state.id);
+    else if (state.id !== -1){
+      let api = new API_Service();
+      await api.start({ username: "carrot", password: "1234" });
+      console.log(await api.getUserById(state.id));
+    }
   }
+
+  checkBoxes = (event) => {
+    let medico = false;
+    this.checkbox.data.map((item) => {
+      if (
+        event.target.checked &&
+        this.checkbox.data[event.target.id].nombre.includes("Médico")
+      ) {
+        medico = true;
+      }
+    });
+    this.setState({
+      medico: medico,
+    });
+  };
 
   submit = (values) => {
     this.props.history.push("/");
@@ -34,16 +59,28 @@ class EditUser extends Component {
               <div className="item-container col p-4 ml-3 mr-3 mb-2">
                 <p className="t-blue-l">Agregar/Modificar usuario</p>
                 <input hidden />
-
-                <div className="c-input col-12">
-                  <input required />
-                  <label> Nombre Completo: </label>
-                  <div className="c-input-line"></div>
-                </div>
-
-                <div>
-                  <i className="fa fa-eye p-2"></i>
-                  <i className="fa fa-eye-slash p-2"></i>
+                <div className="col-12">
+                  <CustomInput
+                    name="nombre"
+                    label="Nombre Completo:"
+                    placeholder=" "
+                    value="popo"
+                  />
+                  <div className="col-12 col-lg-6 d-inline-block p-0">
+                    <CustomInput
+                      name="usuario"
+                      label="Usuario:"
+                      placeholder=" "
+                    />
+                  </div>
+                  <div className="col-12 col-lg-6 d-inline-block p-0">
+                    <CustomInput
+                      name="pwd"
+                      type="password"
+                      label="Contraseña:"
+                      placeholder=" "
+                    />
+                  </div>
                 </div>
 
                 <div className="col ml-2 l-text pb-2 pt-2">
@@ -52,20 +89,56 @@ class EditUser extends Component {
                       key={item.id}
                       className="text-wrap m-2 ml-2 mr-4 p-0 col-sm-12 col-md-auto l-text t-sm"
                     >
-                      <input type="checkbox" className="m-1" /> {item.nombre}
+                      <input
+                        type="checkbox"
+                        className="m-1"
+                        id={item.id}
+                        onChange={this.checkBoxes}
+                      />{" "}
+                      {item.nombre}
                     </label>
                   ))}
                 </div>
               </div>
 
-              <div className="item-container col p-4 mr-3 mb-2 ml-3 ml-sm-0">
-                <p className="t-blue-l">Datos del médico</p>
-                <input placeholder="" required />
-                <input placeholder="" required />
-                <input placeholder="" required />
-                <input placeholder="" required />
-                <input placeholder="" required />
-              </div>
+              {this.state.medico === true ? (
+                <div className="item-container col p-4 mr-3 mb-2 ml-3 ml-sm-0">
+                  <p className="t-blue-l">Datos del médico</p>
+                  <div className="col-12">
+                    <CustomInput
+                      name="especialidad"
+                      label="Especialidad:"
+                      placeholder=" "
+                    />
+                    <CustomInput
+                      name="cedula"
+                      label="Cedula:"
+                      placeholder=" "
+                    />
+                    <div className="col-6 d-inline-block p-0">
+                      <CustomInput
+                        name="universidad"
+                        label="Universidad:"
+                        placeholder=" "
+                      />
+                    </div>
+                    <div className="col-6 d-inline-block p-0">
+                      <CustomInput
+                        name="direccion"
+                        label="Dirección:"
+                        placeholder=" "
+                      />
+                    </div>
+                    <div className="col-6 d-inline-block p-0">
+                      <CustomInput
+                        name="turno"
+                        label="Turno:"
+                        placeholder=" "
+                      />
+                    </div>
+                  </div>
+                </div>
+              ) : null}
             </div>
 
             <div className="item-container">
@@ -76,9 +149,14 @@ class EditUser extends Component {
                 >
                   Guardar
                 </button>
-                <button className="prl-1 mt-4 mb-3 col-lg-auto l-text c-btn">
-                  Cancelar
-                </button>
+                <Link
+                  className="c-btn text-center col-lg-auto mt-4 mb-3"
+                  to={{
+                    pathname: `/`,
+                  }}
+                >
+                  <p className="l-text m-0 p-0">Cancelar</p>
+                </Link>
               </div>
             </div>
           </form>

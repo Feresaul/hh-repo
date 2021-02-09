@@ -25,4 +25,12 @@ export class API_Service {
     });
     return data;
   }
+
+  async getUserById(id) {
+    let data;
+    await axios.get(`${this.baseUrl}/api/users/${id}`).then((resp) => {
+      data = resp.data;
+    });
+    return data;
+  }
 }
