@@ -7,6 +7,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
 } from "@material-ui/core";
 import VisibilityIcon from "@material-ui/icons/Visibility";
@@ -15,7 +16,12 @@ import EditIcon from "@material-ui/icons/Edit";
 export default class PrescriptionList extends Component {
   editUrl = "recetas/";
   state = {
-    tableHeaders: ["Folio", "Fecha", "Médico", "Paciente", "Acciones"],
+    table: {
+      headers: ["Folio", "Fecha", "Médico", "Paciente", "Acciones"],
+      rows: 5,
+      rowsConfig: [5, 25, 50],
+      page: 0,
+    },
     medico: {
       nombre: "Prueba Prueba Prueba",
       universidad: "Universidad",
@@ -39,6 +45,17 @@ export default class PrescriptionList extends Component {
     return `${day}/${month}/${year}  ${date.getUTCHours()}:${date.getUTCMinutes()}`;
   }
 
+  handleChangePage = (event, newPage) => {
+    this.setState({
+      table: { ...this.state.table, page: newPage },
+    });
+  };
+
+  handleChangeRowsPerPage = (event) => {
+    this.setState({
+      table: { ...this.state.table, rows: event.target.value },
+    });
+  };
   /*
   <div className="item-container p-3">
             <div className="row col-12">
@@ -66,7 +83,7 @@ export default class PrescriptionList extends Component {
   */
 
   render() {
-    let { tableHeaders, prescriptions } = this.state;
+    let { prescriptions, table } = this.state;
     return (
       <React.Fragment>
         <div className="page-container p-2 p-md-4">
@@ -76,7 +93,7 @@ export default class PrescriptionList extends Component {
               <Table>
                 <TableHead>
                   <TableRow>
-                    {tableHeaders.map((item) => (
+                    {table?.headers.map((item) => (
                       <TableCell key={item} className="table-data-header">
                         {item}
                       </TableCell>
@@ -84,7 +101,13 @@ export default class PrescriptionList extends Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {prescriptions.map((item) => (
+                  {(table.rows > 0
+                    ? prescriptions.slice(
+                        table.page * table.rows,
+                        table.page * table.rows + table.rows
+                      )
+                    : []
+                  ).map((item) => (
                     <TableRow key={item?.id}>
                       <TableCell className="table-data">
                         {item?.folio}
@@ -141,6 +164,15 @@ export default class PrescriptionList extends Component {
                 </div>
               ) : null}
             </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={table.rowsConfig}
+              component="div"
+              count={prescriptions.length}
+              rowsPerPage={table.rows}
+              page={table.page}
+              onChangePage={this.handleChangePage}
+              onChangeRowsPerPage={this.handleChangeRowsPerPage}
+            />
 
             <div className="d-flex flex-row-reverse">
               <Link

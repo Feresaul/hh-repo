@@ -4,59 +4,84 @@ export default class CustomInput extends Component {
   state = {};
 
   focus() {
-    if (this.state.req)
+    if (this.state.required)
       this.setState({
-        name: this.state.name,
+        ...this.state,
         placeholder: "",
-        label: this.state.label,
-        type: this.state.type,
       });
     else
       this.setState({
-        name: this.state.name,
+        ...this.state,
         placeholder: " ",
-        label: this.state.label,
-        type: this.state.type,
       });
   }
 
   componentDidMount() {
-    let { name, placeholder, label, type, value, classAdd, disabled } = this.props;
-    let req = true;
-    if (this.props.req !== undefined) req = this.props.req;
+    let {
+      name,
+      label,
+      type,
+      classAdd,
+      readOnly,
+      required,
+      handleChange,
+    } = this.props.objeto;
     this.setState({
       name: name,
-      placeholder: placeholder,
-      label: label,
-      type: type,
-      req: req,
-      value: value,
+      placeholder: " ",
+      label: label !== undefined ? label : "",
+      type: type !== undefined ? type : "text",
+      required: required !== undefined ? required : true,
       classAdd: classAdd,
-      disabled: disabled
+      readOnly: readOnly !== undefined ? readOnly : false,
+      handleChange: handleChange !== undefined ? handleChange : null,
     });
-    
   }
 
+  handleChange = (event) => {
+    this.state.handleChange(event.target.value);
+  };
+
   render() {
-    let { name, placeholder, label, type, req, classAdd, disabled } = this.state;
-    let cs =  "c-input p-2 pt-1"+ classAdd;
+    let {
+      name,
+      label,
+      type,
+      required,
+      classAdd,
+      readOnly,
+      placeholder,
+    } = this.state;
+    let cs = "c-input p-2 pt-1 " + classAdd;
+    let { input, meta } = this.props;
     return (
       <React.Fragment>
         <div className={cs}>
           <div className="col-12 p-3">
             <input
+              {...(input !== undefined ? input : null)}
               className="c-input-input"
               placeholder={placeholder}
-              type={type !== undefined ? type : "text"}
-              name={name}
+              type={type}
               id={name}
-              required={req}
+              name={name}
+              required={required}
               onFocus={() => this.focus()}
-              disabled={disabled}
+              disabled={readOnly}
             />
-            <label htmlFor={name} className="c-input-label"> {label} </label>
+            <label htmlFor={name} className="c-input-label">
+              {label}
+            </label>
             <div className="c-input-line"></div>
           </div>
+          {meta !== undefined
+            ? meta.touched &&
+              meta.error && (
+                <p className="c-input-error text-danger t-sm text-right col-12 m-0 p-0">
+                  {meta.error}
+                </p>
+              )
+            : null}
         </div>
       </React.Fragment>
     );

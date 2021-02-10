@@ -1,10 +1,12 @@
-import { createStore, compose, applyMiddleware } from "redux";
-import reducers from "./reducers";
+import { createStore, compose, applyMiddleware, combineReducers } from "redux";
 import thunks from "redux-thunk";
+import { reducer as reduxForm } from "redux-form";
 
-const initialState = {
-    bugs: [],
-};
+const initialState = {};
+
+const reducers = combineReducers({
+  form: reduxForm,
+});
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

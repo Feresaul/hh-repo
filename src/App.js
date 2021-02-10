@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import UserList from "./components/user-list";
-import EditUser from "./components/user-edit";
+
 import Header from "./components/header";
 import Footer from "./components/footer";
 import { Route, BrowserRouter } from "react-router-dom";
 import "./assets/css/app-styles.scss";
-import PrescriptionList from "./components/prescription-list";
-import EditPrescription from "./components/prescription-edit";
+
+import UserList from "./pages/user-list";
+import EditUser from "./pages/user-edit";
+import PrescriptionList from "./pages/prescription-list";
+import EditPrescription from "./pages/prescription-edit";
 
 class App extends Component {
   render() {

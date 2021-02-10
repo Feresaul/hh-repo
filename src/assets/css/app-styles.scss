@@ -72,6 +72,7 @@ $c-btn-d: rgb(107, 107, 107);
 
 .bg-blue-a {
   background-color: $blue-accent;
+  background: $blue-accent;
 }
 
 .t-blue-l {
@@ -179,11 +180,15 @@ table {
     border-color: $bg-item-container;
   }
   .MuiTableCell-body {
-    padding: 0.4rem 1rem 0.4rem 1rem;
+    padding: 0.4rem 1rem 0.4rem 2.4rem;
+  }
+  .MuiTableCell-head {
+    padding: 1rem 1rem 1rem 2.4rem;
   }
 }
 
 .MuiTablePagination-root {
+  width: 100%;
   p {
     color: $l-text;
   }
@@ -235,7 +240,8 @@ input:-webkit-autofill {
     color: $l-text;
     outline: none;
     border-width: 0px;
-    background: $bg-item-container;
+    background-image: "";
+    background: transparent !important;
   }
   .c-input-line {
     position: absolute;
@@ -278,13 +284,13 @@ input:-webkit-autofill {
   }
 }
 
-.c-input-input:not(:placeholder-shown):required:invalid {
+.c-input-input:not(:placeholder-shown):invalid {
   ~ .c-input-label {
     font-size: 14px;
     color: red;
   }
   ~ .c-input-line {
-    background: red;
+    background: rgb(255, 0, 0);
   }
 }
 
@@ -297,4 +303,10 @@ input:-webkit-autofill {
   ~ .c-input-line {
     background: $t-blue-l;
   }
+}
+
+.c-input-error{
+  position: absolute;
+  top: 0px;
+  left: 0px;
 }

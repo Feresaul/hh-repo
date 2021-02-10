@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import CustomInput from "./utilities/custom-inputs";
+import CustomInput from "../components/utilities/custom-inputs";
 import { Link } from "react-router-dom";
 import { API_Service } from "../services/api-service";
 
@@ -22,32 +22,32 @@ class EditPrescription extends Component {
         id: 0,
         nombre: "p_curp",
         etiqueta: "CURP:",
-        classeAñadida: "m-0",
+        classe: "m-0",
       },
       {
         id: 1,
         nombre: "p_nombre",
         etiqueta: "Nombre:",
-        classeAñadida: "m-0",
+        classe: "m-0",
       },
       {
         id: 2,
         nombre: "p_domicilio",
         etiqueta: "Domicilio:",
-        classeAñadida: "m-0",
+        classe: "m-0",
       },
       {
         id: 3,
         nombre: "p_edad",
         etiqueta: "Edad:",
-        classeAñadida: "m-0 col-sm-6 col-12 d-inline-block",
+        classe: "m-0 col-sm-6 col-12 d-inline-block",
         tipo: "number",
       },
       {
         id: 4,
         nombre: "p_sexo",
         etiqueta: "Sexo:",
-        classeAñadida: "m-0 col-sm-6 col-12 d-inline-block",
+        classe: "m-0 col-sm-6 col-12 d-inline-block",
       },
     ],
     medico: [
@@ -55,31 +55,31 @@ class EditPrescription extends Component {
         id: 0,
         nombre: "med_nombre",
         etiqueta: "Nombre:",
-        classeAñadida: "m-0",
+        classe: "m-0",
       },
       {
         id: 1,
         nombre: "med_especialidad",
         etiqueta: "Especialidad:",
-        classeAñadida: "m-0",
+        classe: "m-0",
       },
       {
         id: 2,
         nombre: "med_cedula",
         etiqueta: "Dedula:",
-        classeAñadida: "m-0",
+        classe: "m-0",
       },
       {
         id: 3,
         nombre: "med_universidad",
         etiqueta: "Universidad:",
-        classeAñadida: "m-0 col-sm-6 col-12 d-inline-block",
+        classe: "m-0 col-sm-6 col-12 d-inline-block",
       },
       {
         id: 4,
         nombre: "med_turno",
         etiqueta: "Turno:",
-        classeAñadida: "m-0 col-sm-6 col-12 d-inline-block",
+        classe: "m-0 col-sm-6 col-12 d-inline-block",
       },
     ],
     medicamentos: [
@@ -87,35 +87,35 @@ class EditPrescription extends Component {
         id: 0,
         nombre: "m_nombre",
         etiqueta: "Nombre:",
-        classeAñadida: "m-0 col-sm-3 col-12 d-inline-block",
+        classe: "m-0 col-sm-3 col-12 d-inline-block",
         req: false,
       },
       {
         id: 1,
         nombre: "m_clave",
         etiqueta: "Clave:",
-        classeAñadida: "m-0 col-sm-3 col-12 d-inline-block",
+        classe: "m-0 col-sm-3 col-12 d-inline-block",
         req: false,
       },
       {
         id: 2,
         nombre: "m_presentacion",
         etiqueta: "Presentacion:",
-        classeAñadida: "m-0 col-sm-3 col-12 d-inline-block",
+        classe: "m-0 col-sm-3 col-12 d-inline-block",
         req: false,
       },
       {
         id: 3,
         nombre: "m_empaque",
         etiqueta: "Empaque:",
-        classeAñadida: "m-0 col-sm-3 col-12 d-inline-block",
+        classe: "m-0 col-sm-3 col-12 d-inline-block",
         req: false,
       },
       {
         id: 4,
         nombre: "m_cantidad",
         etiqueta: "Cantidad:",
-        classeAñadida: "m-0 col-sm-3 col-12 d-inline-block",
+        classe: "m-0 col-sm-3 col-12 d-inline-block",
         req: false,
         tipo: "number",
       },
@@ -123,14 +123,14 @@ class EditPrescription extends Component {
         id: 5,
         nombre: "m_dosificacion",
         etiqueta: "Dosificación:",
-        classeAñadida: "m-0 col-sm-3 col-12 d-inline-block",
+        classe: "m-0 col-sm-3 col-12 d-inline-block",
         req: false,
       },
       {
         id: 6,
         nombre: "m_dias",
         etiqueta: "Dias Admon:",
-        classeAñadida: "m-0 col-sm-3 col-12 d-inline-block",
+        classe: "m-0 col-sm-3 col-12 d-inline-block",
         req: false,
         tipo: "number",
       },
@@ -138,7 +138,7 @@ class EditPrescription extends Component {
         id: 7,
         nombre: "m_via",
         etiqueta: "Via Admon:",
-        classeAñadida: "m-0 col-sm-3 col-12 d-inline-block",
+        classe: "m-0 col-sm-3 col-12 d-inline-block",
         req: false,
       },
     ],
@@ -180,8 +180,8 @@ class EditPrescription extends Component {
                 <p className="t-blue-l">Datos del paciente</p>
                 {this.inputs.paciente.map((item) => (
                   <React.Fragment key={item.id}>
-                    <CustomInput
-                      classAdd={item.classeAñadida}
+                    <CustomInput 
+                      classAdd={item.classe}
                       name={item.nombre}
                       label={item.etiqueta}
                       placeholder=" "
@@ -198,7 +198,7 @@ class EditPrescription extends Component {
                 {this.inputs.medico.map((item) => (
                   <React.Fragment key={item.id}>
                     <CustomInput
-                      classAdd={item.classeAñadida}
+                      classAdd={item.classe}
                       name={item.nombre}
                       label={item.etiqueta}
                       placeholder=" "
@@ -229,7 +229,7 @@ class EditPrescription extends Component {
                   {this.inputs.medicamentos.map((item) => (
                     <React.Fragment key={item.id}>
                       <CustomInput
-                        classAdd={item.classeAñadida}
+                        classAdd={item.classe}
                         name={item.nombre}
                         label={item.etiqueta}
                         placeholder=" "
