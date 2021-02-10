@@ -4,16 +4,24 @@ export default class CustomInput extends Component {
   state = {};
 
   focus() {
-    this.setState({
-      name: this.state.name,
-      placeholder: "",
-      label: this.state.label,
-      type: this.state.type,
-    });
+    if (this.state.req)
+      this.setState({
+        name: this.state.name,
+        placeholder: "",
+        label: this.state.label,
+        type: this.state.type,
+      });
+    else
+      this.setState({
+        name: this.state.name,
+        placeholder: " ",
+        label: this.state.label,
+        type: this.state.type,
+      });
   }
 
   componentDidMount() {
-    let { name, placeholder, label, type, value } = this.props;
+    let { name, placeholder, label, type, value, classAdd, disabled } = this.props;
     let req = true;
     if (this.props.req !== undefined) req = this.props.req;
     this.setState({
@@ -23,15 +31,19 @@ export default class CustomInput extends Component {
       type: type,
       req: req,
       value: value,
+      classAdd: classAdd,
+      disabled: disabled
     });
+    
   }
 
   render() {
-    let { name, placeholder, label, type, req, value } = this.state;
+    let { name, placeholder, label, type, req, classAdd, disabled } = this.state;
+    let cs =  "c-input p-2 pt-1"+ classAdd;
     return (
       <React.Fragment>
-        <div className="p-2 pt-1">
-          <div className="c-input col-12 p-3 mt-1">
+        <div className={cs}>
+          <div className="col-12 p-3">
             <input
               className="c-input-input"
               placeholder={placeholder}
@@ -40,8 +52,9 @@ export default class CustomInput extends Component {
               id={name}
               required={req}
               onFocus={() => this.focus()}
+              disabled={disabled}
             />
-            <label className="c-input-label"> {label} </label>
+            <label htmlFor={name} className="c-input-label"> {label} </label>
             <div className="c-input-line"></div>
           </div>
         </div>

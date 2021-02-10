@@ -20,7 +20,7 @@ export class API_Service {
 
   async getUserList() {
     let data;
-    await axios.get(`${this.baseUrl}/api/users`).then((resp) => {
+    await axios.get(`${this.baseUrl}/api/frontend/userList`).then((resp) => {
       data = resp.data;
     });
     return data;
@@ -28,7 +28,15 @@ export class API_Service {
 
   async getUserById(id) {
     let data;
-    await axios.get(`${this.baseUrl}/api/users/${id}`).then((resp) => {
+    await axios.get(`${this.baseUrl}/api/frontend/doctors/${id}`).then((resp) => {
+      data = resp.data;
+    });
+    return data;
+  }
+
+  async getPrescriptionList() {
+    let data;
+    await axios.get(`${this.baseUrl}/api/frontend/prescriptionList`).then((resp) => {
       data = resp.data;
     });
     return data;

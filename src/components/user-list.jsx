@@ -1,18 +1,14 @@
 import React, { Component } from "react";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 import { API_Service } from "../services/api-service";
 import { Link } from "react-router-dom";
-import DeleteIcon from "@material-ui/icons/Delete";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import EditIcon from "@material-ui/icons/Edit";
 import Input from "@material-ui/core/Input";
 import TablePagination from "@material-ui/core/TablePagination";
 
 class UserList extends Component {
+  editUrl = "/usuarios/";
   state = {
     tableHeaders: ["Usuario", "Nombre", "Cargo", "Acciones"],
     users: [],
@@ -24,6 +20,7 @@ class UserList extends Component {
     let api = new API_Service();
     await api.start({ username: "carrot", password: "1234" });
     this.setState({ users: await api.getUserList() });
+    console.log(this.state)
   }
 
   onDelete(id) {}
@@ -36,7 +33,7 @@ class UserList extends Component {
 
   handleChangeRowsPerPage = (event) => {
     this.setState({ rows: event.target.value });
-    this.forceUpdate()
+    this.forceUpdate();
   };
 
   render() {
@@ -68,19 +65,21 @@ class UserList extends Component {
                   {this.state.users.map((item) => (
                     <TableRow key={item?.id}>
                       <TableCell className="table-data">
-                        {item?.username}
+                        {item?.usuario}
                       </TableCell>
                       <TableCell className="table-data">
-                        {`${item?.first_name} ${item?.last_name}`}
+                        {item?.nombre}
                       </TableCell>
                       <TableCell className="table-data">
-                        {item?.shift}
+                        {item?.cargo.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
                       </TableCell>
                       <TableCell>
                         <Link
                           className="btn btn-link"
                           to={{
-                            pathname: `editar/${item.username}`,
+                            pathname: `${this.editUrl}editar/${item?.usuario}`,
                             state: {
                               id: item.id,
                             },
@@ -92,7 +91,7 @@ class UserList extends Component {
                           className="btn btn-link"
                           onClick={() => this.onDelete(item.id)}
                         >
-                          <DeleteIcon />
+                          <DeleteOutlineIcon />
                         </button>
                       </TableCell>
                     </TableRow>
@@ -126,7 +125,7 @@ class UserList extends Component {
               <Link
                 className="c-btn text-center col-12 col-lg-3 mt-3"
                 to={{
-                  pathname: `/editar/nuevo`,
+                  pathname: `${this.editUrl}agregar/nuevo`,
                   state: {
                     id: -1,
                   },

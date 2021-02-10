@@ -1,22 +1,38 @@
-/*$blue-accent: rgb(36, 85, 160);
-$bg-item-container: #ebebeb;
-$l-text: rgb(39, 39, 39);
-$table-even-row: #d4d4d4;
-$table-icons: $l-text;
-$t-blue-l: rgb(59, 107, 185);*/
+/*
 
 $blue-accent: rgb(63, 88, 124);
-$table-even-row: #575757;
+$table-row: rgb(98, 119, 146);
+$table-even-row: rgb(70, 91, 116);
 
 $l-text: rgb(235, 235, 235);
 $t-blue-l: rgb(132, 164, 214);
 $t-input: rgb(121, 163, 173);
+$t-input-d: rgb(136, 136, 136);
 
 $bg-item-container: #333131;
 $bg-black: rgb(34, 34, 34);
 $bg-page-container: rgb(82, 82, 82);
 
 $table-icons: $l-text;
+$c-btn-d: rgb(102, 102, 102);
+
+*/
+
+$blue-accent: rgb(44, 77, 122);
+$table-row: rgb(92, 96, 100);
+$table-even-row: rgb(70, 72, 75);
+
+$l-text: rgb(224, 224, 224);
+$t-blue-l: rgb(148, 177, 224);
+$t-input: rgb(119, 158, 209);
+$t-input-d: rgb(180, 180, 180);
+
+$bg-item-container: #353434;
+$bg-black: rgb(32, 32, 32);
+$bg-page-container: rgb(73, 75, 78);
+
+$table-icons: $l-text;
+$c-btn-d: rgb(107, 107, 107);
 
 .page-container {
   position: relative;
@@ -46,6 +62,10 @@ $table-icons: $l-text;
   font-size: 0.92rem;
 }
 
+.c-btn:disabled {
+  background-color: $c-btn-d;
+}
+
 .bg-gray {
   background-color: $table-even-row;
 }
@@ -56,10 +76,12 @@ $table-icons: $l-text;
 
 .t-blue-l {
   color: $t-blue-l;
+  font-family: Helvetica, monospace;
+  font-size: 14px;
 }
 
 p {
-  font-family: Helvetica, sans-serif;
+  font-family: Helvetica, sans-serif, monospace;
 }
 
 .l-text {
@@ -93,7 +115,7 @@ th {
 
 table {
   tr {
-    background-color: #424040;
+    background-color: $table-row;
   }
   tr:nth-child(even) {
     background-color: $table-even-row;
@@ -152,6 +174,10 @@ table {
 }
 
 .MuiTable-root {
+  tr{
+    border-bottom: solid;
+    border-color: $bg-item-container;
+  }
   .MuiTableCell-body {
     padding: 0.4rem 1rem 0.4rem 1rem;
   }
@@ -190,8 +216,10 @@ input:-webkit-autofill {
 }
 
 .c-input {
-  font-family: sans-serif ,monospace;
+  font-family: sans-serif, monospace;
   label {
+    cursor: pointer;
+    border-style: none;
     position: absolute;
     top: 2px;
     left: 2px;
@@ -208,9 +236,7 @@ input:-webkit-autofill {
     outline: none;
     border-width: 0px;
     background: $bg-item-container;
-    
   }
-
   .c-input-line {
     position: absolute;
     background: $l-text;
@@ -228,24 +254,47 @@ input:-webkit-autofill {
     top: -10px;
     font-size: 12px;
     color: $t-input;
+    border-style: none;
   }
   .c-input-line {
-    background: $blue-accent;
+    background: $t-input;
   }
 }
 
-.c-input-input:not(:placeholder-shown) ~ .c-input-label {
-  top: -10px;
-  font-size: 12px;
-  color: $t-input;
+.c-input-input:disabled {
+  ~ .c-input-label {
+    cursor: default;
+    top: -10px;
+    font-size: 12px;
+    color: $t-input-d;
+    border-style: none;
+  }
+  ~ .c-input-line {
+    border: dotted;
+    border-bottom: 0px;
+    border-width: 2px;
+    border-color: $t-input-d;
+    background: $bg-item-container;
+  }
 }
 
-.c-input-input:not(:placeholder-shown):required:invalid ~ .c-input-label {
-  top: -10px;
-  font-size: 12px;
-  color: red;
+.c-input-input:not(:placeholder-shown):required:invalid {
+  ~ .c-input-label {
+    font-size: 14px;
+    color: red;
+  }
+  ~ .c-input-line {
+    background: red;
+  }
 }
 
-.c-input-input:not(:placeholder-shown):required:invalid ~ .c-input-line {
-  background: red;
+.c-input-input:not(:placeholder-shown):valid {
+  ~ .c-input-label {
+    top: -10px;
+    font-size: 12px;
+    color: $t-input;
+  }
+  ~ .c-input-line {
+    background: $t-blue-l;
+  }
 }
