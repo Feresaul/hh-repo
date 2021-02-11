@@ -142,7 +142,7 @@ table {
   color: $l-text;
 }
 
-.icon-t {
+.icon-t, .no-selectable {
   cursor: pointer;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */

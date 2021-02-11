@@ -27,13 +27,15 @@ class UserList extends Component {
       order: "asc",
       orderBy: "Nombre",
     },
-    users: [],
+    data: [],
+    f_data: [],
   };
 
   async componentDidMount() {
     let api = new API_Service();
     await api.start({ username: "carrot", password: "1234" });
-    this.setState({ users: await api.getUserList() });
+    let users = await api.getUserList();
+    this.setState({ ...this.state, data: users, f_data: users });
   }
 
   onDelete(id) {}
@@ -91,7 +93,18 @@ class UserList extends Component {
   };
 
   filter = (value) => {
-    console.log(value);
+    let data = this.state.data;
+    let f_data = [];
+    if (value === "") f_data = data;
+    else
+      f_data = data.filter(
+        (item) => item.usuario.includes(value) || item.nombre.includes(value)
+      );
+
+    this.setState({
+      ...this.state,
+      f_data: f_data,
+    });
   };
 
   buscar = {
@@ -99,10 +112,26 @@ class UserList extends Component {
     name: "buscar",
     label: "Buscar:",
     required: false,
+    handleChange: this.filter,
   };
 
+  handleEmptyTable() {
+    let { data, f_data } = this.state;
+    let message = "";
+    if (data.length < 1) message = "Cargando...";
+    else if (f_data < 1)
+      message = " No hay datos que coincidan con la búsqueda";
+    if (message !== "")
+      return (
+        <div className="col-12 bg-blue-a">
+          <p className="p-2 l-text text-center">{message}</p>
+        </div>
+      );
+    return null;
+  }
+
   render() {
-    let { users, table } = this.state;
+    let { f_data, table } = this.state;
     return (
       <React.Fragment>
         <div className="page-container p-2 p-md-4">
@@ -110,7 +139,7 @@ class UserList extends Component {
             <p className="t-blue-l">Listado de usuarios/médicos</p>
             <TableContainer>
               <div className="col-12 bg-blue-a pt-3 pl-4 pr-4 mb-2">
-                <CustomInput objeto={this.buscar} handleChange={this.filter} />
+                <CustomInput objeto={this.buscar} />
               </div>
 
               <Table>
@@ -139,7 +168,7 @@ class UserList extends Component {
                 </TableHead>
                 <TableBody>
                   {this.stableSort(
-                    users,
+                    f_data,
                     this.getComparator(table.order, table.orderBy)
                   )
                     .slice(
@@ -183,27 +212,18 @@ class UserList extends Component {
                 </TableBody>
               </Table>
             </TableContainer>
+
+            {this.handleEmptyTable()}
+
             <TablePagination
               rowsPerPageOptions={table.rowsConfig}
               component="div"
-              count={users.length}
+              count={f_data.length}
               rowsPerPage={table.rows}
               page={table.page}
               onChangePage={this.handleChangePage}
               onChangeRowsPerPage={this.handleChangeRowsPerPage}
             />
-
-            {users.length < 1 ? (
-              <div className="col-12 bg-blue-a">
-                <p className="p-2 l-text t-sm">Cargando ...</p>
-              </div>
-            ) : null}
-
-            {users.length < 1 ? (
-              <div className="col-12 bg-blue-a">
-                <p className="p-2 l-text t-sm">Sin datos</p>
-              </div>
-            ) : null}
 
             <div className="d-flex flex-row-reverse">
               <Link

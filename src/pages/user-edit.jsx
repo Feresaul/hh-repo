@@ -96,7 +96,9 @@ class EditUser extends Component {
         (item.active && item.name.includes("Médico"))
       ) {
         medico = true;
+        return "";
       } else {
+        return "";
       }
     });
     this.setState({
@@ -122,7 +124,7 @@ class EditUser extends Component {
                 {this.inputs.checkbox.map((item) => (
                   <label
                     key={item.id}
-                    className="text-wrap m-2 ml-2 mr-4 p-0 col-sm-12 col-md-auto l-text t-sm"
+                    className="text-wrap m-2 ml-2 mr-4 p-0 col-sm-12 col-md-auto l-text t-sm no-selectable"
                   >
                     <input
                       type="checkbox"
