@@ -51,6 +51,7 @@ export default class CustomInput extends Component {
       classAdd,
       readOnly,
       placeholder,
+      handleChange
     } = this.state;
     let cs = "c-input p-2 pt-1 " + classAdd;
     let { input, meta } = this.props;
@@ -58,17 +59,32 @@ export default class CustomInput extends Component {
       <React.Fragment>
         <div className={cs}>
           <div className="col-12 p-3">
-            <input
-              {...(input !== undefined ? input : null)}
-              className="c-input-input"
-              placeholder={placeholder}
-              type={type}
-              id={name}
-              name={name}
-              required={required}
-              onFocus={() => this.focus()}
-              disabled={readOnly}
-            />
+            {handleChange !== null ? (
+              <input
+                {...(input !== undefined ? input : null)}
+                className="c-input-input"
+                placeholder={placeholder}
+                type={type}
+                id={name}
+                name={name}
+                required={required}
+                onFocus={() => this.focus()}
+                disabled={readOnly}
+                onChange={this.handleChange}
+              />
+            ) : (
+              <input
+                {...(input !== undefined ? input : null)}
+                className="c-input-input"
+                placeholder={placeholder}
+                type={type}
+                id={name}
+                name={name}
+                required={required}
+                onFocus={() => this.focus()}
+                disabled={readOnly}
+              />
+            )}
             <label htmlFor={name} className="c-input-label">
               {label}
             </label>
