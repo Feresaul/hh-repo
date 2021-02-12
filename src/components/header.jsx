@@ -7,19 +7,25 @@ class Header extends Component {
   user = "Hospital-hh";
   render() {
     return (
-      <React.Fragment>
-        <div className="header bg-black">
-          <div className="col-8 d-inline-block mt-4">
-            <AccountCircleIcon className="l-text col-3 p-0 d-inline-block m-auto " fontSize="large"/>
-            <p className="l-text d-inline-block col-9 t-md">{this.user}</p>
-          </div>
-          <div className="d-inline-block col-4 text-right">
-            <IconButton>
-              <MenuIcon className="l-text btn-custom" />
-            </IconButton>
-          </div>
+      <nav className="navbar header">
+        <div className="col-8 l-text p-0">
+          <p className="m-auto t-lg">
+            <span className="ml-2 mr-2">
+              <AccountCircleIcon fontSize="large" />
+            </span>
+            {this.user}
+          </p>
         </div>
-      </React.Fragment>
+        <div className="col-4 p-0">
+          <p className="m-auto text-right">
+            <span>
+              <IconButton>
+                <MenuIcon className="l-text" />
+              </IconButton>
+            </span>
+          </p>
+        </div>
+      </nav>
     );
   }
 }

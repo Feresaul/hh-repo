@@ -34,19 +34,20 @@ $bg-page-container: rgb(73, 75, 78);
 $table-icons: $l-text;
 $c-btn-d: rgb(107, 107, 107);
 
+
 .page-container {
   position: relative;
   background-color: $bg-page-container;
-  min-height: 76vh;
+  min-height: 82vh;
 }
 
 .header {
-  min-height: 11vh;
+  min-height: 10vh;
   background-color: $bg-black;
 }
 
 .footer {
-  min-height: 13vh;
+  min-height: 8vh;
   background-color: $bg-black;
 }
 
@@ -91,19 +92,19 @@ p {
 }
 
 .t-sm {
-  font-size: 0.8rem;
+  font-size: 12px;
 }
 
 .t-md {
-  font-size: 1.1rem;
+  font-size: 14px;
 }
 
 .t-lg {
-  font-size: 1.5rem;
+  font-size: 20px;
 }
 
 .t-xl {
-  font-size: 2rem;
+  font-size: 30px;
 }
 
 .btn-link {
@@ -309,4 +310,20 @@ input:-webkit-autofill {
   position: absolute;
   top: 0px;
   left: 0px;
+}
+
+.delete-row {
+  background: #353434;
+  transition: .8s;
+  opacity: 0;
+  height: 0px;
+  input{
+    background: $bg-item-container;
+    outline: none;
+  }
+}
+
+.delete-row:focus-within {
+  opacity: 1;
+  background: rgb(109, 51, 51);
 }

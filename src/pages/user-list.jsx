@@ -17,19 +17,28 @@ import CustomInput from "../components/utilities/custom-inputs";
 
 class UserList extends Component {
   editUrl = "/usuarios/";
-  state = {
-    table: {
-      headers: ["Usuario", "Nombre", "Cargo(s)", "Acciones"],
-      sortHeaders: ["usuario", "nombre", null, null],
-      rows: 5,
-      rowsConfig: [5, 25, 50],
-      page: 0,
-      order: "asc",
-      orderBy: "Nombre",
-    },
-    data: [],
-    f_data: [],
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      table: {
+        headers: ["Usuario", "Nombre", "Cargo(s)", "Acciones"],
+        rows: 5,
+        rowsConfig: [5, 25, 50],
+        page: 0,
+        sortHeaders: ["usuario", "nombre", null, null],
+        order: "asc",
+        orderBy: "Nombre",
+      },
+      data: [],
+      f_data: [],
+      alert: {
+        active: false,
+        id: null,
+      },
+    };
+    this.delete_row = React.createRef();
+  }
 
   async componentDidMount() {
     let api = new API_Service();
@@ -38,7 +47,7 @@ class UserList extends Component {
     this.setState({ ...this.state, data: users, f_data: users });
   }
 
-  onDelete(id) {}
+  //////////////////////////////////////////////////77
 
   descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -79,6 +88,8 @@ class UserList extends Component {
     });
     console.log(this.state);
   };
+
+  /////////////////////////////77
 
   handleChangePage = (event, newPage) => {
     this.setState({
@@ -130,8 +141,31 @@ class UserList extends Component {
     return null;
   }
 
+  openAlert(id) {
+    this.setState({
+      alert: {
+        active: true,
+        id: id,
+      },
+    });
+  }
+
+  closeAlert(active) {
+    if (active) this.onDelete(this.state.alert.id);
+    this.setState({
+      alert: {
+        active: false,
+        id: null,
+      },
+    });
+  }
+
+  onDelete(id) {
+    console.log(id, "Borrado");
+  }
+
   render() {
-    let { f_data, table } = this.state;
+    let { f_data, table, alert } = this.state;
     return (
       <React.Fragment>
         <div className="page-container p-2 p-md-4">
@@ -176,38 +210,74 @@ class UserList extends Component {
                       table.page * table.rows + table.rows
                     )
                     .map((item) => (
-                      <TableRow key={item?.id}>
-                        <TableCell className="table-data">
-                          {item?.usuario}
-                        </TableCell>
-                        <TableCell className="table-data">
-                          {item?.nombre}
-                        </TableCell>
-                        <TableCell className="table-data">
-                          {item?.cargo.map((item) => (
-                            <li key={item}>{item}</li>
-                          ))}
-                        </TableCell>
-                        <TableCell>
-                          <Link
-                            className="btn btn-link"
-                            to={{
-                              pathname: `${this.editUrl}editar/${item?.usuario}`,
-                              state: {
-                                id: item.id,
-                              },
-                            }}
-                          >
-                            <EditIcon />
-                          </Link>
-                          <button
-                            className="btn btn-link"
-                            onClick={() => this.onDelete(item.id)}
-                          >
-                            <DeleteOutlineIcon />
-                          </button>
-                        </TableCell>
-                      </TableRow>
+                      <React.Fragment key={item?.id}>
+                        {alert.active && alert.id === item.id ? (
+                          <TableRow className="col-12 delete-row">
+                            <td
+                              className="col-12 p-1"
+                              colSpan="4"
+                              ref={this.delete_row}
+                              id={"delete_row." + item.id}
+                            >
+                              <div className="col-8 m-auto d-inline-block">
+                                <p className="col-1 d-inline"></p>
+                                <p className="col-11 m-auto ml-4 d-inline t-md">
+                                  ¿Eliminar permanentemente?
+                                </p>
+                              </div>
+                              <div className="col-4 pr-4 m-auto text-right d-inline-block">
+                                <button
+                                  className="btn btn-sm btn-outline-light m-2"
+                                  onClick={() => this.closeAlert(false)}
+                                >
+                                  Cancelar
+                                </button>
+                                <button
+                                  className="btn btn-sm btn-outline-light m-2 mr-4"
+                                  onClick={() => this.closeAlert(true)}
+                                  autoFocus
+                                  onBlur={() => this.closeAlert(false)}
+                                >
+                                  Aceptar
+                                </button>
+                              </div>
+                            </td>
+                          </TableRow>
+                        ) : (
+                          <TableRow>
+                            <TableCell className="table-data">
+                              {item?.usuario}
+                            </TableCell>
+                            <TableCell className="table-data">
+                              {item?.nombre}
+                            </TableCell>
+                            <TableCell className="table-data">
+                              {item?.cargo.map((item) => (
+                                <li key={item}>{item}</li>
+                              ))}
+                            </TableCell>
+                            <TableCell>
+                              <Link
+                                className="btn btn-link"
+                                to={{
+                                  pathname: `${this.editUrl}editar/${item?.usuario}`,
+                                  state: {
+                                    id: item.id,
+                                  },
+                                }}
+                              >
+                                <EditIcon />
+                              </Link>
+                              <button
+                                className="btn btn-link btn-delete"
+                                onClick={() => this.openAlert(item.id)}
+                              >
+                                <DeleteOutlineIcon />
+                              </button>
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </React.Fragment>
                     ))}
                 </TableBody>
               </Table>

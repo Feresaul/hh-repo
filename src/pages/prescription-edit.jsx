@@ -2,9 +2,24 @@ import React, { Component } from "react";
 import CustomInput from "../components/utilities/custom-inputs";
 import { Link } from "react-router-dom";
 import { API_Service } from "../services/api-service";
+import { connect } from "react-redux";
+import { reduxForm, Field, change } from "redux-form";
 
 class EditPrescription extends Component {
   prescriptionsUrl = "/recetas";
+
+  /*constructor(props) {
+    super(props);
+    this.state = {
+      receta: {
+        folio: "09019312",
+        fecha: "22/03/2020 10:53",
+      },
+      info: {
+        readOnly: this.props.location.state.readOnly,
+      },
+    };
+  }*/
 
   state = {
     receta: {
@@ -20,126 +35,126 @@ class EditPrescription extends Component {
     paciente: [
       {
         id: 0,
-        nombre: "p_curp",
-        etiqueta: "CURP:",
-        classe: "m-0",
+        name: "p_curp",
+        label: "CURP:",
+        classAdd: "m-0",
       },
       {
         id: 1,
-        nombre: "p_nombre",
-        etiqueta: "Nombre:",
-        classe: "m-0",
+        name: "p_nombre",
+        label: "Nombre:",
+        classAdd: "m-0",
       },
       {
         id: 2,
-        nombre: "p_domicilio",
-        etiqueta: "Domicilio:",
-        classe: "m-0",
+        name: "p_domicilio",
+        label: "Domicilio:",
+        classAdd: "m-0",
       },
       {
         id: 3,
-        nombre: "p_edad",
-        etiqueta: "Edad:",
-        classe: "m-0 col-sm-6 col-12 d-inline-block",
-        tipo: "number",
+        name: "p_edad",
+        label: "Edad:",
+        classAdd: "m-0 col-sm-6 col-12 d-inline-block",
+        type: "number",
       },
       {
         id: 4,
-        nombre: "p_sexo",
-        etiqueta: "Sexo:",
-        classe: "m-0 col-sm-6 col-12 d-inline-block",
+        name: "p_sexo",
+        label: "Sexo:",
+        classAdd: "m-0 col-sm-6 col-12 d-inline-block",
       },
     ],
     medico: [
       {
         id: 0,
-        nombre: "med_nombre",
-        etiqueta: "Nombre:",
-        classe: "m-0",
+        name: "med_nombre",
+        label: "Nombre:",
+        classAdd: "m-0",
       },
       {
         id: 1,
-        nombre: "med_especialidad",
-        etiqueta: "Especialidad:",
-        classe: "m-0",
+        name: "med_especialidad",
+        label: "Especialidad:",
+        classAdd: "m-0",
       },
       {
         id: 2,
-        nombre: "med_cedula",
-        etiqueta: "Dedula:",
-        classe: "m-0",
+        name: "med_cedula",
+        label: "Dedula:",
+        classAdd: "m-0",
       },
       {
         id: 3,
-        nombre: "med_universidad",
-        etiqueta: "Universidad:",
-        classe: "m-0 col-sm-6 col-12 d-inline-block",
+        name: "med_universidad",
+        label: "Universidad:",
+        classAdd: "m-0 col-sm-6 col-12 d-inline-block",
       },
       {
         id: 4,
-        nombre: "med_turno",
-        etiqueta: "Turno:",
-        classe: "m-0 col-sm-6 col-12 d-inline-block",
+        name: "med_turno",
+        label: "Turno:",
+        classAdd: "m-0 col-sm-6 col-12 d-inline-block",
       },
     ],
     medicamentos: [
       {
         id: 0,
-        nombre: "m_nombre",
-        etiqueta: "Nombre:",
-        classe: "m-0 col-sm-3 col-12 d-inline-block",
-        req: false,
+        name: "m_nombre",
+        label: "Nombre:",
+        classAdd: "m-0 col-sm-3 col-12 d-inline-block",
+        required: false,
       },
       {
         id: 1,
-        nombre: "m_clave",
-        etiqueta: "Clave:",
-        classe: "m-0 col-sm-3 col-12 d-inline-block",
-        req: false,
+        name: "m_clave",
+        label: "Clave:",
+        classAdd: "m-0 col-sm-3 col-12 d-inline-block",
+        required: false,
       },
       {
         id: 2,
-        nombre: "m_presentacion",
-        etiqueta: "Presentacion:",
-        classe: "m-0 col-sm-3 col-12 d-inline-block",
-        req: false,
+        name: "m_presentacion",
+        label: "Presentacion:",
+        classAdd: "m-0 col-sm-3 col-12 d-inline-block",
+        required: false,
       },
       {
         id: 3,
-        nombre: "m_empaque",
-        etiqueta: "Empaque:",
-        classe: "m-0 col-sm-3 col-12 d-inline-block",
-        req: false,
+        name: "m_empaque",
+        label: "Empaque:",
+        classAdd: "m-0 col-sm-3 col-12 d-inline-block",
+        required: false,
       },
       {
         id: 4,
-        nombre: "m_cantidad",
-        etiqueta: "Cantidad:",
-        classe: "m-0 col-sm-3 col-12 d-inline-block",
-        req: false,
-        tipo: "number",
+        name: "m_cantidad",
+        label: "Cantidad:",
+        classAdd: "m-0 col-sm-3 col-12 d-inline-block",
+        required: false,
+        type: "number",
       },
       {
         id: 5,
-        nombre: "m_dosificacion",
-        etiqueta: "Dosificación:",
-        classe: "m-0 col-sm-3 col-12 d-inline-block",
-        req: false,
+        name: "m_dosificacion",
+        label: "Dosificación:",
+        classAdd: "m-0 col-sm-3 col-12 d-inline-block",
+        required: false,
       },
       {
         id: 6,
-        nombre: "m_dias",
-        etiqueta: "Dias Admon:",
-        classe: "m-0 col-sm-3 col-12 d-inline-block",
-        req: false,
-        tipo: "number",
+        name: "m_dias",
+        label: "Dias Admon:",
+        classAdd: "m-0 col-sm-3 col-12 d-inline-block",
+        required: false,
+        type: "number",
       },
       {
         id: 7,
-        nombre: "m_via",
-        etiqueta: "Via Admon:",
-        classe: "m-0 col-sm-3 col-12 d-inline-block",
-        req: false,
+        name: "m_via",
+        label: "Via Admon:",
+        classAdd: "m-0 col-sm-3 col-12 d-inline-block",
+        required: false,
       },
     ],
   };
@@ -157,6 +172,10 @@ class EditPrescription extends Component {
   save() {}
 
   pdf() {}
+
+  componente = ({ input, meta, objeto }) => (
+    <CustomInput input={input} meta={meta} objeto={objeto} />
+  );
 
   render() {
     let { receta, info } = this.state;
@@ -180,14 +199,10 @@ class EditPrescription extends Component {
                 <p className="t-blue-l">Datos del paciente</p>
                 {this.inputs.paciente.map((item) => (
                   <React.Fragment key={item.id}>
-                    <CustomInput 
-                      classAdd={item.classe}
-                      name={item.nombre}
-                      label={item.etiqueta}
-                      placeholder=" "
-                      type={item?.tipo}
-                      req={item?.req}
-                      disabled={info.readOnly}
+                    <Field
+                      name={item.name}
+                      objeto={item}
+                      component={this.componente}
                     />
                   </React.Fragment>
                 ))}
@@ -197,14 +212,10 @@ class EditPrescription extends Component {
                 <p className="t-blue-l">Datos del médico</p>
                 {this.inputs.medico.map((item) => (
                   <React.Fragment key={item.id}>
-                    <CustomInput
-                      classAdd={item.classe}
-                      name={item.nombre}
-                      label={item.etiqueta}
-                      placeholder=" "
-                      type={item?.tipo}
-                      req={item?.req}
-                      disabled={info.readOnly}
+                    <Field
+                      name={item.name}
+                      objeto={item}
+                      component={this.componente}
                     />
                   </React.Fragment>
                 ))}
@@ -213,12 +224,6 @@ class EditPrescription extends Component {
 
             <div className="item-container p-4">
               <p className="t-blue-l m-0">Diagnóstico</p>
-              <CustomInput
-                name="diagnostico"
-                label=""
-                placeholder=" "
-                disabled={info.readOnly}
-              />
             </div>
 
             <div className="item-container p-4 mt-2">
@@ -228,14 +233,10 @@ class EditPrescription extends Component {
                 <div className="col-md-10 col-sm-12 p-0 m-0 mb-2">
                   {this.inputs.medicamentos.map((item) => (
                     <React.Fragment key={item.id}>
-                      <CustomInput
-                        classAdd={item.classe}
-                        name={item.nombre}
-                        label={item.etiqueta}
-                        placeholder=" "
-                        type={item?.tipo}
-                        req={item?.req}
-                        disabled={info.readOnly}
+                      <Field
+                        name={item.name}
+                        objeto={item}
+                        component={this.componente}
                       />
                     </React.Fragment>
                   ))}
@@ -251,12 +252,7 @@ class EditPrescription extends Component {
 
             <div className="item-container p-4 mt-2">
               <p className="t-blue-l m-0">Indicaciones</p>
-              <CustomInput
-                name="indicaciones"
-                label=""
-                placeholder=" "
-                disabled={info.readOnly}
-              />
+              
             </div>
 
             <div className="item-container mt-2">
@@ -268,7 +264,7 @@ class EditPrescription extends Component {
                 >
                   <p className="l-text m-0 p-0">PDF</p>
                 </button>
-                { !info.readOnly ? (
+                {!info.readOnly ? (
                   <button
                     type="submit"
                     className="c-btn text-center col-lg-auto mt-4 mb-3 ml-2"
@@ -285,7 +281,6 @@ class EditPrescription extends Component {
                   }}
                 >
                   <p className="l-text m-0 p-0">
-                    {" "}
                     {info.readOnly ? "Volver" : "Cancelar"}{" "}
                   </p>
                 </Link>
@@ -298,4 +293,8 @@ class EditPrescription extends Component {
   }
 }
 
-export default EditPrescription;
+const FormPrescriptionRedux = reduxForm({
+  form: "formPrescription",
+})(EditPrescription);
+
+export default connect(null, null)(FormPrescriptionRedux);

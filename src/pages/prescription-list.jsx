@@ -16,22 +16,26 @@ import CustomInput from "../components/utilities/custom-inputs";
 
 export default class PrescriptionList extends Component {
   editUrl = "recetas/";
-  state = {
-    table: {
-      headers: ["Folio", "Fecha", "Médico", "Paciente", "Acciones"],
-      rows: 5,
-      rowsConfig: [5, 25, 50],
-      page: 0,
-    },
-    medico: {
-      nombre: "Prueba Prueba Prueba",
-      universidad: "Universidad",
-      cedula: "DNIDE092342",
-      especialidad: "Especialidad",
-    },
-    data: [],
-    f_data: [],
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      table: {
+        headers: ["Folio", "Fecha", "Médico", "Paciente", "Acciones"],
+        rows: 5,
+        rowsConfig: [5, 25, 50],
+        page: 0,
+      },
+      medico: {
+        nombre: "Prueba Prueba Prueba",
+        universidad: "Universidad",
+        cedula: "DNIDE092342",
+        especialidad: "Especialidad",
+      },
+      data: [],
+      f_data: [],
+    };
+  }
 
   async componentDidMount() {
     let api = new API_Service();
@@ -91,8 +95,7 @@ export default class PrescriptionList extends Component {
     let { data, f_data } = this.state;
     let message = "";
     if (data.length < 1) message = "Cargando...";
-    else if (f_data < 1)
-      message = " No hay datos que coincidan con la búsqueda";
+    else if (f_data < 1) message = "No hay datos que coincidan con la búsqueda";
     if (message !== "")
       return (
         <div className="col-12 bg-blue-a">
