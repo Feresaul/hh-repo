@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 
 export default class CustomInput extends Component {
-  state = {};
+
+  constructor(props){
+    super(props);
+    this.state = {};
+  }
 
   focus() {
     if (this.state.required)
@@ -61,7 +65,7 @@ export default class CustomInput extends Component {
           <div className="col-12 p-3">
             {handleChange !== null ? (
               <input
-                {...(input !== undefined ? input : null)}
+              {...(input !== undefined ? input : null)}
                 className="c-input-input"
                 placeholder={placeholder}
                 type={type}

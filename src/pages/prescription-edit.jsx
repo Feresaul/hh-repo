@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import CustomInput from "../components/utilities/custom-inputs";
 import { Link } from "react-router-dom";
 import { API_Service } from "../services/api-service";
-import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
+import { reduxForm, Field, change } from "redux-form";
 
 class EditPrescription extends Component {
   constructor(props) {
@@ -20,6 +20,20 @@ class EditPrescription extends Component {
   }
   
   prescriptionsUrl = "/recetas";
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      receta: {
+        folio: "09019312",
+        fecha: "22/03/2020 10:53",
+      },
+      info: {
+        readOnly: this.props.location.state.readOnly,
+      },
+    };
+  }
+
   inputs = {
     paciente: [
       {
@@ -163,14 +177,9 @@ class EditPrescription extends Component {
 
   pdf() {}
 
-  myComponent = ({ input, meta, objeto }) => (
-    <CustomInput
-      input={input}
-      meta={meta}
-      objeto={objeto}
-    />
-  )
-
+  componente = ({ input, meta, objeto }) => (
+    <CustomInput input={input} meta={meta} objeto={objeto} />
+  );
 
   render() {
     let { receta, info } = this.state;
@@ -201,7 +210,7 @@ class EditPrescription extends Component {
                         ...item,
                         readOnly: true
                       })}
-                      component={this.myComponent}
+                      component={this.componente}
                     />
                   </React.Fragment>
                 ))
@@ -218,7 +227,7 @@ class EditPrescription extends Component {
                         ...item,
                         readOnly: true
                       })}
-                      component={this.myComponent}
+                      component={this.componente}
                     />
                 </React.Fragment>
                 ))}
@@ -230,10 +239,10 @@ class EditPrescription extends Component {
               <Field
                 name="Diagnostico"
                 objeto={{
-                  name: "Diagnostico",
+                  name: "diagnostico",
                   readOnly: this.state.info.readOnly
                 }}
-                      component={this.myComponent}
+                      component={this.componente}
                     />
             </div>
 
@@ -250,9 +259,9 @@ class EditPrescription extends Component {
                         ...item,
                         readOnly: true
                       })}
-                      component={this.myComponent}
+                      component={this.componente}
                     />
-                </React.Fragment>
+                </React.Fragment>n
                   ))}
                 </div>
 
@@ -272,7 +281,7 @@ class EditPrescription extends Component {
                   name: "indicaciones",
                   readOnly: this.state.info.readOnly
                 }}
-                  component={this.myComponent}
+                  component={this.componente}
               />
             </div>
 
@@ -285,7 +294,7 @@ class EditPrescription extends Component {
                 >
                   <p className="l-text m-0 p-0">PDF</p>
                 </button>
-                { !info.readOnly ? (
+                {!info.readOnly ? (
                   <button
                     type="submit"
                     className="c-btn text-center col-lg-auto mt-4 mb-3 ml-2"
@@ -302,7 +311,6 @@ class EditPrescription extends Component {
                   }}
                 >
                   <p className="l-text m-0 p-0">
-                    {" "}
                     {info.readOnly ? "Volver" : "Cancelar"}{" "}
                   </p>
                 </Link>
@@ -315,8 +323,8 @@ class EditPrescription extends Component {
   }
 }
 
-const PrescriptionForm = reduxForm({
+const FormPrescriptionRedux = reduxForm({
   form: "formPrescription",
 })(EditPrescription);
 
-export default connect(null,null)(PrescriptionForm);
+export default connect(null, null)(FormPrescriptionRedux);
