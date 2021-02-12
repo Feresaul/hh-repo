@@ -6,19 +6,6 @@ import { connect } from "react-redux";
 import { reduxForm, Field, change } from "redux-form";
 
 class EditPrescription extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      receta: {
-        folio: "09019312",
-        fecha: "22/03/2020 10:53",
-      },
-      info: {
-        readOnly: this.props.location.state.readOnly,
-      },
-    };
-  }
-  
   prescriptionsUrl = "/recetas";
 
   constructor(props) {
@@ -261,7 +248,7 @@ class EditPrescription extends Component {
                       })}
                       component={this.componente}
                     />
-                </React.Fragment>n
+                </React.Fragment>
                   ))}
                 </div>
 
