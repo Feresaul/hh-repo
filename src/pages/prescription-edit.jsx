@@ -6,9 +6,7 @@ import { connect } from "react-redux";
 import { reduxForm, Field, change } from "redux-form";
 
 class EditPrescription extends Component {
-  prescriptionsUrl = "/recetas";
-
-  /*constructor(props) {
+  constructor(props) {
     super(props);
     this.state = {
       receta: {
@@ -19,17 +17,22 @@ class EditPrescription extends Component {
         readOnly: this.props.location.state.readOnly,
       },
     };
-  }*/
+  }
+  
+  prescriptionsUrl = "/recetas";
 
-  state = {
-    receta: {
-      folio: "09019312",
-      fecha: "22/03/2020 10:53",
-    },
-    info: {
-      readOnly: this.props.location.state.readOnly,
-    },
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      receta: {
+        folio: "09019312",
+        fecha: "22/03/2020 10:53",
+      },
+      info: {
+        readOnly: this.props.location.state.readOnly,
+      },
+    };
+  }
 
   inputs = {
     paciente: [
@@ -159,9 +162,10 @@ class EditPrescription extends Component {
     ],
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     let state = this.props.location.state;
     if (state === undefined || state?.id === undefined)
+    
       this.props.history.push(this.prescriptionsUrl);
   }
 
@@ -179,6 +183,7 @@ class EditPrescription extends Component {
 
   render() {
     let { receta, info } = this.state;
+    console.log("aver", this.inputs.paciente[0].name);
     return (
       <React.Fragment>
         <div className="page-container p-2 p-md-4 ">
@@ -201,11 +206,15 @@ class EditPrescription extends Component {
                   <React.Fragment key={item.id}>
                     <Field
                       name={item.name}
-                      objeto={item}
+                      objeto={!this.state.info.readOnly ? (item) : ({
+                        ...item,
+                        readOnly: true
+                      })}
                       component={this.componente}
                     />
                   </React.Fragment>
-                ))}
+                ))
+                }
               </div>
 
               <div className="item-container p-4 col-12 col-lg-6 mb-2 ml-0 ml-lg-2 d-inline-block">
@@ -214,16 +223,27 @@ class EditPrescription extends Component {
                   <React.Fragment key={item.id}>
                     <Field
                       name={item.name}
-                      objeto={item}
+                      objeto={!this.state.info.readOnly ? (item) : ({
+                        ...item,
+                        readOnly: true
+                      })}
                       component={this.componente}
                     />
-                  </React.Fragment>
+                </React.Fragment>
                 ))}
               </div>
             </div>
 
             <div className="item-container p-4">
               <p className="t-blue-l m-0">Diagnóstico</p>
+              <Field
+                name="Diagnostico"
+                objeto={{
+                  name: "diagnostico",
+                  readOnly: this.state.info.readOnly
+                }}
+                      component={this.componente}
+                    />
             </div>
 
             <div className="item-container p-4 mt-2">
@@ -232,13 +252,16 @@ class EditPrescription extends Component {
               <div className="row col-12 p-0 m-0">
                 <div className="col-md-10 col-sm-12 p-0 m-0 mb-2">
                   {this.inputs.medicamentos.map((item) => (
-                    <React.Fragment key={item.id}>
-                      <Field
-                        name={item.name}
-                        objeto={item}
-                        component={this.componente}
-                      />
-                    </React.Fragment>
+                  <React.Fragment key={item.id}>
+                    <Field
+                      name={item.name}
+                      objeto={!this.state.info.readOnly ? (item) : ({
+                        ...item,
+                        readOnly: true
+                      })}
+                      component={this.componente}
+                    />
+                </React.Fragment>n
                   ))}
                 </div>
 
@@ -252,7 +275,14 @@ class EditPrescription extends Component {
 
             <div className="item-container p-4 mt-2">
               <p className="t-blue-l m-0">Indicaciones</p>
-              
+              <Field
+                  name="indicaciones"
+                objeto={{
+                  name: "indicaciones",
+                  readOnly: this.state.info.readOnly
+                }}
+                  component={this.componente}
+              />
             </div>
 
             <div className="item-container mt-2">
