@@ -13,6 +13,8 @@ import {
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import EditIcon from "@material-ui/icons/Edit";
 import CustomInput from "../components/utilities/custom-inputs";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 
 export default class PrescriptionList extends Component {
   editUrl = "recetas/";
@@ -21,10 +23,18 @@ export default class PrescriptionList extends Component {
     super(props);
     this.state = {
       table: {
-        headers: ["Folio", "Fecha", "Médico", "Paciente", "Acciones"],
+        headers: [
+          { name: "Folio", sort: true },
+          { name: "Fecha", sort: true },
+          { name: "Médico", sort: true },
+          { name: "Paciente", sort: true },
+          { name: "Acciones", sort: false },
+        ],
         rows: 5,
         rowsConfig: [5, 25, 50],
         page: 0,
+        order: null,
+        orderBy: null,
       },
       medico: {
         nombre: "Prueba Prueba Prueba",
@@ -52,6 +62,27 @@ export default class PrescriptionList extends Component {
     return `${day}/${month}/${year}  ${date.getUTCHours()}:${date.getUTCMinutes()}`;
   }
 
+  handleRequestSort = (data) => {
+    let { order, orderBy } = this.state.table;
+
+    if (orderBy !== null) {
+      const v = order === "desc" ? -1 : 1;
+      let property = orderBy
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+      data.sort(function (a, b) {
+        if (b[property] < a[property]) {
+          return v * 1;
+        } else if (b[property] > a[property]) {
+          return v * -1;
+        }
+        return 0;
+      });
+    }
+    return data;
+  };
+
   handleChangePage = (event, newPage) => {
     this.setState({
       table: { ...this.state.table, page: newPage },
@@ -64,12 +95,14 @@ export default class PrescriptionList extends Component {
     });
   };
 
-  filter = (value) => {
-    let data = this.state.data;
-    let f_data = [];
-    if (value === "") f_data = data;
-    else
-      f_data = data.filter(
+  filter = () => {
+    return [...this.state.f_data];
+  };
+
+  onFilterActive = (value) => {
+    let data = [...this.state.data];
+    if (value !== "")
+      data = data.filter(
         (item) =>
           (item.folio + "").includes(value) ||
           this.isoToLString(item.fecha).includes(value) ||
@@ -79,7 +112,7 @@ export default class PrescriptionList extends Component {
 
     this.setState({
       ...this.state,
-      f_data: f_data,
+      f_data: data,
     });
   };
 
@@ -88,7 +121,7 @@ export default class PrescriptionList extends Component {
     name: "buscar",
     label: "Buscar:",
     required: false,
-    handleChange: this.filter,
+    handleChange: this.onFilterActive,
   };
 
   handleEmptyTable() {
@@ -146,62 +179,113 @@ export default class PrescriptionList extends Component {
               <Table>
                 <TableHead>
                   <TableRow>
-                    {table?.headers.map((item) => (
-                      <TableCell key={item} className="table-data-header">
-                        {item}
+                    {table.headers.map((item) => (
+                      <TableCell key={item.name} className="table-data">
+                        <p
+                          className="m-0 p-0 d-inline cursor-pointer"
+                          onClick={() => {
+                            if (item.sort) {
+                              this.setState({
+                                table: {
+                                  ...this.state.table,
+                                  orderBy: item.name,
+                                  order:
+                                    table.order !== null
+                                      ? table.order === "asc"
+                                        ? "desc"
+                                        : "asc"
+                                      : "asc",
+                                },
+                              });
+                            }
+                          }}
+                        >
+                          {item.name}
+                        </p>
+                        <div className="d-inline m-2 arrow-sort cursor-pointer">
+                          {table.orderBy !== null &&
+                          table.orderBy === item.name ? (
+                            table.order === "desc" ? (
+                              <ArrowDownwardIcon
+                                fontSize="small"
+                                onClick={() => {
+                                  this.setState({
+                                    table: {
+                                      ...this.state.table,
+                                      orderBy: null,
+                                      order: null,
+                                    },
+                                  });
+                                }}
+                              />
+                            ) : (
+                              <ArrowUpwardIcon
+                                fontSize="small"
+                                onClick={() => {
+                                  this.setState({
+                                    table: {
+                                      ...this.state.table,
+                                      orderBy: null,
+                                      order: null,
+                                    },
+                                  });
+                                }}
+                              />
+                            )
+                          ) : null}
+                        </div>
                       </TableCell>
                     ))}
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {(table.rows > 0
-                    ? f_data.slice(
-                        table.page * table.rows,
-                        table.page * table.rows + table.rows
-                      )
-                    : []
-                  ).map((item) => (
-                    <TableRow key={item?.id}>
-                      <TableCell className="table-data">
-                        {item?.folio}
-                      </TableCell>
-                      <TableCell className="table-data">
-                        {this.isoToLString(item?.fecha)}
-                      </TableCell>
-                      <TableCell className="table-data">
-                        {item?.medico}
-                      </TableCell>
-                      <TableCell className="table-data">
-                        {item?.paciente}
-                      </TableCell>
-                      <TableCell>
-                        <Link
-                          className="btn btn-link"
-                          to={{
-                            pathname: `${this.editUrl}ver/${item.folio}`,
-                            state: {
-                              id: item.id,
-                              readOnly: true,
-                            },
-                          }}
-                        >
-                          <VisibilityIcon />
-                        </Link>
-                        <Link
-                          className="btn btn-link"
-                          to={{
-                            pathname: `${this.editUrl}editar/${item.folio}`,
-                            state: {
-                              id: item.id,
-                              readOnly: false,
-                            },
-                          }}
-                        >
-                          <EditIcon />
-                        </Link>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {this.handleRequestSort(this.filter())
+                    .slice(
+                      table.page * table.rows,
+                      table.page * table.rows + table.rows
+                    )
+                    .map((item) => (
+                      <TableRow key={item?.id}>
+                        <TableCell className="table-data">
+                          {item?.folio}
+                        </TableCell>
+                        <TableCell className="table-data">
+                          {this.isoToLString(item?.fecha)}
+                        </TableCell>
+                        <TableCell className="table-data">
+                          {item?.medico}
+                        </TableCell>
+                        <TableCell className="table-data">
+                          {item?.paciente}
+                        </TableCell>
+                        <TableCell>
+                          <Link
+                            className="btn btn-link"
+                            to={{
+                              pathname: `${this.editUrl}ver/${item.folio}`,
+                              state: {
+                                id: item.id,
+                                readOnly: true,
+                              },
+                            }}
+                          >
+                            <VisibilityIcon />
+                          </Link>
+                          <Link
+                            className="btn btn-link"
+                            to={{
+                              pathname: `${this.editUrl}editar/${item.folio}`,
+                              state: {
+                                id: item.id,
+                                readOnly: false,
+                              },
+                            }}
+                          >
+                            <EditIcon />
+                          </Link>
+                        </TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </TableContainer>

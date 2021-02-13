@@ -48,34 +48,28 @@ class UserList extends Component {
     let api = new API_Service();
     await api.start({ username: "carrot", password: "1234" });
     let users = await api.getUserList();
-    this.setState({ ...this.state, data: users, f_data: users });
+    this.setState({ ...this.state, data: [...users], f_data: [...users] });
   }
 
-  handleRequestSort = (item, active) => {
-    let { order } = this.state.table;
-    let { f_data } = this.state;
-    let n_order = order !== null ? (order === "asc" ? "desc" : "asc") : "asc";
+  handleRequestSort = (data) => {
+    let { order, orderBy } = this.state.table;
 
-    if (active) {
-      const v = n_order === "desc" ? -1 : 1;
-      let name = item.name.toLowerCase();
-      f_data.sort(function (a, b) {
-        if (b[name] < a[name]) {
+    if (orderBy !== null) {
+      const v = order === "desc" ? -1 : 1;
+      let property = orderBy
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+      data.sort(function (a, b) {
+        if (b[property] < a[property]) {
           return v * 1;
-        } else if (b[name] > a[name]) {
+        } else if (b[property] > a[property]) {
           return v * -1;
         }
         return 0;
       });
     }
-
-    this.setState({
-      table: {
-        ...this.state.table,
-        orderBy: active ? item.name : null,
-        order: active ? n_order : order,
-      }
-    });
+    return data;
   };
 
   handleChangePage = (event, newPage) => {
@@ -90,18 +84,19 @@ class UserList extends Component {
     });
   };
 
-  filter = (value) => {
-    let data = this.state.data;
-    let f_data = [];
-    if (value === "") f_data = data;
-    else
-      f_data = data.filter(
-        (item) => item.usuario.includes(value) || item.nombre.includes(value)
-      );
+  filter = () => {
+    return [...this.state.f_data];
+  };
+
+  onFilterActive = (value) => {
+    let data = [...this.state.data];
+    if (value !== "") data = data.filter(
+      (item) => item.usuario.includes(value) || item.nombre.includes(value)
+    );
 
     this.setState({
       ...this.state,
-      f_data: f_data,
+      f_data: data
     });
   };
 
@@ -110,7 +105,7 @@ class UserList extends Component {
     name: "buscar",
     label: "Buscar:",
     required: false,
-    handleChange: this.filter,
+    handleChange: this.onFilterActive,
   };
 
   handleEmptyTable() {
@@ -161,7 +156,18 @@ class UserList extends Component {
                           className="m-0 p-0 d-inline cursor-pointer"
                           onClick={() => {
                             if (item.sort) {
-                              this.handleRequestSort(item, true);
+                              this.setState({
+                                table: {
+                                  ...this.state.table,
+                                  orderBy: item.name,
+                                  order:
+                                    table.order !== null
+                                      ? table.order === "asc"
+                                        ? "desc"
+                                        : "asc"
+                                      : "asc",
+                                },
+                              });
                             }
                           }}
                         >
@@ -174,14 +180,26 @@ class UserList extends Component {
                               <ArrowDownwardIcon
                                 fontSize="small"
                                 onClick={() => {
-                                  this.handleRequestSort(null, false);
+                                  this.setState({
+                                    table: {
+                                      ...this.state.table,
+                                      orderBy: null,
+                                      order: null,
+                                    },
+                                  });
                                 }}
                               />
                             ) : (
                               <ArrowUpwardIcon
                                 fontSize="small"
                                 onClick={() => {
-                                  this.handleRequestSort(null, false);
+                                  this.setState({
+                                    table: {
+                                      ...this.state.table,
+                                      orderBy: null,
+                                      order: null,
+                                    },
+                                  });
                                 }}
                               />
                             )
@@ -192,7 +210,7 @@ class UserList extends Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {f_data
+                  {this.handleRequestSort(this.filter())
                     .slice(
                       table.page * table.rows,
                       table.page * table.rows + table.rows
