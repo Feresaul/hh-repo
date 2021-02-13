@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { API_Service } from "../services/api-service";
+import { API_Service } from "../../services/api-service";
 
 import { connect } from "react-redux";
 import { FormSection, Field, reduxForm, change } from "redux-form";
-import CustomInput from "../components/utilities/custom-inputs";
+import CustomInput from "../../components/utilities/custom-inputs";
 
 class EditUser extends Component {
-  usersUrl = "/usuarios";
+  usersUrl = "admin/usuarios";
 
   inputs = {
     data: [
@@ -125,12 +124,12 @@ class EditUser extends Component {
     }
   }
 
-  kk(){
-    console.log('kk')
+  kk() {
+    console.log("kk");
   }
 
   checkBoxes = (event) => {
-    console.log(event)
+    console.log(event);
     //this.inputs.checkbox[objeto.id].active = !this.inputs.checkbox[objeto.id].active;
     /*let { checkbox } = this.inputs;
     checkbox[event.target.id].active = !checkbox[event.target.id].active;
@@ -151,7 +150,7 @@ class EditUser extends Component {
   };
 
   submit = (values) => {
-    this.props.history.push(`${this.usersUrl}`);
+    this.props.history.goBack()
     console.log(values);
   };
 
@@ -159,19 +158,19 @@ class EditUser extends Component {
     <CustomInput input={input} meta={meta} objeto={objeto} />
   );
 
-  checkcomponente = ({ input, objeto })  => (
+  checkcomponente = ({ input, objeto }) => (
     <label className="text-wrap m-2 ml-2 mr-4 p-0 col-sm-12 col-md-auto l-text t-sm no-selectable">
-    <input
-      {...input}
-      id={objeto.id}
-      type="checkbox"
-      className="m-1"
-      onChange={() => input.onChange(this.checkBoxes)}
-      checked={input.value}
-    />
-    {objeto.name}
-  </label>
-  )
+      <input
+        {...input}
+        id={objeto.id}
+        type="checkbox"
+        className="m-1"
+        onChange={() => input.onChange(this.checkBoxes)}
+        checked={input.value}
+      />
+      {objeto.name}
+    </label>
+  );
 
   render() {
     let { medico } = this.state;
@@ -196,17 +195,16 @@ class EditUser extends Component {
                 </FormSection>
 
                 <div className="col ml-2 l-text pb-2 pt-2">
-                <FormSection name="form_checkboxes">
-                  {this.inputs.checkbox.map((item) => (
-                    <React.Fragment key={item.id}>
-                      <Field
-                        name={item.id+""}
-                        objeto={item}
-                        component={this.checkcomponente}
-                      />
-                    </React.Fragment>
-                  ))}
-                 
+                  <FormSection name="form_checkboxes">
+                    {this.inputs.checkbox.map((item) => (
+                      <React.Fragment key={item.id}>
+                        <Field
+                          name={item.id + ""}
+                          objeto={item}
+                          component={this.checkcomponente}
+                        />
+                      </React.Fragment>
+                    ))}
                   </FormSection>
                 </div>
               </div>
@@ -238,14 +236,12 @@ class EditUser extends Component {
                 >
                   Guardar
                 </button>
-                <Link
+                <button
                   className="c-btn text-center col-lg-auto mt-4 mb-3"
-                  to={{
-                    pathname: `${this.usersUrl}`,
-                  }}
+                  onClick={() => this.props.history.goBack()}
                 >
                   <p className="l-text m-0 p-0">Cancelar</p>
-                </Link>
+                </button>
               </div>
             </div>
           </form>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
-import IconButton from "@material-ui/core/IconButton";
+import { Link } from "react-router-dom";
 
 class Header extends Component {
   user = "Hospital-hh";
@@ -19,9 +19,9 @@ class Header extends Component {
         <div className="col-4 p-0">
           <p className="m-auto text-right">
             <span>
-              <IconButton>
+              <Link className="btn btn-link" to="/inicio">
                 <MenuIcon className="l-text" />
-              </IconButton>
+              </Link>
             </span>
           </p>
         </div>

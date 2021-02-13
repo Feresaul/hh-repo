@@ -8,15 +8,15 @@ import {
   TableRow,
   TableSortLabel,
 } from "@material-ui/core";
-import { API_Service } from "../services/api-service";
+import { API_Service } from "../../services/api-service";
 import { Link } from "react-router-dom";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import EditIcon from "@material-ui/icons/Edit";
 import TablePagination from "@material-ui/core/TablePagination";
-import CustomInput from "../components/utilities/custom-inputs";
+import CustomInput from "../../components/utilities/custom-inputs";
 
 class UserList extends Component {
-  editUrl = "/usuarios/";
+  editUrl = "usuarios/";
 
   constructor(props) {
     super(props);
@@ -37,7 +37,6 @@ class UserList extends Component {
         id: null,
       },
     };
-    this.delete_row = React.createRef();
   }
 
   async componentDidMount() {
@@ -213,38 +212,30 @@ class UserList extends Component {
                       <React.Fragment key={item?.id}>
                         {alert.active && alert.id === item.id ? (
                           <TableRow className="col-12 delete-row">
-                            <td
-                              className="col-12 p-1"
-                              colSpan="4"
-                              ref={this.delete_row}
-                              id={"delete_row." + item.id}
-                            >
-                              <div className="col-8 m-auto d-inline-block">
-                                <p className="col-1 d-inline"></p>
-                                <p className="col-11 m-auto ml-4 d-inline t-md">
+                            <td className="col-12" colSpan="4">
+                              <div className="col-6 m-auto d-inline-block">
+                                <p className="t-md m-auto text-center">
                                   ¿Eliminar permanentemente?
                                 </p>
                               </div>
-                              <div className="col-4 pr-4 m-auto text-right d-inline-block">
-                                <button
-                                  className="btn btn-sm btn-outline-light m-2"
-                                  onClick={() => this.closeAlert(false)}
-                                >
-                                  Cancelar
-                                </button>
-                                <button
-                                  className="btn btn-sm btn-outline-light m-2 mr-4"
-                                  onClick={() => this.closeAlert(true)}
-                                  autoFocus
-                                  onBlur={() => this.closeAlert(false)}
-                                >
-                                  Aceptar
-                                </button>
-                              </div>
+                              <button
+                                className="col-2 btn-delete-row p-2"
+                                onClick={() => this.closeAlert(false)}
+                              >
+                                Cancelar
+                              </button>
+                              <button
+                                className="col-2 btn-delete-row p-2"
+                                autoFocus
+                                onClick={() => this.closeAlert(true)}
+                                onBlur={() => this.closeAlert(false)}
+                              >
+                                Aceptar
+                              </button>
                             </td>
                           </TableRow>
                         ) : (
-                          <TableRow>
+                          <TableRow className="row">
                             <TableCell className="table-data">
                               {item?.usuario}
                             </TableCell>

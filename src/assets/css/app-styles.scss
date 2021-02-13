@@ -34,7 +34,6 @@ $bg-page-container: rgb(73, 75, 78);
 $table-icons: $l-text;
 $c-btn-d: rgb(107, 107, 107);
 
-
 .page-container {
   position: relative;
   background-color: $bg-page-container;
@@ -143,7 +142,8 @@ table {
   color: $l-text;
 }
 
-.icon-t, .no-selectable {
+.icon-t,
+.no-selectable {
   cursor: pointer;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -176,7 +176,7 @@ table {
 }
 
 .MuiTable-root {
-  tr{
+  tr {
     border-bottom: solid;
     border-color: $bg-item-container;
   }
@@ -306,7 +306,7 @@ input:-webkit-autofill {
   }
 }
 
-.c-input-error{
+.c-input-error {
   position: absolute;
   top: 0px;
   left: 0px;
@@ -314,16 +314,38 @@ input:-webkit-autofill {
 
 .delete-row {
   background: #353434;
-  transition: .8s;
+  transition: 0.64s;
   opacity: 0;
   height: 0px;
-  input{
+  input {
     background: $bg-item-container;
     outline: none;
   }
 }
 
+.row {
+  transition: .64s;
+  opacity: 1;
+}
+
 .delete-row:focus-within {
   opacity: 1;
   background: rgb(109, 51, 51);
+}
+
+.btn-delete-row {
+  color: $l-text;
+  outline: none;
+  border: none;
+  background: rgb(109, 51, 51);
+  transition: 0.44s;
+}
+
+.btn-delete-row:hover {
+  background: rgb(158, 54, 54);
+  outline: none;
+}
+
+.btn-delete-row:focus {
+  outline: none;
 }
