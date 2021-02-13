@@ -79,6 +79,12 @@ class EditUser extends Component {
     };
   }
 
+  delayState = () => {
+    setTimeout(() => {
+      console.log("hola kks");
+    }, 2000);
+  };
+
   async componentDidMount() {
     let state = this.props.location.state;
     if (state === undefined || state?.id === undefined)
@@ -87,6 +93,14 @@ class EditUser extends Component {
       let api = new API_Service();
       await api.start({ username: "carrot", password: "1234" });
       let user = await api.getUserById(state.id);
+
+      this.delayState()
+
+      if (user.error !== undefined && user.error) {
+        console.log(user.info);
+        this.props.history.goBack();
+        return;
+      }
 
       let data = {
         "form_user.med_nombreCompleto": user.medico.nombre,
@@ -150,7 +164,7 @@ class EditUser extends Component {
   };
 
   submit = (values) => {
-    this.props.history.goBack()
+    this.props.history.goBack();
     console.log(values);
   };
 

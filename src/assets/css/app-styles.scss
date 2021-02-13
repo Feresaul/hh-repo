@@ -1,7 +1,6 @@
 /*
-
 $blue-accent: rgb(63, 88, 124);
-$table-row: rgb(98, 119, 146);
+$table-row: rgb(173, 200, 235);
 $table-even-row: rgb(70, 91, 116);
 
 $l-text: rgb(235, 235, 235);
@@ -9,17 +8,16 @@ $t-blue-l: rgb(132, 164, 214);
 $t-input: rgb(121, 163, 173);
 $t-input-d: rgb(136, 136, 136);
 
-$bg-item-container: #333131;
-$bg-black: rgb(34, 34, 34);
-$bg-page-container: rgb(82, 82, 82);
+$bg-item-container: #f3f3f3;
+$bg-black: rgb(27, 27, 27);
+$bg-page-container: rgb(240, 240, 240);
 
 $table-icons: $l-text;
 $c-btn-d: rgb(102, 102, 102);
-
 */
 
 $blue-accent: rgb(44, 77, 122);
-$table-row: rgb(92, 96, 100);
+$table-row: rgb(90, 90, 90);
 $table-even-row: rgb(70, 72, 75);
 
 $l-text: rgb(224, 224, 224);
@@ -33,6 +31,7 @@ $bg-page-container: rgb(73, 75, 78);
 
 $table-icons: $l-text;
 $c-btn-d: rgb(107, 107, 107);
+/**/
 
 .page-container {
   position: relative;
@@ -140,6 +139,7 @@ table {
   border-style: solid;
   border-radius: 3px;
   color: $l-text;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 6px 0 rgba(0, 0, 0, 0.19);
 }
 
 .icon-t,
@@ -324,21 +324,25 @@ input:-webkit-autofill {
 }
 
 .row {
-  transition: .64s;
+  transition: 0.64s;
   opacity: 1;
 }
 
 .delete-row:focus-within {
   opacity: 1;
   background: rgb(109, 51, 51);
+  .btn-delete-row {
+    opacity: 1;
+  }
 }
 
 .btn-delete-row {
+  opacity: 0;
   color: $l-text;
   outline: none;
   border: none;
   background: rgb(109, 51, 51);
-  transition: 0.44s;
+  transition: 0.64s;
 }
 
 .btn-delete-row:hover {
@@ -348,4 +352,20 @@ input:-webkit-autofill {
 
 .btn-delete-row:focus {
   outline: none;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-pointer:hover {
+  scale: 2
+}
+
+.arrow-sort {
+  scale: 1;
+}
+
+.arrow-sort:hover {
+  scale: 2;
 }

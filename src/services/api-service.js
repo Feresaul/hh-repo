@@ -28,17 +28,24 @@ export class API_Service {
 
   async getUserById(id) {
     let data;
-    await axios.get(`${this.baseUrl}/api/frontend/doctors/${id}`).then((resp) => {
-      data = resp.data;
-    });
+    await axios
+      .get(`${this.baseUrl}/api/frontend/doctors/${id}`)
+      .then((resp) => {
+        data = resp.data;
+      })
+      .catch(
+        (err) => (data = { error: true, info: "Error al obtener usuario" })
+      );
     return data;
   }
 
   async getPrescriptionList() {
     let data;
-    await axios.get(`${this.baseUrl}/api/frontend/prescriptionList`).then((resp) => {
-      data = resp.data;
-    });
+    await axios
+      .get(`${this.baseUrl}/api/frontend/prescriptionList`)
+      .then((resp) => {
+        data = resp.data;
+      });
     return data;
   }
 }

@@ -6,7 +6,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TableSortLabel,
 } from "@material-ui/core";
 import { API_Service } from "../../services/api-service";
 import { Link } from "react-router-dom";
@@ -14,6 +13,8 @@ import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import EditIcon from "@material-ui/icons/Edit";
 import TablePagination from "@material-ui/core/TablePagination";
 import CustomInput from "../../components/utilities/custom-inputs";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 
 class UserList extends Component {
   editUrl = "usuarios/";
@@ -22,17 +23,21 @@ class UserList extends Component {
     super(props);
     this.state = {
       table: {
-        headers: ["Usuario", "Nombre", "Cargo(s)", "Acciones"],
+        headers: [
+          { name: "Usuario", sort: true },
+          { name: "Nombre", sort: true },
+          { name: "Cargo(s)", sort: false },
+          { name: "Acciones", sort: false },
+        ],
         rows: 5,
         rowsConfig: [5, 25, 50],
         page: 0,
-        sortHeaders: ["usuario", "nombre", null, null],
-        order: "asc",
-        orderBy: "Nombre",
+        order: null,
+        orderBy: null,
       },
       data: [],
       f_data: [],
-      alert: {
+      deleteRow: {
         active: false,
         id: null,
       },
@@ -46,49 +51,32 @@ class UserList extends Component {
     this.setState({ ...this.state, data: users, f_data: users });
   }
 
-  //////////////////////////////////////////////////77
+  handleRequestSort = (item, active) => {
+    let { order } = this.state.table;
+    let { f_data } = this.state;
+    let n_order = order !== null ? (order === "asc" ? "desc" : "asc") : "asc";
 
-  descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
+    if (active) {
+      const v = n_order === "desc" ? -1 : 1;
+      let name = item.name.toLowerCase();
+      f_data.sort(function (a, b) {
+        if (b[name] < a[name]) {
+          return v * 1;
+        } else if (b[name] > a[name]) {
+          return v * -1;
+        }
+        return 0;
+      });
     }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
-  }
 
-  getComparator(order, orderBy) {
-    return order === "desc"
-      ? (a, b) => this.descendingComparator(a, b, orderBy)
-      : (a, b) => -this.descendingComparator(a, b, orderBy);
-  }
-
-  stableSort(array, comparator) {
-    const stabilizedThis = array.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) return order;
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
-  }
-
-  handleRequestSort = (event) => {
-    let property = event.target.id;
-    let { order, orderBy } = this.state.table;
-    const isAsc = orderBy === property && order === "asc";
     this.setState({
       table: {
         ...this.state.table,
-        orderBy: property,
-        order: isAsc ? "desc" : "asc",
-      },
+        orderBy: active ? item.name : null,
+        order: active ? n_order : order,
+      }
     });
-    console.log(this.state);
   };
-
-  /////////////////////////////77
 
   handleChangePage = (event, newPage) => {
     this.setState({
@@ -127,34 +115,23 @@ class UserList extends Component {
 
   handleEmptyTable() {
     let { data, f_data } = this.state;
-    let message = "";
-    if (data.length < 1) message = "Cargando...";
-    else if (f_data < 1)
-      message = " No hay datos que coincidan con la búsqueda";
-    if (message !== "")
-      return (
-        <div className="col-12 bg-blue-a">
-          <p className="p-2 l-text text-center">{message}</p>
-        </div>
-      );
-    return null;
+    return f_data < 1 ? (
+      <div className="col-12 bg-blue-a">
+        <p className="p-2 l-text text-center">
+          {data.length < 1
+            ? "Cargando..."
+            : "No hay datos que coincidan con la búsqueda"}
+        </p>
+      </div>
+    ) : null;
   }
 
-  openAlert(id) {
+  deleteRow(id, active) {
+    if (active && id === null) this.onDelete(this.state.deleteRow.id);
     this.setState({
-      alert: {
-        active: true,
-        id: id,
-      },
-    });
-  }
-
-  closeAlert(active) {
-    if (active) this.onDelete(this.state.alert.id);
-    this.setState({
-      alert: {
-        active: false,
-        id: null,
+      deleteRow: {
+        active: active,
+        id: id !== null ? id : null,
       },
     });
   }
@@ -164,7 +141,7 @@ class UserList extends Component {
   }
 
   render() {
-    let { f_data, table, alert } = this.state;
+    let { f_data, table, deleteRow } = this.state;
     return (
       <React.Fragment>
         <div className="page-container p-2 p-md-4">
@@ -178,39 +155,51 @@ class UserList extends Component {
               <Table>
                 <TableHead>
                   <TableRow>
-                    {table?.headers.map((item) => (
-                      <TableCell
-                        key={item}
-                        sortDirection={
-                          table.orderBy === item ? table.order : false
-                        }
-                      >
-                        <TableSortLabel
-                          id={item}
-                          active={table.orderBy === item}
-                          direction={
-                            table.orderBy === item ? table.order : "asc"
-                          }
-                          onClick={this.handleRequestSort}
+                    {table.headers.map((item) => (
+                      <TableCell key={item.name} className="table-data">
+                        <p
+                          className="m-0 p-0 d-inline cursor-pointer"
+                          onClick={() => {
+                            if (item.sort) {
+                              this.handleRequestSort(item, true);
+                            }
+                          }}
                         >
-                          {item}
-                        </TableSortLabel>
+                          {item.name}
+                        </p>
+                        <div className="d-inline m-2 arrow-sort cursor-pointer">
+                          {table.orderBy !== null &&
+                          table.orderBy === item.name ? (
+                            table.order === "desc" ? (
+                              <ArrowDownwardIcon
+                                fontSize="small"
+                                onClick={() => {
+                                  this.handleRequestSort(null, false);
+                                }}
+                              />
+                            ) : (
+                              <ArrowUpwardIcon
+                                fontSize="small"
+                                onClick={() => {
+                                  this.handleRequestSort(null, false);
+                                }}
+                              />
+                            )
+                          ) : null}
+                        </div>
                       </TableCell>
                     ))}
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {this.stableSort(
-                    f_data,
-                    this.getComparator(table.order, table.orderBy)
-                  )
+                  {f_data
                     .slice(
                       table.page * table.rows,
                       table.page * table.rows + table.rows
                     )
                     .map((item) => (
                       <React.Fragment key={item?.id}>
-                        {alert.active && alert.id === item.id ? (
+                        {deleteRow.active && deleteRow.id === item.id ? (
                           <TableRow className="col-12 delete-row">
                             <td className="col-12" colSpan="4">
                               <div className="col-6 m-auto d-inline-block">
@@ -220,15 +209,15 @@ class UserList extends Component {
                               </div>
                               <button
                                 className="col-2 btn-delete-row p-2"
-                                onClick={() => this.closeAlert(false)}
+                                onClick={() => this.deleteRow(null, false)}
                               >
                                 Cancelar
                               </button>
                               <button
                                 className="col-2 btn-delete-row p-2"
                                 autoFocus
-                                onClick={() => this.closeAlert(true)}
-                                onBlur={() => this.closeAlert(false)}
+                                onClick={() => this.deleteRow(null, true)}
+                                onBlur={() => this.deleteRow(null, false)}
                               >
                                 Aceptar
                               </button>
@@ -261,7 +250,7 @@ class UserList extends Component {
                               </Link>
                               <button
                                 className="btn btn-link btn-delete"
-                                onClick={() => this.openAlert(item.id)}
+                                onClick={() => this.deleteRow(item.id, true)}
                               >
                                 <DeleteOutlineIcon />
                               </button>
