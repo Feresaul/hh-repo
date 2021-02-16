@@ -7,7 +7,6 @@ import {
   TableHead,
   TableRow,
 } from "@material-ui/core";
-import { API_Service } from "../../services/api-service";
 import { Link } from "react-router-dom";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import EditIcon from "@material-ui/icons/Edit";
@@ -15,8 +14,12 @@ import TablePagination from "@material-ui/core/TablePagination";
 import CustomInput from "../../components/utilities/custom-inputs";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+//Redux
+import { connect } from "react-redux";
+import { getUserList } from "../../redux/actions/user-actions";
 
 class UserList extends Component {
+  f_data_size = 0;
   editUrl = "usuarios/";
 
   constructor(props) {
@@ -35,8 +38,7 @@ class UserList extends Component {
         order: null,
         orderBy: null,
       },
-      data: [],
-      f_data: [],
+      filter: "",
       deleteRow: {
         active: false,
         id: null,
@@ -44,38 +46,29 @@ class UserList extends Component {
     };
   }
 
-  async componentDidMount() {
-    let api = new API_Service();
-    await api.start({ username: "carrot", password: "1234" });
-    let users = await api.getUserList();
-    this.setState({ ...this.state, data: users, f_data: users });
+  componentDidMount() {
+    if (this.props.users.length === undefined) this.props.getUserList();
   }
 
-  handleRequestSort = (item, active) => {
-    let { order } = this.state.table;
-    let { f_data } = this.state;
-    let n_order = order !== null ? (order === "asc" ? "desc" : "asc") : "asc";
+  handleRequestSort = (data) => {
+    let { order, orderBy } = this.state.table;
 
-    if (active) {
-      const v = n_order === "desc" ? -1 : 1;
-      let name = item.name.toLowerCase();
-      f_data.sort(function (a, b) {
-        if (b[name] < a[name]) {
+    if (orderBy !== null) {
+      const v = order === "desc" ? -1 : 1;
+      let property = orderBy
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+      data.sort(function (a, b) {
+        if (b[property] < a[property]) {
           return v * 1;
-        } else if (b[name] > a[name]) {
+        } else if (b[property] > a[property]) {
           return v * -1;
         }
         return 0;
       });
     }
-
-    this.setState({
-      table: {
-        ...this.state.table,
-        orderBy: active ? item.name : null,
-        order: active ? n_order : order,
-      }
-    });
+    return data;
   };
 
   handleChangePage = (event, newPage) => {
@@ -90,18 +83,22 @@ class UserList extends Component {
     });
   };
 
-  filter = (value) => {
-    let data = this.state.data;
-    let f_data = [];
-    if (value === "") f_data = data;
-    else
-      f_data = data.filter(
+  filter = () => {
+    let { users } = this.props;
+    let data = users.length !== undefined ? [...users] : [];
+    let value = this.state.filter;
+    if (value !== "")
+      data = data.filter(
         (item) => item.usuario.includes(value) || item.nombre.includes(value)
       );
+    this.f_data_size = data.length;
+    return data;
+  };
 
+  onFilterActive = (value) => {
     this.setState({
       ...this.state,
-      f_data: f_data,
+      filter: value,
     });
   };
 
@@ -110,12 +107,13 @@ class UserList extends Component {
     name: "buscar",
     label: "Buscar:",
     required: false,
-    handleChange: this.filter,
+    handleChange: this.onFilterActive,
   };
 
   handleEmptyTable() {
-    let { data, f_data } = this.state;
-    return f_data < 1 ? (
+    let { users } = this.props;
+    let data = users.length !== undefined ? [...users] : [];
+    return this.f_data_size < 1 ? (
       <div className="col-12 bg-blue-a">
         <p className="p-2 l-text text-center">
           {data.length < 1
@@ -141,7 +139,7 @@ class UserList extends Component {
   }
 
   render() {
-    let { f_data, table, deleteRow } = this.state;
+    let { table, deleteRow } = this.state;
     return (
       <React.Fragment>
         <div className="page-container p-2 p-md-4">
@@ -161,7 +159,18 @@ class UserList extends Component {
                           className="m-0 p-0 d-inline cursor-pointer"
                           onClick={() => {
                             if (item.sort) {
-                              this.handleRequestSort(item, true);
+                              this.setState({
+                                table: {
+                                  ...this.state.table,
+                                  orderBy: item.name,
+                                  order:
+                                    table.order !== null
+                                      ? table.order === "asc"
+                                        ? "desc"
+                                        : "asc"
+                                      : "asc",
+                                },
+                              });
                             }
                           }}
                         >
@@ -174,14 +183,26 @@ class UserList extends Component {
                               <ArrowDownwardIcon
                                 fontSize="small"
                                 onClick={() => {
-                                  this.handleRequestSort(null, false);
+                                  this.setState({
+                                    table: {
+                                      ...this.state.table,
+                                      orderBy: null,
+                                      order: null,
+                                    },
+                                  });
                                 }}
                               />
                             ) : (
                               <ArrowUpwardIcon
                                 fontSize="small"
                                 onClick={() => {
-                                  this.handleRequestSort(null, false);
+                                  this.setState({
+                                    table: {
+                                      ...this.state.table,
+                                      orderBy: null,
+                                      order: null,
+                                    },
+                                  });
                                 }}
                               />
                             )
@@ -192,7 +213,7 @@ class UserList extends Component {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {f_data
+                  {this.handleRequestSort(this.filter())
                     .slice(
                       table.page * table.rows,
                       table.page * table.rows + table.rows
@@ -268,7 +289,7 @@ class UserList extends Component {
             <TablePagination
               rowsPerPageOptions={table.rowsConfig}
               component="div"
-              count={f_data.length}
+              count={this.f_data_size}
               rowsPerPage={table.rows}
               page={table.page}
               onChangePage={this.handleChangePage}
@@ -295,4 +316,12 @@ class UserList extends Component {
   }
 }
 
-export default UserList;
+const mapDispatchActions = {
+  getUserList,
+};
+
+const mapStateToProps = (state) => ({
+  users: state.users,
+});
+
+export default connect(mapStateToProps, mapDispatchActions)(UserList);
