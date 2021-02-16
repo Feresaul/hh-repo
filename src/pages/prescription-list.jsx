@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { API_Service } from "../services/api-service";
 import {
   Table,
   TableBody,
@@ -15,9 +14,13 @@ import EditIcon from "@material-ui/icons/Edit";
 import CustomInput from "../components/utilities/custom-inputs";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+//Redux
+import { connect } from "react-redux";
+import { getPrescriptionList } from "../redux/actions/prescription-actions";
 
-export default class PrescriptionList extends Component {
-  editUrl = "recetas/";
+class PrescriptionList extends Component {
+  f_data_size = 0;
+  recetaUrl = "recetas/";
 
   constructor(props) {
     super(props);
@@ -42,16 +45,13 @@ export default class PrescriptionList extends Component {
         cedula: "DNIDE092342",
         especialidad: "Especialidad",
       },
-      data: [],
-      f_data: [],
+      filter: "",
     };
   }
 
-  async componentDidMount() {
-    let api = new API_Service();
-    await api.start({ username: "carrot", password: "1234" });
-    let data = await api.getPrescriptionList();
-    this.setState({ ...this.state, data: data, f_data: data });
+  componentDidMount() {
+    if (this.props.prescriptions.length === undefined)
+      this.props.getPrescriptionList();
   }
 
   isoToLString(data) {
@@ -96,11 +96,9 @@ export default class PrescriptionList extends Component {
   };
 
   filter = () => {
-    return [...this.state.f_data];
-  };
-
-  onFilterActive = (value) => {
-    let data = [...this.state.data];
+    let { prescriptions } = this.props;
+    let data = prescriptions.length > 0 ? [...prescriptions] : [];
+    let value = this.state.filter;
     if (value !== "")
       data = data.filter(
         (item) =>
@@ -109,10 +107,14 @@ export default class PrescriptionList extends Component {
           item.medico.includes(value) ||
           item.paciente.includes(value)
       );
+    this.f_data_size = data.length;
+    return data;
+  };
 
+  onFilterActive = (value) => {
     this.setState({
       ...this.state,
-      f_data: data,
+      filter: value,
     });
   };
 
@@ -125,47 +127,21 @@ export default class PrescriptionList extends Component {
   };
 
   handleEmptyTable() {
-    let { data, f_data } = this.state;
-    let message = "";
-    if (data.length < 1) message = "Cargando...";
-    else if (f_data < 1) message = "No hay datos que coincidan con la búsqueda";
-    if (message !== "")
-      return (
-        <div className="col-12 bg-blue-a">
-          <p className="p-2 l-text text-center">{message}</p>
-        </div>
-      );
-    return null;
+    let { prescriptions } = this.props;
+    let data = prescriptions.length !== undefined ? [...prescriptions] : [];
+    return this.f_data_size < 1 ? (
+      <div className="col-12 bg-blue-a">
+        <p className="p-2 l-text text-center">
+          {data.length < 1
+            ? "Cargando..."
+            : "No hay datos que coincidan con la búsqueda"}
+        </p>
+      </div>
+    ) : null;
   }
 
-  /*
-  <div className="item-container p-3">
-            <div className="row col-12">
-              <div className="col-12 col-sm-6 col-lg-3">
-                <p className="t-blue-l p-1 m-0 "> Nombre: </p>{" "}
-                <p className="p-1 m-0 "> {medico.nombre} </p>
-              </div>
-
-              <div className="col-12 col-sm-6 col-lg-3">
-                <p className="t-blue-l p-1 m-0 "> Universidad: </p>{" "}
-                <p className="p-1 m-0 "> {medico.universidad} </p>
-              </div>
-
-              <div className="col-12 col-sm-6 col-lg-3">
-                <p className="t-blue-l p-1 m-0 "> Especialidad: </p>{" "}
-                <p className="p-1 m-0 "> {medico.especialidad} </p>
-              </div>
-
-              <div className="col-12 col-sm-6 col-lg-3">
-                <p className="t-blue-l p-1 m-0 "> Cedula: </p>{" "}
-                <p className="p-1 m-0 "> {medico.cedula} </p>
-              </div>
-            </div>
-          </div>
-  */
-
   render() {
-    let { f_data, table } = this.state;
+    let { table } = this.state;
     return (
       <React.Fragment>
         <div className="page-container p-2 p-md-4">
@@ -262,7 +238,7 @@ export default class PrescriptionList extends Component {
                           <Link
                             className="btn btn-link"
                             to={{
-                              pathname: `${this.editUrl}ver/${item.folio}`,
+                              pathname: `${this.recetaUrl}ver/${item.folio}`,
                               state: {
                                 id: item.id,
                                 readOnly: true,
@@ -274,7 +250,7 @@ export default class PrescriptionList extends Component {
                           <Link
                             className="btn btn-link"
                             to={{
-                              pathname: `${this.editUrl}editar/${item.folio}`,
+                              pathname: `${this.recetaUrl}editar/${item.folio}`,
                               state: {
                                 id: item.id,
                                 readOnly: false,
@@ -295,7 +271,7 @@ export default class PrescriptionList extends Component {
             <TablePagination
               rowsPerPageOptions={table.rowsConfig}
               component="div"
-              count={f_data.length}
+              count={this.f_data_size}
               rowsPerPage={table.rows}
               page={table.page}
               onChangePage={this.handleChangePage}
@@ -306,7 +282,7 @@ export default class PrescriptionList extends Component {
               <Link
                 className="c-btn text-center col-12 col-lg-3 mt-3"
                 to={{
-                  pathname: `${this.editUrl}agregar/nueva`,
+                  pathname: `${this.recetaUrl}agregar/nueva`,
                   state: {
                     id: -1,
                     readOnly: false,
@@ -322,3 +298,13 @@ export default class PrescriptionList extends Component {
     );
   }
 }
+
+const mapDispatchActions = {
+  getPrescriptionList,
+};
+
+const mapStateToProps = (state) => ({
+  prescriptions: state.prescriptions,
+});
+
+export default connect(mapStateToProps, mapDispatchActions)(PrescriptionList);

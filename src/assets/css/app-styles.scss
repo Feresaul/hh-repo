@@ -36,16 +36,42 @@ $c-btn-d: rgb(107, 107, 107);
 .page-container {
   position: relative;
   background-color: $bg-page-container;
-  min-height: 82vh;
+  min-height: 76vh;
+}
+
+.c-card{
+  width: 100%;
+  min-width: 300px;
+}
+
+.c-card-image{
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.bg-container{
+  background: $bg-item-container;
+  color: $l-text;
+}
+
+.hover-grow {
+  scale: 1;
+  transition: 0.3s;
+}
+
+.hover-grow:hover {
+  transform: scale(1.08);
 }
 
 .header {
-  min-height: 10vh;
+  min-height: 13vh;
   background-color: $bg-black;
 }
 
 .footer {
-  min-height: 8vh;
+  min-height: 11vh;
   background-color: $bg-black;
 }
 
@@ -359,7 +385,7 @@ input:-webkit-autofill {
 }
 
 .cursor-pointer:hover {
-  scale: 2
+  scale: 2;
 }
 
 .arrow-sort {
