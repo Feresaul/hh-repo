@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
 import { prescriptions, prescription } from "./prescriptions";
 import { users, user } from "./users";
-import { token } from "./login";
+import { auth } from "./login";
 
 export default combineReducers({
   form: formReducer,
@@ -10,5 +10,5 @@ export default combineReducers({
   prescription,
   users,
   user,
-  token,
+  auth,
 });

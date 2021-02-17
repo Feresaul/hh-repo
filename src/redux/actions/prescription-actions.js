@@ -1,10 +1,9 @@
 import axios from "axios";
 import * as constants from "../constants";
-import { validToken } from "./login-actions";
+import store from "../store";
 
 export const getPrescriptionList = () => (dispatch) => {
-  validToken();
-  let token = localStorage.getItem("token");
+  let token = store.getState().auth.token;
   axios
     .get(`${constants.BASE_URL}/api/frontend/prescriptionList`, {
       headers: {
@@ -20,8 +19,7 @@ export const getPrescriptionList = () => (dispatch) => {
 };
 
 export const getPrescriptionById = (id) => (dispatch) => {
-  validToken();
-  let token = localStorage.getItem("token");
+  let token = store.getState().auth.token;
   axios
     .get(`${constants.BASE_URL}/api/frontend/prescriptions/${id}`, {
       headers: {

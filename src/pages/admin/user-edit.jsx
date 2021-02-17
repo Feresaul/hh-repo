@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import UserFormRedux from "../../components/user-form";
+import { withRouter, Redirect, Link } from "react-router-dom";
 //Redux
 import { connect } from "react-redux";
 import { getUserById } from "../../redux/actions/user-actions";
@@ -14,7 +15,6 @@ class EditUser extends Component {
     let state = this.props.location.state;
     if (state === undefined || state?.id === undefined) {
       this.props.history.goBack();
-      return;
     } else if (state !== null && state.id !== -1) {
       this.props.getUserById(state.id);
     }
@@ -30,7 +30,10 @@ class EditUser extends Component {
   };
 
   render() {
-    let { id } = this.props.location.state;
+    let id =
+      this.props.location.state !== undefined
+        ? this.props.location.state.id
+        : null;
     let { user } = this.props;
     return (
       <React.Fragment>
@@ -56,4 +59,6 @@ const mapDispatchActions = {
   getUserById,
 };
 
-export default connect(mapStateToProps, mapDispatchActions)(EditUser);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchActions)(EditUser)
+);

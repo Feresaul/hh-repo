@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import Header from "./components/header";
 import Footer from "./components/footer";
-import { Route, BrowserRouter } from "react-router-dom";
+import { Route, BrowserRouter, withRouter } from "react-router-dom";
 import "./assets/css/app-styles.scss";
 
 import UserList from "./pages/admin/user-list";
@@ -13,7 +13,19 @@ import Admin from "./pages/admin/admin";
 import Inicio from "./pages/inicio";
 import LogIn from "./pages/logIn";
 
+import { connect } from "react-redux";
+import { validToken } from "./redux/actions/login-actions";
+
 class App extends Component {
+  componentDidMount() {
+    if (window.location.pathname !== "/logIn") {
+      this.props.validToken();
+      if (!this.props.auth) {
+        window.location.href = "/logIn";
+      }
+    }
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -42,4 +54,12 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  auth: state.auth.authenticated,
+});
+
+const mapDispatchActions = {
+  validToken,
+};
+
+export default connect(mapStateToProps, mapDispatchActions)(App);

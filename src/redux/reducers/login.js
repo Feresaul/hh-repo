@@ -1,10 +1,12 @@
-import { FETCH_TOKEN} from "../constants";
+import * as constants from "../constants";
 
-export const token = (state = {}, action) => {
+export const auth = (state = { authenticated: false }, action) => {
   switch (action.type) {
-    case FETCH_TOKEN:
-      return action.payload;
+    case constants.FETCH_TOKEN:
+      return { ...state, token: action.payload };
+    case constants.AUTHENTICATED:
+      return { ...state, authenticated: action.payload };
     default:
-      return state; 
+      return state;
   }
 };

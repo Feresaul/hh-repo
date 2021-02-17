@@ -2,30 +2,23 @@ import axios from "axios";
 import * as constants from "../constants";
 import store from "../store";
 
-const Mystore = store.getState();
-
-export const validToken = () => {
-  //console.log(Mystore)
-  let token = localStorage.getItem("token");
-  console.log("is valid?", token);
-  if (token === undefined) token = "";
-  axios
-    .get(`${constants.BASE_URL}/api/isTokenValid`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((res) => {
-      if (!res.data) {
-        localStorage.removeItem("token");
-        //let login = JSON.parse(localStorage.getItem("login"));
-        //userLogIn(login.username, login.password);
-        console.log("token invalido");
-      } else {
-        console.log("token valido");
-      }
-    })
-    .catch((error) => console.log(error.message));
+export const validToken = () => (dispatch) => {
+  let token = store.getState().auth.token;
+  if (token !== undefined) {
+    axios
+      .get(`${constants.BASE_URL}/api/isTokenValid`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        dispatch({
+          type: constants.AUTHENTICATED,
+          payload: res.data,
+        });
+      })
+      .catch((error) => console.log(error.message));
+  }
 };
 
 export const userLogIn = (username, password) => (dispatch) => {
@@ -35,15 +28,16 @@ export const userLogIn = (username, password) => (dispatch) => {
       password: password,
     })
     .then((res) => {
-      if (res.data !== null && res.data !== undefined) {
-        localStorage.setItem("token", res.data);
-        console.log("nuevo token", res.data);
-
+      console.log(res.data);
+      dispatch({
+        type: constants.FETCH_TOKEN,
+        payload: res.data !== undefined ? res.data : "",
+      });
+      if (res.data !== undefined)
         dispatch({
-          type: constants.FETCH_TOKEN,
-          payload: res.data,
+          type: constants.AUTHENTICATED,
+          payload: true,
         });
-      }
     })
     .catch((error) => console.log(error.message));
 };

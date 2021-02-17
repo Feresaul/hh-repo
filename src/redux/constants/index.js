@@ -5,4 +5,5 @@ export const FETCH_USER = "FETCH_USER";
 
 
 export const FETCH_TOKEN = "FETCH_TOKEN";
+export const AUTHENTICATED = "AUTHENTICATED";
 export const BASE_URL = "http://174.142.6.165:3000";

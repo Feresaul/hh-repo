@@ -14,6 +14,7 @@ import TablePagination from "@material-ui/core/TablePagination";
 import CustomInput from "../../components/utilities/custom-inputs";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import { withRouter } from "react-router-dom";
 //Redux
 import { connect } from "react-redux";
 import { getUserList } from "../../redux/actions/user-actions";
@@ -78,8 +79,10 @@ class UserList extends Component {
   };
 
   handleChangeRowsPerPage = (event) => {
+    let page = this.state.table.page;
+    if (this.props.users.length < event.target.value) page = 0;
     this.setState({
-      table: { ...this.state.table, rows: event.target.value },
+      table: { ...this.state.table, page: page, rows: event.target.value },
     });
   };
 
@@ -288,6 +291,7 @@ class UserList extends Component {
 
             <TablePagination
               rowsPerPageOptions={table.rowsConfig}
+              labelRowsPerPage="Filas por página"
               component="div"
               count={this.f_data_size}
               rowsPerPage={table.rows}
@@ -324,4 +328,6 @@ const mapStateToProps = (state) => ({
   users: state.users,
 });
 
-export default connect(mapStateToProps, mapDispatchActions)(UserList);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchActions)(UserList)
+);
