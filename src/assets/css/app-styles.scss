@@ -31,34 +31,33 @@ $bg-page-container: rgb(73, 75, 78);
 
 $table-icons: $l-text;
 $c-btn-d: rgb(107, 107, 107);
-/**/
 
 .page-container {
   position: relative;
   background-color: $bg-page-container;
   min-height: 76vh;
+  transition: 0.3s ease-out;
 }
 
-.c-card{
-  width: 100%;
-  min-width: 300px;
+.c-card {
+  min-width: 340px;
 }
 
-.c-card-image{
+.c-card-image {
   width: 100%;
-  max-height: 250px;
+  max-height: 300px;
   object-fit: cover;
   overflow: hidden;
 }
 
-.bg-container{
+.bg-container {
   background: $bg-item-container;
   color: $l-text;
 }
 
 .hover-grow {
   scale: 1;
-  transition: 0.3s;
+  transition: 0.1s;
 }
 
 .hover-grow:hover {
@@ -73,6 +72,35 @@ $c-btn-d: rgb(107, 107, 107);
 .footer {
   min-height: 11vh;
   background-color: $bg-black;
+}
+
+.item-container {
+  background-color: $bg-item-container;
+  border-width: 0px;
+  border-style: solid;
+  border-radius: 3px;
+  color: $l-text;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 6px 0 rgba(0, 0, 0, 0.19);
+  transition: 0.1s ease-out;
+}
+
+.back-shape{
+  position: relative;
+  top: 0;
+  left: 5%;
+  right: 5%;
+  width: 90%;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  height: 80%;
+}
+
+.t-home{
+  color: $l-text;
+  font-size: 50px;
+  font-weight: bold;
+  margin: 10%;
+  font-family: sans-serif;;
 }
 
 .t-bold {
@@ -157,15 +185,6 @@ table {
   .btn-link {
     color: $l-text;
   }
-}
-
-.item-container {
-  background-color: $bg-item-container;
-  border-width: 0px;
-  border-style: solid;
-  border-radius: 3px;
-  color: $l-text;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 6px 0 rgba(0, 0, 0, 0.19);
 }
 
 .icon-t,
