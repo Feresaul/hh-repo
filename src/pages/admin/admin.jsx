@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 //Redux
 import { connect } from "react-redux";
-import { userLogIn } from "../../redux/actions/login-actions";
 
 class Admin extends Component {
   adminUrl = "admin/";
@@ -18,7 +17,7 @@ class Admin extends Component {
     },
     {
       name: "Pacientes",
-      url: "recetas",//`${this.adminUrl}pacientes`,
+      url: `${this.adminUrl}pacientes`,
       description: [
         "Listado de pacientes",
         "Alta/Baja pacientes",
@@ -29,52 +28,48 @@ class Admin extends Component {
     },
   ];
 
-  componentDidMount() {
-    this.props.userLogIn("quique", "1234");
-  }
+  componentDidMount() {}
 
   render() {
     return (
       <React.Fragment>
-        <div className="page-container p-lg-3 p-md-4 p-1 d-flex justify-content-center">
-          {this.data.map((item) => (
-            <React.Fragment key={item.name}>
-              <div className="col col-lg-4 col-sm-6 p-2 p-sm-4 d-inline-block c-card">
-                <div
-                  className="item-container hover-grow cursor-pointer"
-                  onClick={() => {
-                    this.props.history.push(item.url);
-                  }}
-                >
-                  <h5 className="card-title bg-container text-center p-4 m-0">
-                    {item.name}
-                  </h5>
-                  <img className="c-card-image m-0" src={item.img} alt="card" />
-                  <div className="p-4">
-                    <ul className="m-0">
-                      {item.description.map((item) => (
-                        <li key={item} className="p-0 m-0">
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
+        <div className="page-container p-lg-3 p-md-4 p-1">
+          <div className="row d-flex justify-content-center m-0 p-1 p-sm-2 p-lg-4">
+            {this.data.map((item) => (
+              <React.Fragment key={item.name}>
+                <div className="col col-lg-4 col-sm-3 p-2 p-lg-3 d-inline-block c-card">
+                  <div
+                    className="item-container hover-grow cursor-pointer"
+                    onClick={() => {
+                      this.props.history.push(item.url);
+                    }}
+                  >
+                    <h5 className="card-title bg-container text-center p-4 m-0">
+                      {item.name}
+                    </h5>
+                    <img
+                      className="c-card-image m-0"
+                      src={item.img}
+                      alt="card"
+                    />
+                    <div className="p-4">
+                      <ul className="m-0">
+                        {item.description.map((item) => (
+                          <li key={item} className="p-0 m-0">
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </React.Fragment>
-          ))}
+              </React.Fragment>
+            ))}
+          </div>
         </div>
       </React.Fragment>
     );
   }
 }
 
-const mapDispatchActions = {
-  userLogIn,
-};
-
-export default connect(null, mapDispatchActions)(Admin);
-
-/**
- 
- */
+export default connect(null, null)(Admin);

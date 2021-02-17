@@ -39,8 +39,18 @@ $c-btn-d: rgb(107, 107, 107);
   transition: 0.3s ease-out;
 }
 
+.bg-panel{
+  position: absolute;
+  height: 74%;
+  width: 90%;
+  left: 0;
+  top: 0;
+  background: $blue-accent;
+  border-bottom-right-radius: 200px;
+}
+
 .c-card {
-  min-width: 340px;
+  min-width: 300px;
 }
 
 .c-card-image {

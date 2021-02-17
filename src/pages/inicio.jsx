@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+//Redux
+import { connect } from "react-redux";
+import { userLogIn } from "../redux/actions/login-actions";
 
 class Inicio extends Component {
   inicioUrl = "/";
@@ -39,16 +42,18 @@ class Inicio extends Component {
 
   cargos = [];
 
-  componentDidMount() {}
+  componentDidMount() {
+    
+  }
 
   render() {
     return (
       <React.Fragment>
         <div className="page-container p-lg-3 p-md-4 p-1">
-          <div className="row d-flex justify-content-center m-0 p-3">
+          <div className="row d-flex justify-content-center m-0 p-1 p-sm-2 p-lg-4">
             {this.data.map((item) => (
               <React.Fragment key={item.id}>
-                <div className="col col-lg-4 col-sm-6 p-2 p-sm-4 d-inline-block c-card">
+                <div className="col col-lg-4 col-sm-6 p-2 p-lg-3 d-inline-block c-card">
                   <div
                     className="item-container hover-grow cursor-pointer"
                     onClick={() => {
@@ -58,7 +63,7 @@ class Inicio extends Component {
                     <h5 className="card-title bg-container text-center pt-4 m-0">
                       {item.title}
                     </h5>
-                    <p className="p-2 text-center">
+                    <p className="p-2 m-0 text-center">
                       {item.subtitle !== undefined ? item.subtitle : "."}
                     </p>
                     <img
@@ -78,4 +83,8 @@ class Inicio extends Component {
   }
 }
 
-export default Inicio;
+const mapDispatchActions = {
+  userLogIn,
+};
+
+export default connect(null, mapDispatchActions)(Inicio);

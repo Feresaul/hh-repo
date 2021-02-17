@@ -90,8 +90,10 @@ class PrescriptionList extends Component {
   };
 
   handleChangeRowsPerPage = (event) => {
+    let page = this.state.table.page;
+    if (this.props.prescriptions.length < event.target.value) page = 0;
     this.setState({
-      table: { ...this.state.table, rows: event.target.value },
+      table: { ...this.state.table, page: page, rows: event.target.value },
     });
   };
 
@@ -270,6 +272,7 @@ class PrescriptionList extends Component {
 
             <TablePagination
               rowsPerPageOptions={table.rowsConfig}
+              labelRowsPerPage='Filas por página'
               component="div"
               count={this.f_data_size}
               rowsPerPage={table.rows}
