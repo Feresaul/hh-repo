@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PrescriptionFormRedux from "../components/prescription-form";
 //Redux
 import { connect } from "react-redux";
-import { getPrescriptionById } from "../redux/actions/user-actions";
+import { getPrescriptionById } from "../redux/actions/prescription-actions";
 
 class EditPrescription extends Component {
   constructor(props) {
@@ -16,33 +16,23 @@ class EditPrescription extends Component {
       this.props.history.goBack();
       return;
     } else if (state.id !== null && state.id !== -1) {
-      //this.props.fetchRecetasInfo;
+      this.props.getPrescriptionById(state.id);
     }
   }
 
-  /// al data le falta el folio y fecha, y los nombres de los campos se reciben como el objeto de Trello
-  data = {
-    p_curp: "blabla",
-    p_nombre: "blabla",
-    p_domicilio: "blabla",
-    p_edad: 15,
-    p_sexo: "blabla",
-
-    med_nombre: "blabla",
-    med_especialidad: "blabla",
-    med_delula: 1238123,
-    med_universidad: "blabla",
-    med_turno: 5,
-
-    m_nombre: "blabla",
-    m_cantidad: 12,
-    m_clave: 121233,
-    m_dosificacion: 2,
-    m_presentacion: "blabla",
-    m_dias: 12,
-    m_empaque: "super",
-    m_via: "oral",
-  };
+  isoToLString(data) {
+    let date = new Date(data);
+    if (data === null) {
+      date = new Date();
+    }
+    let day = date.getDate();
+    let month = date.getUTCMonth();
+    let year = date.getFullYear();
+    if (data === null) {
+      return `${day}/${month}/${year}  ${date.getHours()}:${date.getMinutes()}`;
+    }
+    return `${day}/${month}/${year}  ${date.getUTCHours()}:${date.getUTCMinutes()}`;
+  }
 
   goBack = () => {
     this.props.history.goBack();
@@ -54,40 +44,56 @@ class EditPrescription extends Component {
   };
 
   render() {
+    let { prescription } = this.props;
+    let { id } = this.props.location.state;
     return (
       <React.Fragment>
         <div className="page-container p-2 p-md-4">
-          <div className="item-container mb-2">
-            <div className="col-12 d-flex flex-row-reverse pt-2">
-              <p className="p-1 m-0 t-sm">{}</p>
-              <p className="t-blue-l p-1 m-0">Folio:</p>
+          {(prescription.id !== undefined && prescription.id === id) ||
+          id === -1 ? (
+            <div>
+                <div className="item-container mb-2">
+                  <div className="col-12 d-flex flex-row-reverse pt-2">
+                    <p className="p-1 m-0 t-sm">
+                      {id !== -1 ? prescription.folio : "--"}
+                    </p>
+                    <p className="t-blue-l p-1 m-0">Folio:</p>
+                  </div>
+                  <div className="col-12 d-flex flex-row-reverse pb-2">
+                    <p className="p-1 m-0 t-sm">
+                      {id !== -1
+                        ? this.isoToLString(prescription.fecha)
+                        : this.isoToLString(null)}
+                    </p>
+                    <p className="t-blue-l p-1 m-0">Fecha/Hora:</p>
+                  </div>
+                </div>
+              <PrescriptionFormRedux
+                data={id === -1 ? null : prescription}
+                info={this.props.location.state}
+                goBack={this.goBack}
+                submitForm={this.submitForm}
+              />
             </div>
-            <div className="col-12 d-flex flex-row-reverse pb-2">
-              <p className="p-1 m-0 t-sm">{}</p>
-              <p className="t-blue-l p-1 m-0">Fecha/Hora:</p>
-            </div>
-          </div>
-          <PrescriptionFormRedux
-            data={this.data}
-            info={this.props.location.state}
-            goBack={this.goBack}
-            submitForm={this.submitForm}
-          />
+          ) : null}
         </div>
       </React.Fragment>
     );
   }
 }
 
-// ESTO ES CUANDO YA TENGA LA API BIEN
-// const mapStateToProps = (state) => ({
-//     recetasInfo = state.recetas
-// });
+/*
 
-// const mapDispatchActions = {
-//     fetchRecetasInfo,
-// }
 
-// export default connect(mapStateToProps,mapDispatchActions)(CostumerIndvContainer);
 
-export default EditPrescription;
+*/
+
+const mapStateToProps = (state) => ({
+  prescription: state.prescription,
+});
+
+const mapDispatchActions = {
+  getPrescriptionById,
+};
+
+export default connect(mapStateToProps, mapDispatchActions)(EditPrescription);

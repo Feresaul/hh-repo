@@ -5,6 +5,6 @@ export const token = (state = {}, action) => {
     case FETCH_TOKEN:
       return action.payload;
     default:
-      return state;
+      return state; 
   }
 };

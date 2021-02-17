@@ -14,15 +14,18 @@ class Admin extends Component {
         "Alta/Baja usuarios",
         "Actualización de datos",
       ],
+      img: "https://bralowmedicalgroup.com/wp-content/uploads/2018/06/blog.jpg",
     },
     {
       name: "Pacientes",
-      url: "recetas", //`${this.adminUrl}pacientes`,
+      url: "recetas",//`${this.adminUrl}pacientes`,
       description: [
         "Listado de pacientes",
         "Alta/Baja pacientes",
         "Actualización de datos",
       ],
+      img:
+        "https://i.pinimg.com/736x/16/d2/60/16d2603048039d2c71a195d5323aa212.jpg",
     },
   ];
 
@@ -33,38 +36,33 @@ class Admin extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="page-container p-lg-3 p-1">
-          <div className="col col-md-10 col-xl-8 m-auto">
-            <div className="row p-0 m-0">
-              {this.data.map((item) => (
-                <React.Fragment key={item.name}>
-                  <div className="col p-2 p-lg-4 m-auto">
-                    <div
-                    className="item-container hover-grow cursor-pointer"
-                      onClick={() => {
-                        this.props.history.push(item.url);
-                      }}
-                    >
-                      <h5 className="card-title bg-container text-center p-4 m-0">
-                        {item.name}
-                      </h5>
-                      <img
-                        className="c-card-image m-0"
-                        src="https://bralowmedicalgroup.com/wp-content/uploads/2018/06/blog.jpg"
-                      />
-                      <div className="bg-container p-4">
-                        {item.description.map((item) => (
-                          <li key={item} className="pt-0 pb-0 pr-4 pl-4">
-                            {item}
-                          </li>
-                        ))}
-                      </div>
-                    </div>
+        <div className="page-container p-lg-3 p-md-4 p-1 d-flex justify-content-center">
+          {this.data.map((item) => (
+            <React.Fragment key={item.name}>
+              <div className="col col-lg-4 col-sm-6 p-2 p-sm-4 d-inline-block c-card">
+                <div
+                  className="item-container hover-grow cursor-pointer"
+                  onClick={() => {
+                    this.props.history.push(item.url);
+                  }}
+                >
+                  <h5 className="card-title bg-container text-center p-4 m-0">
+                    {item.name}
+                  </h5>
+                  <img className="c-card-image m-0" src={item.img} alt="card" />
+                  <div className="p-4">
+                    <ul className="m-0">
+                      {item.description.map((item) => (
+                        <li key={item} className="p-0 m-0">
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                </React.Fragment>
-              ))}
-            </div>
-          </div>
+                </div>
+              </div>
+            </React.Fragment>
+          ))}
         </div>
       </React.Fragment>
     );
@@ -77,31 +75,6 @@ const mapDispatchActions = {
 
 export default connect(null, mapDispatchActions)(Admin);
 
-/*
-{this.data.map((item) => (
-  <React.Fragment key={item.name}>
-    <div className="d-inline-block col col-lg-6 m-0 p-0 m-auto">
-      <div
-        className="item-container page-full cursor-pointer hover-grow c-card m-auto"
-        onClick={() => {
-          this.props.history.push(item.url);
-        }}
-      >
-        <h5 className="card-title bg-container text-center p-4 m-0">
-          {item.name}
-        </h5>
-        <img
-          className="c-card-image m-0"
-          src="https://bralowmedicalgroup.com/wp-content/uploads/2018/06/blog.jpg"
-        />
-        <div className="bg-container p-4">
-          {item.description.map((item) => (
-            <li key={item} className="pt-0 pb-0 pr-4 pl-4">
-              {item}
-            </li>
-          ))}
-        </div>
-      </div>
-    </div>
-  </React.Fragment>
-))}*/
+/**
+ 
+ */

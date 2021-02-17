@@ -20,6 +20,7 @@ class App extends Component {
         <BrowserRouter>
           <Header></Header>
           <Route path="/logIn" exact component={LogIn}></Route>
+          <Route path="/" exact component={Inicio}></Route>
           <Route path="/inicio" exact component={Inicio}></Route>
           <Route path="/admin" exact component={Admin}></Route>
           <Route path="/admin/usuarios" exact component={UserList}></Route>

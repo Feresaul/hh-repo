@@ -75,26 +75,56 @@ class UserForm extends Component {
   }
 
   componentDidMount() {
-    let { data } = this.props;
-    if (data !== null) {
-      for (let item in data) {
-        this.props.dispatch(change("userForm", item, data[item]));
+    let { user } = this.props;
+
+    if (user !== null) {
+      if (user.error !== undefined && user.error) {
+        console.log(user.info);
+        this.props.history.goBack();
+        return;
       }
 
-      let medico = false;
-      this.inputs.checkbox.forEach((item) => {
-        if (
-          data["form_checkboxes." + item.name] === true &&
-          item.name.includes("Médico")
-        ) {
-          item.active = true;
-          medico = true;
-        }
+      let data = {
+        "form_user.med_nombreCompleto": user.medico.nombre,
+        "form_user.med_usuario": user.usuario,
+        "form_doctor.med_especialidad": user.medico.especialidad,
+        "form_doctor.med_cedula": user.medico.cedula,
+        "form_doctor.med_universidad": user.medico.universidad,
+        "form_doctor.med_turno": user.medico.turno,
+        "form_doctor.med_direccion": user.medico.direccion,
+      };
+
+      let cargo = [""];
+
+      cargo.forEach((item) => {
+        item = "Médico";
+        let name = "form_checkboxes." + item;
+        data = {
+          ...data,
+          [name]: true,
+        };
       });
 
-      this.setState({
-        medico: medico,
-      });
+      if (data !== null) {
+        for (let item in data) {
+          this.props.dispatch(change("userForm", item, data[item]));
+        }
+
+        let medico = false;
+        this.inputs.checkbox.forEach((item) => {
+          if (
+            data["form_checkboxes." + item.name] === true &&
+            item.name.includes("Médico")
+          ) {
+            item.active = true;
+            medico = true;
+          }
+        });
+
+        this.setState({
+          medico: medico,
+        });
+      }
     }
   }
 
@@ -146,7 +176,6 @@ class UserForm extends Component {
 
   render() {
     let { medico } = this.state;
-    console.log(this.props)
     return (
       <React.Fragment>
         <form onSubmit={this.props.handleSubmit(this.submitForm)}>
