@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import UserFormRedux from "../../components/user-form";
+import PatientFormRedux from "../../components/patient-form";
 import { withRouter } from "react-router-dom";
 //Redux
 import { connect } from "react-redux";
 
-class EditUser extends Component {
+class EditPatient extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -15,9 +15,9 @@ class EditUser extends Component {
     if (state === undefined || state?.id === undefined) {
       this.props.history.goBack();
     } else if (state !== null && state.id !== -1) {
-      let user = this.props.users.find((user) => user.medico.id === state.id);
+      let patient = this.props.patients.find((patient) => patient.medico.id === state.id);
       this.setState({
-        user: user
+        patient: patient
       })
     }
   }
@@ -32,14 +32,14 @@ class EditUser extends Component {
   };
 
   render() {
-    let { user } = this.state;
+    let { patient } = this.state;
     let { id } = this.props.location.state;
     return (
       <React.Fragment>
         <div className="page-container p-2 p-md-4">
-          { user !== undefined || id === -1 ? (
-            <UserFormRedux
-              user={id === -1 ? null : user}
+          { patient !== undefined || id === -1 ? (
+            <PatientFormRedux
+              patient={id === -1 ? null : patient}
               submitForm={this.submitForm}
               goBack={this.goBack}
             />
@@ -51,11 +51,11 @@ class EditUser extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  users: state.users,
+  patients: state.users,
 });
 
 const mapDispatchActions = {};
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchActions)(EditUser)
+  connect(mapStateToProps, mapDispatchActions)(EditPatient)
 );

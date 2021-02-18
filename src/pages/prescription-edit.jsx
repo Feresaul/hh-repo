@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PrescriptionFormRedux from "../components/prescription-form";
 //Redux
 import { connect } from "react-redux";
-import { getPrescriptionById } from "../redux/actions/prescription-actions";
 
 class EditPrescription extends Component {
   constructor(props) {
@@ -16,7 +15,12 @@ class EditPrescription extends Component {
       this.props.history.goBack();
       return;
     } else if (state.id !== null && state.id !== -1) {
-      this.props.getPrescriptionById(state.id);
+      let prescription = this.props.prescriptions.find(
+        (prescription) => prescription.id === state.id
+      );
+      this.setState({
+        prescription: prescription,
+      });
     }
   }
 
@@ -44,30 +48,29 @@ class EditPrescription extends Component {
   };
 
   render() {
-    let { prescription } = this.props;
+    let { prescription } = this.state;
     let { id } = this.props.location.state;
     return (
       <React.Fragment>
         <div className="page-container p-2 p-md-4">
-          {(prescription.id !== undefined && prescription.id === id) ||
-          id === -1 ? (
+          {prescription !== undefined || id === -1 ? (
             <div>
-                <div className="item-container mb-2">
-                  <div className="col-12 d-flex flex-row-reverse pt-2">
-                    <p className="p-1 m-0 t-sm">
-                      {id !== -1 ? prescription.folio : "--"}
-                    </p>
-                    <p className="t-blue-l p-1 m-0">Folio:</p>
-                  </div>
-                  <div className="col-12 d-flex flex-row-reverse pb-2">
-                    <p className="p-1 m-0 t-sm">
-                      {id !== -1
-                        ? this.isoToLString(prescription.fecha)
-                        : this.isoToLString(null)}
-                    </p>
-                    <p className="t-blue-l p-1 m-0">Fecha/Hora:</p>
-                  </div>
+              <div className="item-container mb-2">
+                <div className="col-12 d-flex flex-row-reverse pt-2">
+                  <p className="p-1 m-0 t-sm">
+                    {id !== -1 ? prescription.folio : "--"}
+                  </p>
+                  <p className="t-blue-l p-1 m-0">Folio:</p>
                 </div>
+                <div className="col-12 d-flex flex-row-reverse pb-2">
+                  <p className="p-1 m-0 t-sm">
+                    {id !== -1
+                      ? this.isoToLString(prescription.fecha)
+                      : this.isoToLString(null)}
+                  </p>
+                  <p className="t-blue-l p-1 m-0">Fecha/Hora:</p>
+                </div>
+              </div>
               <PrescriptionFormRedux
                 data={id === -1 ? null : prescription}
                 info={this.props.location.state}
@@ -82,18 +85,10 @@ class EditPrescription extends Component {
   }
 }
 
-/*
-
-
-
-*/
-
 const mapStateToProps = (state) => ({
-  prescription: state.prescription,
+  prescriptions: state.prescriptions,
 });
 
-const mapDispatchActions = {
-  getPrescriptionById,
-};
+const mapDispatchActions = {};
 
 export default connect(mapStateToProps, mapDispatchActions)(EditPrescription);

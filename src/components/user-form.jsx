@@ -196,6 +196,7 @@ class UserForm extends Component {
               </FormSection>
 
               <div className="col ml-2 l-text pb-2 pt-2">
+                <p className="t-md t-blue-l"> Cargo(s): </p>
                 <FormSection name="form_checkboxes">
                   {this.inputs.checkbox.map((item) => (
                     <React.Fragment key={item.id}>
