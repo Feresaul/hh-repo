@@ -28,16 +28,32 @@ export const userLogIn = (username, password) => (dispatch) => {
       password: password,
     })
     .then((res) => {
-      console.log(res.data);
       dispatch({
         type: constants.FETCH_TOKEN,
         payload: res.data !== undefined ? res.data : "",
       });
-      if (res.data !== undefined)
-        dispatch({
-          type: constants.AUTHENTICATED,
-          payload: true,
-        });
+      dispatch({
+        type: constants.AUTHENTICATED,
+        payload: res.data !== undefined ? true : false,
+      });
     })
-    .catch((error) => console.log(error.message));
+    .catch((error) => {
+      console.log(error.message);
+    });
+};
+
+export const whoAmI = () => (dispatch) => {
+  let token = store.getState().auth.token;
+  axios
+    .get(`${constants.BASE_URL}/api/frontend/whoami`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      dispatch({
+        type: constants.FETCH_PROFILE,
+        payload: res.data,
+      });
+    });
 };

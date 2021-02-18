@@ -8,13 +8,3 @@ export const users = (state = {}, action) => {
       return state;
   }
 };
-
-export const user = (state = {}, action) => {
-  switch (action.type) {
-    case constants.FETCH_USER:
-      return action.payload;
-    default:
-      return state;
-  }
-};
-

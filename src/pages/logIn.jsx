@@ -1,19 +1,20 @@
 import React, { Component } from "react";
 //Redux
 import { connect } from "react-redux";
-import { userLogIn, validToken } from "../redux/actions/login-actions";
+import { userLogIn, validToken, whoAmI } from "../redux/actions/login-actions";
 
 class LogIn extends Component {
   componentDidUpdate() {
     if (this.props.token !== undefined) {
       if (this.props.auth !== undefined && this.props.auth) {
+        this.props.whoAmI();
         this.props.history.push("/inicio");
       }
     }
   }
 
   login() {
-    this.props.userLogIn("quique", "1234");
+    this.props.userLogIn("EsaulFR", "1234");
   }
 
   render() {
@@ -35,6 +36,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchActions = {
   userLogIn,
   validToken,
+  whoAmI,
 };
 
 export default connect(mapStateToProps, mapDispatchActions)(LogIn);

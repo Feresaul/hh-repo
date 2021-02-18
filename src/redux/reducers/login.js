@@ -10,3 +10,12 @@ export const auth = (state = { authenticated: false }, action) => {
       return state;
   }
 };
+
+export const profile = (state = {}, action) => {
+  switch (action.type) {
+    case constants.FETCH_PROFILE:
+      return action.payload;
+    default:
+      return state;
+  }
+};

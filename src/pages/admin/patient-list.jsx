@@ -1,36 +1,38 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import {
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
   TableRow,
 } from "@material-ui/core";
-import VisibilityIcon from "@material-ui/icons/Visibility";
+import { Link } from "react-router-dom";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import EditIcon from "@material-ui/icons/Edit";
-import CustomInput from "../components/utilities/custom-inputs";
+import TablePagination from "@material-ui/core/TablePagination";
+import CustomInput from "../../components/utilities/custom-inputs";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import { withRouter } from "react-router-dom";
 //Redux
 import { connect } from "react-redux";
-import { getPrescriptionList } from "../redux/actions/prescription-actions";
+import { getUserList } from "../../redux/actions/user-actions";
 
-class PrescriptionList extends Component {
+class PatientList extends Component {
   f_data_size = 0;
-  recetaUrl = "recetas/";
+  editUrl = "pacientes/";
 
   constructor(props) {
     super(props);
     this.state = {
       table: {
         headers: [
-          { key: "folio", name: "Folio", sort: true },
-          { key: "fecha", name: "Fecha", sort: true },
-          { key: "medico.nombre", name: "Médico", sort: true },
-          { key: "paciente.nombre", name: "Paciente", sort: true },
+          { key: "nombre", name: "Nombre", sort: true },
+          { key: "curp", name: "CURP", sort: true },
+          { key: "edad", name: "Edad", sort: true },
+          { key: "sexo", name: "Sexo", sort: true },
+          { key: "domicilio", name: "Domicilio", sort: true },
           { key: "", name: "Acciones", sort: false },
         ],
         rows: 5,
@@ -39,27 +41,16 @@ class PrescriptionList extends Component {
         order: null,
         orderBy: null,
       },
-      medico: {
-        nombre: "Prueba Prueba Prueba",
-        universidad: "Universidad",
-        cedula: "DNIDE092342",
-        especialidad: "Especialidad",
-      },
       filter: "",
+      deleteRow: {
+        active: false,
+        id: null,
+      },
     };
   }
 
   componentDidMount() {
-    if (this.props.prescriptions.length === undefined)
-      this.props.getPrescriptionList();
-  }
-
-  isoToLString(data) {
-    let date = new Date(data);
-    let day = date.getDate();
-    let month = date.getUTCMonth();
-    let year = date.getFullYear();
-    return `${day}/${month}/${year}  ${date.getUTCHours()}:${date.getUTCMinutes()}`;
+    if (this.props.users.length === undefined) this.props.getUserList();
   }
 
   handleRequestSort = (data) => {
@@ -95,23 +86,20 @@ class PrescriptionList extends Component {
 
   handleChangeRowsPerPage = (event) => {
     let page = this.state.table.page;
-    if (this.props.prescriptions.length < event.target.value) page = 0;
+    if (this.props.users.length < event.target.value) page = 0;
     this.setState({
       table: { ...this.state.table, page: page, rows: event.target.value },
     });
   };
 
   filter = () => {
-    let { prescriptions } = this.props;
-    let data = prescriptions.length > 0 ? [...prescriptions] : [];
+    let { users } = this.props;
+    let data = users.length !== undefined ? [...users] : [];
     let value = this.state.filter;
     if (value !== "")
       data = data.filter(
         (item) =>
-          (item.folio + "").includes(value) ||
-          this.isoToLString(item.fecha).includes(value) ||
-          item.medico.nombre.includes(value) ||
-          item.paciente.nombre.includes(value)
+          item.usuario.includes(value) || item.medico.nombre.includes(value)
       );
     this.f_data_size = data.length;
     return data;
@@ -133,8 +121,8 @@ class PrescriptionList extends Component {
   };
 
   handleEmptyTable() {
-    let { prescriptions } = this.props;
-    let data = prescriptions.length !== undefined ? [...prescriptions] : [];
+    let { users } = this.props;
+    let data = users.length !== undefined ? [...users] : [];
     return this.f_data_size < 1 ? (
       <div className="col-12 bg-blue-a">
         <p className="p-2 l-text text-center">
@@ -146,34 +134,27 @@ class PrescriptionList extends Component {
     ) : null;
   }
 
+  deleteRow(id, active) {
+    if (active && id === null) this.onDelete(this.state.deleteRow.id);
+    this.setState({
+      deleteRow: {
+        active: active,
+        id: id !== null ? id : null,
+      },
+    });
+  }
+
+  onDelete(id) {
+    console.log(id, "Borrado");
+  }
+
   render() {
-    let { table } = this.state;
-    let { medico } = this.props;
+    let { table, deleteRow } = this.state;
     return (
       <React.Fragment>
         <div className="page-container p-2 p-md-4">
-        <div className="item-container p-3 mb-3">
-            <div className="row col-12">
-              <div className="col-12 col-sm-6 col-lg-3">
-                <p className="t-blue-l p-1 m-0 "> Nombre: </p>{" "}
-                <p className="p-1 m-0 "> {medico.nombre} </p>
-              </div>
-              <div className="col-12 col-sm-6 col-lg-3">
-                <p className="t-blue-l p-1 m-0 "> Universidad: </p>{" "}
-                <p className="p-1 m-0 "> {medico.universidad} </p>
-              </div>
-              <div className="col-12 col-sm-6 col-lg-3">
-                <p className="t-blue-l p-1 m-0 "> Especialidad: </p>{" "}
-                <p className="p-1 m-0 "> {medico.especialidad} </p>
-              </div>
-              <div className="col-12 col-sm-6 col-lg-3">
-                <p className="t-blue-l p-1 m-0 "> Cedula: </p>{" "}
-                <p className="p-1 m-0 "> {medico.cedula} </p>
-              </div>
-            </div>
-          </div>
-          <div className="item-container p-4">
-            <p className="t-blue-l"> Listado de recetas </p>
+          <div className="p-4 item-container">
+            <p className="t-blue-l">Listado de pacientes</p>
             <TableContainer>
               <div className="col-12 bg-blue-a pt-3 pl-4 pr-4 mb-2">
                 <CustomInput objeto={this.buscar} />
@@ -248,46 +229,72 @@ class PrescriptionList extends Component {
                       table.page * table.rows + table.rows
                     )
                     .map((item) => (
-                      <TableRow key={item?.id}>
-                        <TableCell className="table-data">
-                          {item?.folio}
-                        </TableCell>
-                        <TableCell className="table-data">
-                          {this.isoToLString(item?.fecha)}
-                        </TableCell>
-                        <TableCell className="table-data">
-                          {item?.medico.nombre}
-                        </TableCell>
-                        <TableCell className="table-data">
-                          {item?.paciente.nombre}
-                        </TableCell>
-                        <TableCell>
-                          <Link
-                            className="btn btn-link"
-                            to={{
-                              pathname: `${this.recetaUrl}ver/${item.folio}`,
-                              state: {
-                                id: item.id,
-                                readOnly: true,
-                              },
-                            }}
-                          >
-                            <VisibilityIcon />
-                          </Link>
-                          <Link
-                            className="btn btn-link"
-                            to={{
-                              pathname: `${this.recetaUrl}editar/${item.folio}`,
-                              state: {
-                                id: item.id,
-                                readOnly: false,
-                              },
-                            }}
-                          >
-                            <EditIcon />
-                          </Link>
-                        </TableCell>
-                      </TableRow>
+                      <React.Fragment key={item?.usuario}>
+                        {deleteRow.active && deleteRow.id === item.medico.id ? (
+                          <TableRow className="col-12 delete-row">
+                            <td className="col-12" colSpan="6">
+                              <div className="col-6 m-auto d-inline-block">
+                                <p className="t-md m-auto text-center">
+                                  ¿Eliminar permanentemente?
+                                </p>
+                              </div>
+                              <button
+                                className="col-2 btn-delete-row p-2"
+                                onClick={() => this.deleteRow(null, false)}
+                              >
+                                Cancelar
+                              </button>
+                              <button
+                                className="col-2 btn-delete-row p-2"
+                                autoFocus
+                                onClick={() => this.deleteRow(null, true)}
+                                onBlur={() => this.deleteRow(null, false)}
+                              >
+                                Aceptar
+                              </button>
+                            </td>
+                          </TableRow>
+                        ) : (
+                          <TableRow className="row">
+                            <TableCell className="table-data">
+                              {item.curp}
+                            </TableCell>
+                            <TableCell className="table-data">
+                              {item.nombre}
+                            </TableCell>
+                            <TableCell className="table-data">
+                              {item.edad}
+                            </TableCell>
+                            <TableCell className="table-data">
+                              {item.sexo}
+                            </TableCell>
+                            <TableCell className="table-data">
+                              {item.domicilio}
+                            </TableCell>
+                            <TableCell>
+                              <Link
+                                className="btn btn-link"
+                                to={{
+                                  pathname: `${this.editUrl}editar/${item.id}`,
+                                  state: {
+                                    id: item.id,
+                                  },
+                                }}
+                              >
+                                <EditIcon />
+                              </Link>
+                              <button
+                                className="btn btn-link btn-delete"
+                                onClick={() =>
+                                  this.deleteRow(item.id, true)
+                                }
+                              >
+                                <DeleteOutlineIcon />
+                              </button>
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </React.Fragment>
                     ))}
                 </TableBody>
               </Table>
@@ -310,14 +317,13 @@ class PrescriptionList extends Component {
               <Link
                 className="c-btn text-center col-12 col-lg-3 mt-3"
                 to={{
-                  pathname: `${this.recetaUrl}agregar/nueva`,
+                  pathname: `${this.editUrl}agregar/nuevo`,
                   state: {
                     id: -1,
-                    readOnly: false,
                   },
                 }}
               >
-                <p className="l-text m-0 p-0">Generar nueva receta</p>
+                <p className="l-text m-0 p-0">Agregar nuevo paciente</p>
               </Link>
             </div>
           </div>
@@ -327,20 +333,14 @@ class PrescriptionList extends Component {
   }
 }
 
-/*
-
- 
-                
-
-*/
-
 const mapDispatchActions = {
-  getPrescriptionList,
+  getUserList,
 };
 
 const mapStateToProps = (state) => ({
-  prescriptions: state.prescriptions,
-  medico: state.profile.medico,
+  users: state.users,
 });
 
-export default connect(mapStateToProps, mapDispatchActions)(PrescriptionList);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchActions)(PatientList)
+);

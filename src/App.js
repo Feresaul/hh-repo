@@ -2,11 +2,13 @@ import React, { Component } from "react";
 
 import Header from "./components/header";
 import Footer from "./components/footer";
-import { Route, BrowserRouter, withRouter } from "react-router-dom";
+import { Route, BrowserRouter } from "react-router-dom";
 import "./assets/css/app-styles.scss";
 
 import UserList from "./pages/admin/user-list";
 import EditUser from "./pages/admin/user-edit";
+import PatientList from "./pages/admin/patient-list";
+import EditPatient from "./pages/admin/patient-edit";
 import PrescriptionList from "./pages/prescription-list";
 import EditPrescription from "./pages/prescription-edit";
 import Admin from "./pages/admin/admin";
@@ -41,10 +43,16 @@ class App extends Component {
             path="/admin/usuarios/:accion/:user"
             component={EditUser}
           ></Route>
-          <Route path="/recetas" exact component={PrescriptionList}></Route>
+          <Route path="/admin/pacientes" exact component={PatientList}></Route>
           <Route
             exact
-            path="/recetas/:accion/:folio"
+            path="/admin/pacientes/:accion/:paciente"
+            component={EditPatient}
+          ></Route>
+          <Route path="/medico/recetas" exact component={PrescriptionList}></Route>
+          <Route
+            exact
+            path="/medico/recetas/:accion/:folio"
             component={EditPrescription}
           ></Route>
           <Footer></Footer>

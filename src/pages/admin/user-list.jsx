@@ -28,10 +28,10 @@ class UserList extends Component {
     this.state = {
       table: {
         headers: [
-          { name: "Usuario", sort: true },
-          { name: "Nombre", sort: true },
-          { name: "Cargo(s)", sort: false },
-          { name: "Acciones", sort: false },
+          { key: "usuario", name: "Usuario", sort: true },
+          { key: "medico.nombre", name: "Nombre", sort: true },
+          { key: "", name: "Cargo(s)", sort: false },
+          { key: "", name: "Acciones", sort: false },
         ],
         rows: 5,
         rowsConfig: [5, 25, 50],
@@ -56,14 +56,18 @@ class UserList extends Component {
 
     if (orderBy !== null) {
       const v = order === "desc" ? -1 : 1;
-      let property = orderBy
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "");
+
       data.sort(function (a, b) {
-        if (b[property] < a[property]) {
+        let aVal = orderBy.split(".").reduce(function (result, key) {
+          return result[key];
+        }, a);
+        let bVal = orderBy.split(".").reduce(function (result, key) {
+          return result[key];
+        }, b);
+
+        if (bVal < aVal) {
           return v * 1;
-        } else if (b[property] > a[property]) {
+        } else if (bVal > aVal) {
           return v * -1;
         }
         return 0;
@@ -92,7 +96,8 @@ class UserList extends Component {
     let value = this.state.filter;
     if (value !== "")
       data = data.filter(
-        (item) => item.usuario.includes(value) || item.nombre.includes(value)
+        (item) =>
+          item.usuario.includes(value) || item.medico.nombre.includes(value)
       );
     this.f_data_size = data.length;
     return data;
@@ -165,7 +170,7 @@ class UserList extends Component {
                               this.setState({
                                 table: {
                                   ...this.state.table,
-                                  orderBy: item.name,
+                                  orderBy: item.key,
                                   order:
                                     table.order !== null
                                       ? table.order === "asc"
@@ -181,7 +186,7 @@ class UserList extends Component {
                         </p>
                         <div className="d-inline m-2 arrow-sort cursor-pointer">
                           {table.orderBy !== null &&
-                          table.orderBy === item.name ? (
+                          table.orderBy === item.key ? (
                             table.order === "desc" ? (
                               <ArrowDownwardIcon
                                 fontSize="small"
@@ -222,8 +227,8 @@ class UserList extends Component {
                       table.page * table.rows + table.rows
                     )
                     .map((item) => (
-                      <React.Fragment key={item?.id}>
-                        {deleteRow.active && deleteRow.id === item.id ? (
+                      <React.Fragment key={item?.usuario}>
+                        {deleteRow.active && deleteRow.id === item.medico.id ? (
                           <TableRow className="col-12 delete-row">
                             <td className="col-12" colSpan="4">
                               <div className="col-6 m-auto d-inline-block">
@@ -253,7 +258,7 @@ class UserList extends Component {
                               {item?.usuario}
                             </TableCell>
                             <TableCell className="table-data">
-                              {item?.nombre}
+                              {item?.medico.nombre}
                             </TableCell>
                             <TableCell className="table-data">
                               {item?.cargo.map((item) => (
@@ -266,7 +271,7 @@ class UserList extends Component {
                                 to={{
                                   pathname: `${this.editUrl}editar/${item?.usuario}`,
                                   state: {
-                                    id: item.id,
+                                    id: item.medico.id,
                                   },
                                 }}
                               >
@@ -274,7 +279,9 @@ class UserList extends Component {
                               </Link>
                               <button
                                 className="btn btn-link btn-delete"
-                                onClick={() => this.deleteRow(item.id, true)}
+                                onClick={() =>
+                                  this.deleteRow(item.medico.id, true)
+                                }
                               >
                                 <DeleteOutlineIcon />
                               </button>
