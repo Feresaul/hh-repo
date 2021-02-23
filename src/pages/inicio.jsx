@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 //Redux
 import { connect } from "react-redux";
+//import { whoAmI } from "../redux/actions/login-actions";
 
 class Inicio extends Component {
   inicioUrl = "/";
   data = [
     {
       id: 0,
-      name: "raven",
+      name: "octor Jefe",
       title: "Médico",
       subtitle: "Recetas médicas",
       url: `${this.inicioUrl}medico/recetas`,
@@ -32,7 +33,7 @@ class Inicio extends Component {
       name: "raven",
       title: "Recepción médica",
       subtitle: "Alta de pacientes",
-      url: `${this.inicioUrl}recepcion-medica`,
+      url: `${this.inicioUrl}pacientes`,
       img: "https://bralowmedicalgroup.com/wp-content/uploads/2018/06/blog.jpg",
     },
     {
@@ -44,16 +45,19 @@ class Inicio extends Component {
     },
   ];
 
+  componentDidMount() {}
+
   render() {
     let { profile } = this.props;
+    console.log(profile);
     return (
       <React.Fragment>
         <div className="page-container p-lg-3 p-md-4 p-1">
           <div className="row d-flex justify-content-center m-0 p-1 p-sm-2 p-lg-4">
             {profile !== undefined
               ? this.data.map((item) =>
-                  profile.cargo !== undefined //&& profile.cargo.includes(item.name) 
-                  ? (
+                  profile.cargo !== undefined &&
+                  !profile.cargo.includes(item.name) ? (
                     <React.Fragment key={item.id}>
                       <div className="col col-lg-4 col-sm-6 p-2 p-lg-3 d-inline-block c-card">
                         <div

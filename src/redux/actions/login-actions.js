@@ -1,9 +1,9 @@
 import axios from "axios";
 import * as constants from "../constants";
-import store from "../store";
 
 export const validToken = () => (dispatch) => {
-  let token = store.getState().auth.token;
+  let token = sessionStorage.getItem("token");
+  if (token === null) token = "x";
   if (token !== undefined) {
     axios
       .get(`${constants.BASE_URL}/api/isTokenValid`, {
@@ -28,10 +28,7 @@ export const userLogIn = (username, password) => (dispatch) => {
       password: password,
     })
     .then((res) => {
-      dispatch({
-        type: constants.FETCH_TOKEN,
-        payload: res.data !== undefined ? res.data : "",
-      });
+      sessionStorage.setItem("token", res.data !== undefined ? res.data : null);
       dispatch({
         type: constants.AUTHENTICATED,
         payload: res.data !== undefined ? true : false,
@@ -43,7 +40,8 @@ export const userLogIn = (username, password) => (dispatch) => {
 };
 
 export const whoAmI = () => (dispatch) => {
-  let token = store.getState().auth.token;
+  console.log("WhoAmI");
+  let token = sessionStorage.getItem("token");
   axios
     .get(`${constants.BASE_URL}/api/frontend/whoami`, {
       headers: {
@@ -55,5 +53,8 @@ export const whoAmI = () => (dispatch) => {
         type: constants.FETCH_PROFILE,
         payload: res.data,
       });
+    })
+    .catch((error) => {
+      console.log(error.message);
     });
 };

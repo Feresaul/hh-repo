@@ -1,9 +1,8 @@
 import axios from "axios";
 import * as constants from "../constants";
-import store from "../store";
 
 export const getUserList = () => (dispatch) => {
-  let token = store.getState().auth.token;
+  let token = sessionStorage.getItem("token");
   axios
     .get(`${constants.BASE_URL}/api/frontend/doctors`, {
       headers: {

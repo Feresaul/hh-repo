@@ -11,6 +11,7 @@ class PrescriptionForm extends Component {
         name: "p_curp",
         label: "CURP:",
         classAdd: "m-0",
+        readOnly: this.props.info.id === -1 ? false : true,
       },
       {
         id: 1,
@@ -68,6 +69,7 @@ class PrescriptionForm extends Component {
         name: "med_turno",
         label: "Turno:",
         classAdd: "m-0 col-sm-6 col-12 d-inline-block",
+        //readOnly: this.props.info.id === -1 ? false : true,
       },
     ],
     medicamentos: [
@@ -133,7 +135,33 @@ class PrescriptionForm extends Component {
   };
 
   componentDidMount() {
-    const data = this.props.data;
+    let prescription = this.props.data;
+    let data = null;
+    if (this.props.info.id !== -1) {
+      data = {
+        p_curp: prescription.paciente.curp,
+        p_nombre: prescription.paciente.nombre,
+        p_edad: prescription.paciente.edad,
+        p_sexo: prescription.paciente.sexo,
+        p_domicilio: prescription.paciente.domicilio,
+        med_nombre: prescription.medico.nombre,
+        med_especialidad: prescription.medico.especialidad,
+        med_universidad: prescription.medico.univerdidad,
+        med_cedula: prescription.medico.cedula,
+        med_turno: prescription.medico.turno,
+        indicaciones: prescription.indicaciones,
+        diagnostico: prescription.diagnostico,
+      };
+    } else {
+      let { medico } = this.props.profile;
+      data = {
+        med_nombre: medico.nombre,
+        med_especialidad: medico.especialidad,
+        med_universidad: medico.univerdidad,
+        med_cedula: medico.cedula,
+        med_turno: medico.turno,
+      };
+    }
     for (let key in data) {
       this.props.dispatch(change("prescriptionForm", key, data[key]));
     }
@@ -163,7 +191,8 @@ class PrescriptionForm extends Component {
                     name={item.name}
                     objeto={{
                       ...item,
-                      readOnly: info.readOnly,
+                      readOnly:
+                        item.readOnly === undefined ? true : item.readOnly,
                     }}
                     component={this.componente}
                   />
@@ -179,7 +208,8 @@ class PrescriptionForm extends Component {
                     name={item.name}
                     objeto={{
                       ...item,
-                      readOnly: info.readOnly,
+                      readOnly:
+                        item.readOnly === undefined ? true : item.readOnly,
                     }}
                     component={this.componente}
                   />
@@ -194,7 +224,7 @@ class PrescriptionForm extends Component {
               name="diagnostico"
               objeto={{
                 name: "diagnostico",
-                readOnly: info.readOnly,
+                readOnly: info.accion === "ver" ? true : false,
               }}
               component={this.componente}
             />
@@ -211,7 +241,7 @@ class PrescriptionForm extends Component {
                       name={item.name}
                       objeto={{
                         ...item,
-                        readOnly: info.readOnly,
+                        readOnly: info.accion === "ver" ? true : false,
                       }}
                       component={this.componente}
                     />
@@ -220,7 +250,11 @@ class PrescriptionForm extends Component {
               </div>
 
               <div className="col">
-                <button type="button" className="p-2 col c-btn bg-blue-a">
+                <button
+                  disabled={info.accion === "ver" ? true : false}
+                  type="button"
+                  className="p-2 col c-btn bg-blue-a"
+                >
                   <p className="l-text m-0">Agregar</p>
                 </button>
               </div>
@@ -233,7 +267,7 @@ class PrescriptionForm extends Component {
               name="indicaciones"
               objeto={{
                 name: "indicaciones",
-                readOnly: info.readOnly,
+                readOnly: info.accion === "ver" ? true : false,
               }}
               component={this.componente}
             />
@@ -248,7 +282,7 @@ class PrescriptionForm extends Component {
               >
                 <p className="l-text m-0 p-0">PDF</p>
               </button>
-              {!info.readOnly ? (
+              {info.accion !== "ver" ? (
                 <button
                   type="submit"
                   className="c-btn text-center col-lg-auto mt-4 mb-3 ml-2"
@@ -264,7 +298,7 @@ class PrescriptionForm extends Component {
                   goBack();
                 }}
               >
-                {info.readOnly ? "Volver" : "Cancelar"}
+                {info.accion === "ver" ? "Volver" : "Cancelar"}
               </button>
             </div>
           </div>
@@ -274,8 +308,13 @@ class PrescriptionForm extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  prescriptions: state.prescriptions,
+  profile: state.profile,
+});
+
 const PrescriptionFormRedux = reduxForm({
   form: "prescriptionForm",
 })(PrescriptionForm);
 
-export default connect(null, null)(PrescriptionFormRedux);
+export default connect(mapStateToProps, null)(PrescriptionFormRedux);
