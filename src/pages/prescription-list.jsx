@@ -16,7 +16,10 @@ import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 //Redux
 import { connect } from "react-redux";
-import { getPrescriptionList } from "../redux/actions/prescription-actions";
+import {
+  getPrescriptionList,
+  getPrescriptionsByDoctorId,
+} from "../redux/actions/prescription-actions";
 
 class PrescriptionList extends Component {
   f_data_size = 0;
@@ -39,19 +42,29 @@ class PrescriptionList extends Component {
         order: null,
         orderBy: null,
       },
-      medico: {
-        nombre: "Prueba Prueba Prueba",
-        universidad: "Universidad",
-        cedula: "DNIDE092342",
-        especialidad: "Especialidad",
-      },
       filter: "",
     };
   }
 
+  fetchData() {
+    let {
+      profile,
+      prescriptions,
+      getPrescriptionList,
+      getPrescriptionsByDoctorId,
+    } = this.props;
+    if (profile.usuario !== undefined && prescriptions.length === undefined) {
+      if (profile.cargo.includes("Doctor Jefe")) getPrescriptionList();
+      else getPrescriptionsByDoctorId();
+    }
+  }
+
   componentDidMount() {
-    if (this.props.prescriptions.length === undefined)
-      this.props.getPrescriptionList();
+    this.fetchData();
+  }
+
+  componentDidUpdate() {
+    this.fetchData();
   }
 
   isoToLString(data) {
@@ -148,30 +161,32 @@ class PrescriptionList extends Component {
 
   render() {
     let { table } = this.state;
-    let { medico } = this.props;
+    let { medico } = this.props.profile;
     return (
       <React.Fragment>
         <div className="page-container p-2 p-md-4">
-        <div className="item-container p-3 mb-3">
-            <div className="row col-12">
-              <div className="col-12 col-sm-6 col-lg-3">
-                <p className="t-blue-l p-1 m-0 "> Nombre: </p>{" "}
-                <p className="p-1 m-0 "> {medico.nombre} </p>
-              </div>
-              <div className="col-12 col-sm-6 col-lg-3">
-                <p className="t-blue-l p-1 m-0 "> Universidad: </p>{" "}
-                <p className="p-1 m-0 "> {medico.universidad} </p>
-              </div>
-              <div className="col-12 col-sm-6 col-lg-3">
-                <p className="t-blue-l p-1 m-0 "> Especialidad: </p>{" "}
-                <p className="p-1 m-0 "> {medico.especialidad} </p>
-              </div>
-              <div className="col-12 col-sm-6 col-lg-3">
-                <p className="t-blue-l p-1 m-0 "> Cedula: </p>{" "}
-                <p className="p-1 m-0 "> {medico.cedula} </p>
+          {medico !== undefined ? (
+            <div className="item-container p-3 mb-3">
+              <div className="row col-12">
+                <div className="col-12 col-sm-6 col-lg-3">
+                  <p className="t-blue-l p-1 m-0 "> Nombre: </p>{" "}
+                  <p className="p-1 m-0 "> {medico.nombre} </p>
+                </div>
+                <div className="col-12 col-sm-6 col-lg-3">
+                  <p className="t-blue-l p-1 m-0 "> Universidad: </p>{" "}
+                  <p className="p-1 m-0 "> {medico.universidad} </p>
+                </div>
+                <div className="col-12 col-sm-6 col-lg-3">
+                  <p className="t-blue-l p-1 m-0 "> Especialidad: </p>{" "}
+                  <p className="p-1 m-0 "> {medico.especialidad} </p>
+                </div>
+                <div className="col-12 col-sm-6 col-lg-3">
+                  <p className="t-blue-l p-1 m-0 "> Cedula: </p>{" "}
+                  <p className="p-1 m-0 "> {medico.cedula} </p>
+                </div>
               </div>
             </div>
-          </div>
+          ) : null}
           <div className="item-container p-4">
             <p className="t-blue-l"> Listado de recetas </p>
             <TableContainer>
@@ -268,7 +283,7 @@ class PrescriptionList extends Component {
                               pathname: `${this.recetaUrl}ver/${item.folio}`,
                               state: {
                                 id: item.id,
-                                readOnly: true,
+                                accion: "ver",
                               },
                             }}
                           >
@@ -280,7 +295,7 @@ class PrescriptionList extends Component {
                               pathname: `${this.recetaUrl}editar/${item.folio}`,
                               state: {
                                 id: item.id,
-                                readOnly: false,
+                                accion: "editar",
                               },
                             }}
                           >
@@ -313,7 +328,7 @@ class PrescriptionList extends Component {
                   pathname: `${this.recetaUrl}agregar/nueva`,
                   state: {
                     id: -1,
-                    readOnly: false,
+                    accion: "editar",
                   },
                 }}
               >
@@ -336,11 +351,12 @@ class PrescriptionList extends Component {
 
 const mapDispatchActions = {
   getPrescriptionList,
+  getPrescriptionsByDoctorId,
 };
 
 const mapStateToProps = (state) => ({
   prescriptions: state.prescriptions,
-  medico: state.profile.medico,
+  profile: state.profile,
 });
 
 export default connect(mapStateToProps, mapDispatchActions)(PrescriptionList);

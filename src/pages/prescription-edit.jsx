@@ -11,11 +11,17 @@ class EditPrescription extends Component {
 
   componentDidMount() {
     let { state } = this.props.location;
-    if (state === undefined || state?.id === undefined) {
+    let { prescriptions } = this.props;
+    if (
+      prescriptions.length === undefined ||
+      state === undefined ||
+      state.id === undefined
+    ) {
       this.props.history.goBack();
       return;
-    } else if (state.id !== null && state.id !== -1) {
-      let prescription = this.props.prescriptions.find(
+    }
+    if (prescriptions.length !== undefined && state.id !== null && state.id !== -1) {
+      let prescription = prescriptions.find(
         (prescription) => prescription.id === state.id
       );
       this.setState({
@@ -44,16 +50,21 @@ class EditPrescription extends Component {
 
   submitForm = (values) => {
     console.log(values);
-    this.goBack();
+    this.setState({
+      hola: "",
+    });
+    //this.goBack();
   };
 
   render() {
     let { prescription } = this.state;
+    let { prescriptions } = this.props;
     let { id } = this.props.location.state;
+    console.log(id)
     return (
       <React.Fragment>
         <div className="page-container p-2 p-md-4">
-          {prescription !== undefined || id === -1 ? (
+          {prescription !== undefined || (id === -1 && prescriptions.length !== undefined) ? (
             <div>
               <div className="item-container mb-2">
                 <div className="col-12 d-flex flex-row-reverse pt-2">

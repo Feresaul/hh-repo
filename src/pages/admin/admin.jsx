@@ -17,7 +17,7 @@ class Admin extends Component {
     },
     {
       name: "Pacientes",
-      url: `${this.adminUrl}pacientes`,
+      url: `/pacientes`,
       description: [
         "Listado de pacientes",
         "Alta/Baja pacientes",

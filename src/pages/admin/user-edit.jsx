@@ -12,13 +12,19 @@ class EditUser extends Component {
 
   componentDidMount() {
     let state = this.props.location.state;
-    if (state === undefined || state?.id === undefined) {
+    let { users } = this.props;
+    if (
+      users.length === undefined ||
+      state === undefined ||
+      state?.id === undefined
+    ) {
       this.props.history.goBack();
+      return;
     } else if (state !== null && state.id !== -1) {
-      let user = this.props.users.find((user) => user.medico.id === state.id);
+      let user = users.find((user) => user.medico.id === state.id);
       this.setState({
-        user: user
-      })
+        user: user,
+      });
     }
   }
 
@@ -28,16 +34,17 @@ class EditUser extends Component {
 
   submitForm = (values) => {
     console.log(values);
-    this.goBack();
+    //this.goBack();
   };
 
   render() {
     let { user } = this.state;
+    let { users } = this.props;
     let { id } = this.props.location.state;
     return (
       <React.Fragment>
         <div className="page-container p-2 p-md-4">
-          { user !== undefined || id === -1 ? (
+          {user !== undefined || (id === -1 && users.length !== undefined) ? (
             <UserFormRedux
               user={id === -1 ? null : user}
               submitForm={this.submitForm}

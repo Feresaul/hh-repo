@@ -22,9 +22,13 @@ class App extends Component {
   componentDidMount() {
     if (window.location.pathname !== "/logIn") {
       this.props.validToken();
-      if (!this.props.auth) {
-        window.location.href = "/logIn";
-      }
+    }
+  }
+
+  componentDidUpdate() {
+    let { auth } = this.props;
+    if (auth === undefined || auth === false) {
+      window.location.href = "/logIn";
     }
   }
 
@@ -34,27 +38,41 @@ class App extends Component {
         <BrowserRouter>
           <Header></Header>
           <Route path="/logIn" exact component={LogIn}></Route>
-          <Route path="/" exact component={Inicio}></Route>
-          <Route path="/inicio" exact component={Inicio}></Route>
-          <Route path="/admin" exact component={Admin}></Route>
-          <Route path="/admin/usuarios" exact component={UserList}></Route>
-          <Route
-            exact
-            path="/admin/usuarios/:accion/:user"
-            component={EditUser}
-          ></Route>
-          <Route path="/admin/pacientes" exact component={PatientList}></Route>
-          <Route
-            exact
-            path="/admin/pacientes/:accion/:paciente"
-            component={EditPatient}
-          ></Route>
-          <Route path="/medico/recetas" exact component={PrescriptionList}></Route>
-          <Route
-            exact
-            path="/medico/recetas/:accion/:folio"
-            component={EditPrescription}
-          ></Route>
+          {this.props.auth ? (
+            <React.Fragment>
+              <Route path="/" exact component={Inicio}></Route>
+              <Route path="/inicio" exact component={Inicio}></Route>
+              <Route path="/admin" exact component={Admin}></Route>
+              <Route path="/admin/usuarios" exact component={UserList}></Route>
+              <Route
+                exact
+                path="/admin/usuarios/:accion/:user"
+                component={EditUser}
+              ></Route>
+              <Route path="/pacientes" exact component={PatientList}></Route>
+              <Route
+                exact
+                path="/pacientes/:accion/:paciente"
+                component={EditPatient}
+              ></Route>
+              <Route
+                path="/medico/recetas"
+                exact
+                component={PrescriptionList}
+              ></Route>
+              <Route
+                exact
+                path="/medico/recetas/:accion/:folio"
+                component={EditPrescription}
+              ></Route>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              {window.location.pathname !== "/logIn" ? (
+                <div className="page-container"></div>
+              ) : null}
+            </React.Fragment>
+          )}
           <Footer></Footer>
         </BrowserRouter>
       </React.Fragment>

@@ -39,6 +39,11 @@ class PatientForm extends Component {
         classAdd: "m-0 col-12 col-sm-6 d-inline-block",
         type: "password",
       },
+      {
+        id: 5,
+        name: "nota",
+        label: "Nota médica:"
+      },
     ],
   };
 

@@ -332,7 +332,7 @@ const mapDispatchActions = {
 };
 
 const mapStateToProps = (state) => ({
-  users: state.users,
+  users: state.users
 });
 
 export default withRouter(
