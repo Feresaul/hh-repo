@@ -1,75 +1,65 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { whoAmI } from "../redux/actions/login-actions";
+//material-ui
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
-import { Link, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import { whoAmI } from "../redux/actions/login-actions";
 
-class Header extends Component {
-  inicioUrl = "/inicio";
+export default function Header() {
+  const inicioUrl = "/inicio";
+  const history = useHistory();
+  const auth = useSelector((state) => state.auth).authenticated;
+  const profile = useSelector((state) => state.profile);
 
-  goBack = () => {
-    this.props.history.goBack();
+  const goBack = () => {
+    history.goBack();
   };
 
-  componentDidUpdate() {
-    let { profile, auth, whoAmI } = this.props;
+  useEffect(() => {
     if (profile.usuario === undefined && auth) {
       whoAmI();
     }
-  }
+  });
 
-  render() {
-    return (
-      <nav className="navbar header">
-        {this.props.auth === true ? (
-          <React.Fragment>
-            <div className="col-8 l-text p-0">
-              <p className="m-auto t-lg">
-                <span>
-                  {window.location.pathname !== this.inicioUrl ? (
-                    <button
-                      className="btn btn-link hover-grow"
-                      onClick={() => this.goBack()}
-                    >
-                      <ArrowBackIcon className="l-text" />
-                    </button>
-                  ) : null}
-                </span>
-                <span className="ml-2 mr-2">
-                  <AccountCircleIcon fontSize="large" />
-                </span>
-                {this.props.profile.usuario}
-              </p>
-            </div>
-            <div className="col-4 p-0">
-              <p className="m-auto text-right">
-                <span>
-                  <Link className="btn btn-link" to="/inicio">
-                    <MenuIcon className="l-text hover-grow" />
-                  </Link>
-                </span>
-              </p>
-            </div>
-          </React.Fragment>
-        ) : (
-          <div className="col-12 text-center">
-            <p className="t-lg l-text m-auto">Centenario Hospital Hidalgo</p>
+  return (
+    <nav className="navbar header p-3">
+      {auth === true ? (
+        <React.Fragment>
+          <div className="col-8 l-text p-0">
+            <p className="m-auto t-lg">
+              <span>
+                {window.location.pathname !== inicioUrl ? (
+                  <button
+                    className="btn btn-link hover-grow"
+                    onClick={() => goBack()}
+                  >
+                    <ArrowBackIcon className="l-text" />
+                  </button>
+                ) : null}
+              </span>
+              <span className="ml-2 mr-2">
+                <AccountCircleIcon fontSize="large" />
+              </span>
+              {profile.usuario}
+            </p>
           </div>
-        )}
-      </nav>
-    );
-  }
+          <div className="col-4 p-0">
+            <p className="m-auto text-right">
+              <span>
+                <Link className="btn btn-link" to={inicioUrl}>
+                  <MenuIcon className="l-text hover-grow" />
+                </Link>
+              </span>
+            </p>
+          </div>
+        </React.Fragment>
+      ) : (
+        <div className="col-12 text-center">
+          <p className="t-lg l-text m-auto">Centenario Hospital Hidalgo</p>
+        </div>
+      )}
+    </nav>
+  );
 }
-
-const mapStateToProps = (state) => ({
-  auth: state.auth.authenticated,
-  profile: state.profile,
-});
-
-const mapDispatchActions = {
-  whoAmI,
-};
-
-export default connect(mapStateToProps, mapDispatchActions)(withRouter(Header));

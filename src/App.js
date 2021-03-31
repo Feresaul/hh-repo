@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 
 import Header from "./components/header";
 import Footer from "./components/footer";
-import { Route, BrowserRouter } from "react-router-dom";
+import { Route, BrowserRouter, Redirect } from "react-router-dom";
 import "./assets/css/app-styles.scss";
 
 import UserList from "./pages/admin/user-list";
@@ -15,77 +15,65 @@ import Admin from "./pages/admin/admin";
 import Inicio from "./pages/inicio";
 import LogIn from "./pages/logIn";
 
-import { connect } from "react-redux";
-import { validToken } from "./redux/actions/login-actions";
+import { useSelector } from "react-redux";
+import { ValidToken } from "./redux/actions/login-actions";
 
-class App extends Component {
-  componentDidMount() {
-    if (window.location.pathname !== "/logIn") {
-      this.props.validToken();
-    }
-  }
+export default function App() {
+  const auth = useSelector((state) => state.auth).authenticated;
 
-  componentDidUpdate() {
-    let { auth } = this.props;
-    if (auth === undefined || auth === false) {
+  useEffect(() => {
+    if (auth === undefined) {
+      ValidToken();
+    } 
+    else if (!auth && window.location.pathname !== "/logIn") {
       window.location.href = "/logIn";
     }
-  }
+  });
 
-  render() {
-    return (
-      <React.Fragment>
-        <BrowserRouter>
-          <Header></Header>
-          <Route path="/logIn" exact component={LogIn}></Route>
-          {this.props.auth ? (
-            <React.Fragment>
-              <Route path="/" exact component={Inicio}></Route>
-              <Route path="/inicio" exact component={Inicio}></Route>
-              <Route path="/admin" exact component={Admin}></Route>
-              <Route path="/admin/usuarios" exact component={UserList}></Route>
-              <Route
-                exact
-                path="/admin/usuarios/:accion/:user"
-                component={EditUser}
-              ></Route>
-              <Route path="/pacientes" exact component={PatientList}></Route>
-              <Route
-                exact
-                path="/pacientes/:accion/:paciente"
-                component={EditPatient}
-              ></Route>
-              <Route
-                path="/medico/recetas"
-                exact
-                component={PrescriptionList}
-              ></Route>
-              <Route
-                exact
-                path="/medico/recetas/:accion/:folio"
-                component={EditPrescription}
-              ></Route>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              {window.location.pathname !== "/logIn" ? (
-                <div className="page-container"></div>
-              ) : null}
-            </React.Fragment>
-          )}
-          <Footer></Footer>
-        </BrowserRouter>
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      <BrowserRouter>
+        <Header />
+        <Route path="/logIn" exact component={LogIn}></Route>
+        <Route path="/" exact>
+          <Redirect to={"/inicio"} />
+        </Route>
+        {auth ? (
+          <React.Fragment>
+            <Route path="/inicio" exact component={Inicio}></Route>
+            <Route path="/admin" exact component={Admin}></Route>
+            <Route path="/admin/usuarios" exact component={UserList}></Route>
+            <Route
+              exact
+              path="/admin/usuarios/:accion/:user"
+              component={EditUser}
+            ></Route>
+            <Route path="/pacientes" exact component={PatientList}></Route>
+            <Route
+              exact
+              path="/pacientes/:accion/:paciente"
+              component={EditPatient}
+            ></Route>
+            <Route
+              path="/medico/recetas"
+              exact
+              component={PrescriptionList}
+            ></Route>
+            <Route
+              exact
+              path="/medico/recetas/:accion/:folio"
+              component={EditPrescription}
+            ></Route>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            {window.location.pathname !== "/logIn" ? (
+              <div className="page-container"></div>
+            ) : null}
+          </React.Fragment>
+        )}
+        <Footer />
+      </BrowserRouter>
+    </React.Fragment>
+  );
 }
-
-const mapStateToProps = (state) => ({
-  auth: state.auth.authenticated,
-});
-
-const mapDispatchActions = {
-  validToken,
-};
-
-export default connect(mapStateToProps, mapDispatchActions)(App);
