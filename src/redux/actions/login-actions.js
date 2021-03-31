@@ -1,55 +1,61 @@
 import axios from "axios";
 import * as constants from "../constants";
+import store from "../store";
 
-export const validToken = () => (dispatch) => {
+export async function ValidToken() {
+  console.log("IsValidToken()");
   let token = sessionStorage.getItem("token");
   if (token === null) token = "x";
   if (token !== undefined) {
-    axios
+    await axios
       .get(`${constants.BASE_URL}/api/isTokenValid`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
-        dispatch({
+        console.log(res.data);
+        store.dispatch({
           type: constants.AUTHENTICATED,
           payload: res.data,
         });
       })
       .catch((error) => console.log(error.message));
   }
-};
+}
 
-export const userLogIn = (username, password) => (dispatch) => {
-  axios
+export async function userLogIn(username, password) {
+  var res;
+  await axios
     .post(`${constants.BASE_URL}/login`, {
       username: username,
       password: password,
     })
     .then((res) => {
       sessionStorage.setItem("token", res.data !== undefined ? res.data : null);
-      dispatch({
+      store.dispatch({
         type: constants.AUTHENTICATED,
         payload: res.data !== undefined ? true : false,
       });
     })
     .catch((error) => {
-      console.log(error.message);
+      window.alert("Error de Servidor: " + error.message);
+      res = { hasError: true };
     });
-};
+  return res;
+}
 
-export const whoAmI = () => (dispatch) => {
+export async function whoAmI() {
   console.log("WhoAmI");
   let token = sessionStorage.getItem("token");
-  axios
+  await axios
     .get(`${constants.BASE_URL}/api/frontend/whoami`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
     .then((res) => {
-      dispatch({
+      store.dispatch({
         type: constants.FETCH_PROFILE,
         payload: res.data,
       });
@@ -57,4 +63,4 @@ export const whoAmI = () => (dispatch) => {
     .catch((error) => {
       console.log(error.message);
     });
-};
+}

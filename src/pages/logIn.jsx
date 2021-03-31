@@ -1,38 +1,32 @@
-import React, { Component } from "react";
-//Redux
-import { connect } from "react-redux";
-import { userLogIn, validToken } from "../redux/actions/login-actions";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import { userLogIn } from "../redux/actions/login-actions";
 
-class LogIn extends Component {
-  componentDidUpdate() {
-    if (this.props.auth !== undefined && this.props.auth) {
-      this.props.history.push("/inicio");
+export default function LogIn() {
+  const history = useHistory();
+  const auth = useSelector((state) => state.auth).authenticated;
+  const [hasError, setHasError] = useState(false); 
+
+  useEffect(() => {
+    if (auth !== undefined && auth) {
+      history.push("/inicio");
     }
-  }
+  });
 
-  login() {
-    this.props.userLogIn("PabloCL", "1234");
-  }
+  const login = async () => {
+    let res = await userLogIn("quique", "1234");
+    if (!auth && !res.hasError){
+      setHasError(true);
+    }
+  };
 
-  render() {
-    return (
-      <React.Fragment>
-        <div className="page-container p-3">
-          <button onClick={() => this.login()}> ENTRA </button>
-        </div>
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      <div className="page-container p-3">
+        <button onClick={() => login()}> ENTRA </button>
+        { hasError && <p> Credenciales incorrectas </p> }
+      </div>
+    </React.Fragment>
+  );
 }
-
-const mapStateToProps = (state) => ({
-  auth: state.auth.authenticated,
-  token: state.auth.token,
-});
-
-const mapDispatchActions = {
-  userLogIn,
-  validToken,
-};
-
-export default connect(mapStateToProps, mapDispatchActions)(LogIn);

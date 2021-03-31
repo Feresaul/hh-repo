@@ -60,7 +60,6 @@ class EditPrescription extends Component {
     let { prescription } = this.state;
     let { prescriptions } = this.props;
     let { id } = this.props.location.state;
-    console.log(id)
     return (
       <React.Fragment>
         <div className="page-container p-2 p-md-4">
