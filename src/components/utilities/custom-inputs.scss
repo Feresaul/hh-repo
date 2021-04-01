@@ -51,7 +51,7 @@ body.dark {
   }
 }
 
-body {
+body:not(.dark) {
   $label-color: rgb(31, 36, 43);
   $label-color-selected: rgb(88, 147, 236);
   $label-color-filled: rgb(151, 159, 173);

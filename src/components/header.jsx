@@ -83,7 +83,7 @@ function Header() {
         </React.Fragment>
       ) : (
         <div className="col-12 text-center">
-          <p className="t-lg l-text m-auto">Centenario Hospital Hidalgo</p>
+          <p className="t-lg m-auto">Centenario Hospital Hidalgo</p>
         </div>
       )}
     </nav>

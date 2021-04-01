@@ -5,7 +5,8 @@ import PatientForm from "../../components/patient-form";
 
 export default function EditPatient() {
   const history = useHistory();
-  const id = history.location.state.id;
+  const l_state = history.location.state;
+  const id = l_state !== undefined ? l_state.id : -1;
   const patients = useSelector((state) => state.users); // cambiar por pacientes
   const patient =
     id !== -1 ? patients.find((patient) => patient.medico.id === id) : null;
@@ -22,13 +23,11 @@ export default function EditPatient() {
   return (
     <React.Fragment>
       <div className="page-container p-2 p-md-4">
-        {(patient !== undefined || id === -1) && (
-          <PatientForm
-            patient={patient}
-            submitForm={submitForm}
-            goBack={goBack}
-          />
-        )}
+        <PatientForm
+          patient={patient}
+          submitForm={submitForm}
+          goBack={goBack}
+        />
       </div>
     </React.Fragment>
   );

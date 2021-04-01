@@ -39,7 +39,7 @@ export default function Inicio() {
       id: 4,
       name: "Administrador",
       title: "Administrador",
-      url: `${inicioUrl}admin`,
+      url: `${inicioUrl}admin/usuarios`,
       img: "https://bralowmedicalgroup.com/wp-content/uploads/2018/06/blog.jpg",
     },
   ];

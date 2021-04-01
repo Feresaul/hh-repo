@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import EditIcon from "@material-ui/icons/Edit";
 import TablePagination from "@material-ui/core/TablePagination";
-import CustomInput from "../../components/utilities/custom-inputs-";
+import CustomInput from "../../components/utilities/custom-inputs";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import { withRouter } from "react-router-dom";
