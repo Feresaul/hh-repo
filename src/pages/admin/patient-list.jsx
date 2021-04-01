@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import EditIcon from "@material-ui/icons/Edit";
 import TablePagination from "@material-ui/core/TablePagination";
-import CustomInput from "../../components/utilities/custom-inputs";
+import CustomInput from "../../components/utilities/custom-inputs-";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import { withRouter } from "react-router-dom";
@@ -124,8 +124,8 @@ class PatientList extends Component {
     let { users } = this.props;
     let data = users.length !== undefined ? [...users] : [];
     return this.f_data_size < 1 ? (
-      <div className="col-12 bg-blue-a">
-        <p className="p-2 l-text text-center">
+      <div className="col-12 secondary-bg">
+        <p className="p-2 text-center">
           {data.length < 1
             ? "Cargando..."
             : "No hay datos que coincidan con la búsqueda"}
@@ -156,7 +156,7 @@ class PatientList extends Component {
           <div className="p-4 item-container">
             <p className="t-blue-l">Listado de pacientes</p>
             <TableContainer>
-              <div className="col-12 bg-blue-a pt-3 pl-4 pr-4 mb-2">
+              <div className="col-12 secondary-bg pl-4 pr-4 mb-2">
                 <CustomInput objeto={this.buscar} />
               </div>
 
@@ -323,7 +323,7 @@ class PatientList extends Component {
                   },
                 }}
               >
-                <p className="l-text m-0 p-0">Agregar nuevo paciente</p>
+                <p className="m-0 p-0">Agregar nuevo paciente</p>
               </Link>
             </div>
           </div>

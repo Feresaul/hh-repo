@@ -1,409 +1,606 @@
-$blue-accent: rgb(44, 77, 122);
-$table-row: rgb(90, 90, 90);
-$table-even-row: rgb(70, 72, 75);
-
-$l-text: rgb(224, 224, 224);
-$t-blue-l: rgb(148, 177, 224);
-$t-input: rgb(119, 158, 209);
-$t-input-d: rgb(180, 180, 180);
-
-$bg-item-container: #353434;
-$bg-black: rgb(32, 32, 32);
-$bg-page-container: rgb(73, 75, 78);
-
-$table-icons: $l-text;
-$c-btn-d: rgb(107, 107, 107);
-
-.page-container {
-  background-color: $bg-page-container;
-  transition: 0.3s ease-out;
-  min-height: calc(100vh - 177px);
+.user-name{
+  text-overflow: clip;
 }
 
-.header {
-  max-height: 71.45px;
-  min-height: 71.45px;
-  background-color: $bg-black;
-}
+body.dark {
+  //colors-r
+  $white-s: rgb(243, 243, 243);
+  $blue-accent: rgb(44, 77, 122);
+  $blue-light: rgb(148, 177, 224);
+  $bg-secondary: $blue-accent;
 
-.footer {
-  max-height: 105.6px;
-  min-height: 105.6px;
-  background-color: $bg-black;
-}
+  $t-table-color: $white-s;
+  $table-row: rgb(90, 90, 90);
+  $table-even-row: rgb(70, 72, 75);
+  $table-icons: $white-s;
 
-.bg-panel {
-  position: absolute;
-  height: 74%;
-  width: 90%;
-  left: 0;
-  top: 0;
-  background: $blue-accent;
-  border-bottom-right-radius: 200px;
-}
+  $bg-item-container: #353434;
+  $bg-black: rgb(32, 32, 32);
+  $bg-page-container: rgb(73, 75, 78);
 
-.c-card {
-  min-width: 300px;
-}
+  $t-primary-color: $white-s;
+  $c-btn-d: rgb(107, 107, 107);
 
-.c-card-image {
-  width: 100%;
-  max-height: 300px;
-  object-fit: cover;
-  overflow: hidden;
-}
-
-.bg-container {
-  background: $bg-item-container;
-  color: $l-text;
-}
-
-.hover-grow {
-  scale: 1;
-  transition: 0.1s;
-}
-
-.hover-grow:hover {
-  transform: scale(1.08);
-}
-
-.item-container {
-  background-color: $bg-item-container;
-  border-width: 0px;
-  border-style: solid;
-  border-radius: 3px;
-  color: $l-text;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 6px 0 rgba(0, 0, 0, 0.19);
-  transition: 0.1s ease-out;
-}
-
-.back-shape {
-  position: relative;
-  top: 0;
-  left: 5%;
-  right: 5%;
-  width: 90%;
-  border-bottom-left-radius: 50px;
-  border-bottom-right-radius: 50px;
-  height: 80%;
-}
-
-.t-home {
-  color: $l-text;
-  font-size: 50px;
-  font-weight: bold;
-  margin: 10%;
-  font-family: sans-serif;
-}
-
-.t-bold {
-  font-weight: bold;
-}
-
-.c-btn {
-  background-color: $blue-accent;
-  border: 0px;
-  border-radius: 3px;
-  padding: 6px;
-  font-size: 0.92rem;
-}
-
-.c-btn:disabled {
-  background-color: $c-btn-d;
-}
-
-.bg-gray {
-  background-color: $table-even-row;
-}
-
-.bg-blue-a {
-  background-color: $blue-accent;
-  background: $blue-accent;
-}
-
-.t-blue-l {
-  color: $t-blue-l;
-  font-family: Helvetica, monospace;
-  font-size: 14px;
-}
-
-p {
-  font-family: Helvetica, sans-serif, monospace;
-}
-
-.l-text {
-  color: $l-text;
-  font-family: Helvetica, sans-serif;
-}
-
-.t-sm {
-  font-size: 12px;
-}
-
-.t-md {
-  font-size: 14px;
-}
-
-.t-lg {
-  font-size: 20px;
-}
-
-.t-xl {
-  font-size: 30px;
-}
-
-.btn-link {
-  color: $table-icons;
-}
-
-th {
-  background-color: $blue-accent;
-}
-
-table {
-  tr {
-    background-color: $table-row;
+  .t-primary{
+    color: $t-primary-color;
   }
-  tr:nth-child(even) {
+
+   .secondary-bg{
+    background: $bg-secondary;
+    color: $white-s;
+  }
+
+  .page-container {
+    background-color: $bg-page-container;
+    transition: 0.3s ease-out;
+    min-height: calc(100vh - 177px);
+  }
+
+  .header,
+  .footer {
+    background-color: $bg-black;
+    color: $t-primary-color;
+  }
+
+  .iconC {
+    color: $white-s !important;
+  }
+
+  .c-card {
+    min-width: 300px;
+  }
+
+  .c-card-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+
+  .card-title{
+    color: $t-primary-color;
+  }
+
+  .bg-container {
+    background: $bg-item-container;
+    color: $t-primary-color;
+  }
+
+  .hover-grow {
+    scale: 1;
+    transition: 0.1s;
+  }
+
+  .hover-grow:hover {
+    transform: scale(1.08);
+  }
+
+  .item-container {
+    background-color: $bg-item-container;
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 6px 0 rgba(0, 0, 0, 0.19);
+    transition: 0.1s ease-out;
+  }
+
+  .back-shape {
+    position: relative;
+    top: 0;
+    left: 5%;
+    right: 5%;
+    width: 90%;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    height: 80%;
+  }
+
+  .t-bold {
+    font-weight: bold;
+  }
+
+  .c-btn {
+    background-color: $bg-secondary;
+    color: $white-s;
+    border: 0px;
+    border-radius: 3px;
+    padding: 6px;
+    font-size: 0.92rem;
+  }
+
+  .c-btn:disabled {
+    background-color: $c-btn-d;
+  }
+
+  .bg-gray {
     background-color: $table-even-row;
   }
-  .table-data {
-    color: $l-text;
-    font-family: Helvetica, sans-serif;
+
+  .bg-blue-a {
+    background-color: $blue-accent;
+    background: $blue-accent;
   }
-  .table-data-header {
-    color: $l-text;
-    font-family: Helvetica, sans-serif;
+
+  .t-blue-l {
+    color: $blue-light;
+    font-family: Helvetica, monospace;
+    font-size: 14px;
   }
-  .btn-link {
-    color: $l-text;
-  }
-}
 
-.icon-t,
-.no-selectable {
-  cursor: pointer;
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none;
-}
-
-//ScrollBar
-
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: $bg-item-container;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: $blue-accent;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: $blue-accent * 1.6;
-}
-
-.MuiTable-root {
-  tr {
-    border-bottom: solid;
-    border-color: $bg-item-container;
-  }
-  .MuiTableCell-body {
-    padding: 0.4rem 1rem 0.4rem 2.4rem;
-  }
-  .MuiTableCell-head {
-    padding: 1rem 1rem 1rem 2.4rem;
-  }
-}
-
-.MuiTablePagination-root {
-  width: 100%;
   p {
-    color: $l-text;
+    font-family: Helvetica, sans-serif, monospace;
   }
-}
 
-.MuiTablePagination-selectRoot {
-  .MuiInputBase-input {
-    color: $l-text;
+  .l-text {
+    color: $t-primary-color;
+    font-family: Helvetica, sans-serif;
   }
-}
 
-.MuiInputBase-root,
-.MuiInput-root {
-  input {
-    color: $l-text;
+  .t-sm {
+    font-size: 12px;
   }
-}
 
-/// Custom Inputs
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  box-shadow: 0px;
-  -webkit-box-shadow: 0 0 0 30px $bg-item-container inset !important;
-}
+  .t-md {
+    font-size: 14px;
+  }
 
-input:-webkit-autofill {
-  -webkit-text-fill-color: $l-text !important;
-}
+  .t-lg {
+    font-size: 20px;
+  }
 
-.c-input {
-  font-family: sans-serif, monospace;
-  label {
+  .t-xl {
+    font-size: 30px;
+  }
+
+  .btn-link {
+    color: $table-icons;
+  }
+
+  th {
+    background-color: $blue-accent;
+  }
+
+  table {
+    tr {
+      background-color: $table-row;
+    }
+    tr:nth-child(even) {
+      background-color: $table-even-row;
+    }
+    .table-data {
+      color: $t-table-color;
+      font-family: Helvetica, sans-serif;
+    }
+    .table-data-header {
+      color: $t-table-color;
+      font-family: Helvetica, sans-serif;
+    }
+    .btn-link {
+      color: $t-table-color;
+    }
+  }
+
+  .icon-t,
+  .no-selectable {
     cursor: pointer;
-    border-style: none;
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    font-size: 14px;
-    transition: font-size 0.2s, top 0.3s, color 0.3s;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
   }
-  input {
-    font-family: Helvetica;
-    position: absolute;
-    width: 100%;
-    left: 0px;
-    bottom: 2px;
-    color: $l-text;
-    outline: none;
-    border-width: 0px;
-    background-image: "";
-    background: transparent !important;
-  }
-  .c-input-line {
-    position: absolute;
-    background: $l-text;
-    width: 100%;
-    height: 1px;
-    bottom: 2px;
-    left: 0px;
-    transition: top 0.3s, height 0.3s, background 0.3s;
-  }
-  color: $l-text;
-}
 
-.c-input:focus-within {
-  .c-input-label {
-    top: -10px;
-    font-size: 12px;
-    color: $t-input;
-    border-style: none;
-  }
-  .c-input-line {
-    background: $t-input;
-  }
-}
+  //ScrollBar
 
-.c-input-input:disabled {
-  ~ .c-input-label {
-    cursor: default;
-    top: -10px;
-    font-size: 12px;
-    color: $t-input-d;
-    border-style: none;
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
   }
-  ~ .c-input-line {
-    border: dotted;
-    border-bottom: 0px;
-    border-width: 2px;
-    border-color: $t-input-d;
+
+  /* Track */
+  ::-webkit-scrollbar-track {
     background: $bg-item-container;
   }
-}
 
-.c-input-input:not(:placeholder-shown):invalid {
-  ~ .c-input-label {
-    font-size: 14px;
-    color: red;
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: $blue-accent;
   }
-  ~ .c-input-line {
-    background: rgb(255, 0, 0);
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: $blue-accent * 1.6;
   }
-}
 
-.c-input-input:not(:placeholder-shown):valid {
-  ~ .c-input-label {
-    top: -10px;
-    font-size: 12px;
-    color: $t-input;
+  .MuiTable-root {
+    tr {
+      border-bottom: solid;
+      border-color: $bg-item-container;
+    }
+    .MuiTableCell-body {
+      padding: 0.4rem 1rem 0.4rem 2.4rem;
+    }
+    .MuiTableCell-head {
+      padding: 1rem 1rem 1rem 2.4rem;
+    }
   }
-  ~ .c-input-line {
-    background: $t-blue-l;
+
+  .MuiTablePagination-root {
+    width: 100%;
+    p {
+      color: $t-table-color;
+    }
   }
-}
 
-.c-input-error {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-}
-
-.delete-row {
-  background: #353434;
-  transition: 0.64s;
-  opacity: 0;
-  height: 0px;
-  input {
-    background: $bg-item-container;
-    outline: none;
+  .MuiTablePagination-selectRoot {
+    .MuiInputBase-input {
+      color: $t-table-color;
+    }
   }
-}
 
-.row {
-  transition: 0.64s;
-  opacity: 1;
-}
+  /*.MuiInputBase-root,
+  .MuiInput-root {
+    input {
+      color: red;
+    }
+  }*/
 
-.delete-row:focus-within {
-  opacity: 1;
-  background: rgb(109, 51, 51);
-  .btn-delete-row {
+  .delete-row {
+    background: #353434;
+    transition: 0.64s;
+    opacity: 0;
+    height: 0px;
+    input {
+      background: transparent !important;
+      outline: none;
+    }
+  }
+
+  .row {
+    transition: 0.64s;
     opacity: 1;
   }
+
+  .delete-row:focus-within {
+    opacity: 1;
+    background: rgb(109, 51, 51);
+    .btn-delete-row {
+      opacity: 1;
+    }
+  }
+
+  .btn-delete-row {
+    opacity: 0;
+    color: $t-table-color;
+    outline: none;
+    border: none;
+    background: rgb(109, 51, 51);
+    transition: 0.64s;
+  }
+
+  .btn-delete-row:hover {
+    background: rgb(158, 54, 54);
+    outline: none;
+  }
+
+  .btn-delete-row:focus {
+    outline: none;
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  .cursor-pointer:hover {
+    scale: 2;
+  }
+
+  .arrow-sort {
+    scale: 1;
+  }
+
+  .arrow-sort:hover {
+    scale: 2;
+  }
 }
 
-.btn-delete-row {
-  opacity: 0;
-  color: $l-text;
-  outline: none;
-  border: none;
-  background: rgb(109, 51, 51);
-  transition: 0.64s;
+//// Body L Theme
+body {
+  //colors-r
+  $black: rgb(0, 0, 0);
+  $white-s: rgb(243, 243, 243);
+  $blue-accent: rgb(59, 88, 128);
+  $blue-light: rgb(84, 137, 223);
+  $bg-secondary: rgb(207, 221, 245);
+
+  $t-table-color: $black;
+  $table-row: rgb(90, 90, 90);
+  $table-even-row: rgb(70, 72, 75);
+  $table-icons: $white-s;
+
+  $bg-item-container: rgb(243, 243, 243);
+  $bg-black: $blue-accent;
+  $bg-page-container: rgb(211, 211, 211);
+
+  $t-primary-color: $black;
+  $c-btn-d: rgb(107, 107, 107);
+
+  .t-primary{
+    color: $t-primary-color;
+  }
+
+  .secondary-bg{
+    background: $bg-secondary;
+    color: $t-primary-color;
+  }
+
+  .page-container {
+    background-color: $bg-page-container;
+    transition: 0.3s ease-out;
+    min-height: calc(100vh - 177px);
+  }
+
+  .header,
+  .footer {
+    background-color: $bg-black;
+    color: $white-s;
+  }
+
+  .iconC {
+    color: $white-s !important;
+  }
+
+  .c-card {
+    min-width: 300px;
+  }
+
+  .c-card-image {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    overflow: hidden;
+  }
+
+  .card-title{
+    color: $t-primary-color;
+  }
+
+  .bg-container {
+    background: $bg-item-container;
+    color: $t-primary-color;
+  }
+
+  .hover-grow {
+    scale: 1;
+    transition: 0.1s;
+  }
+
+  .hover-grow:hover {
+    transform: scale(1.08);
+  }
+
+  .item-container {
+    background-color: $bg-item-container;
+    border-width: 0px;
+    border-style: solid;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 6px 0 rgba(0, 0, 0, 0.19);
+    transition: 0.1s ease-out;
+  }
+
+  .back-shape {
+    position: relative;
+    top: 0;
+    left: 5%;
+    right: 5%;
+    width: 90%;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    height: 80%;
+  }
+
+  .t-bold {
+    font-weight: bold;
+  }
+
+  .c-btn {
+    background-color: $bg-secondary;
+    color: $black;
+    border: 0px;
+    border-radius: 3px;
+    padding: 6px;
+    font-size: 0.92rem;
+  }
+
+  .c-btn:disabled {
+    background-color: $c-btn-d;
+  }
+
+  .bg-gray {
+    background-color: $table-even-row;
+  }
+
+  .bg-blue-a {
+    background-color: $blue-accent;
+    background: $blue-accent;
+  }
+
+  .t-blue-l {
+    color: $blue-light;
+    font-family: Helvetica, monospace;
+    font-size: 14px;
+  }
+
+  p {
+    font-family: Helvetica, sans-serif, monospace;
+  }
+
+  .l-text {
+    color: $t-primary-color;
+    font-family: Helvetica, sans-serif;
+  }
+
+  .t-sm {
+    font-size: 12px;
+  }
+
+  .t-md {
+    font-size: 14px;
+  }
+
+  .t-lg {
+    font-size: 20px;
+  }
+
+  .t-xl {
+    font-size: 30px;
+  }
+
+  .btn-link {
+    color: $table-icons;
+  }
+
+  th {
+    background-color: $bg-secondary;
+  }
+
+  table {
+    tr {
+      background-color: $table-row;
+    }
+    tr:nth-child(even) {
+      background-color: $table-even-row;
+    }
+    .table-data {
+      color: $t-table-color;
+      font-family: Helvetica, sans-serif;
+    }
+    .table-data-header {
+      color: $t-table-color;
+      font-family: Helvetica, sans-serif;
+    }
+    .btn-link {
+      color: $t-table-color;
+    }
+  }
+
+  .icon-t,
+  .no-selectable {
+    cursor: pointer;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+  }
+
+  //ScrollBar
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: $bg-item-container;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: $blue-accent;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: $blue-accent * 1.6;
+  }
+
+  .MuiTable-root {
+    tr {
+      border-bottom: solid;
+      border-color: $bg-item-container;
+    }
+    .MuiTableCell-body {
+      padding: 0.4rem 1rem 0.4rem 2.4rem;
+    }
+    .MuiTableCell-head {
+      padding: 1rem 1rem 1rem 2.4rem;
+    }
+  }
+
+  .MuiTablePagination-root {
+    width: 100%;
+    p {
+      color: $t-table-color;
+    }
+  }
+
+  .MuiTablePagination-selectRoot {
+    .MuiInputBase-input {
+      color: $t-table-color;
+    }
+  }
+
+  .delete-row {
+    background: #353434;
+    transition: 0.64s;
+    opacity: 0;
+    height: 0px;
+    input {
+      background: transparent !important;
+      outline: none;
+    }
+  }
+
+  .row {
+    transition: 0.64s;
+    opacity: 1;
+  }
+
+  .delete-row:focus-within {
+    opacity: 1;
+    background: rgb(109, 51, 51);
+    .btn-delete-row {
+      opacity: 1;
+    }
+  }
+
+  .btn-delete-row {
+    opacity: 0;
+    color: $t-table-color;
+    outline: none;
+    border: none;
+    background: rgb(109, 51, 51);
+    transition: 0.64s;
+  }
+
+  .btn-delete-row:hover {
+    background: rgb(158, 54, 54);
+    outline: none;
+  }
+
+  .btn-delete-row:focus {
+    outline: none;
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  .cursor-pointer:hover {
+    scale: 2;
+  }
+
+  .arrow-sort {
+    scale: 1;
+  }
+
+  .arrow-sort:hover {
+    scale: 2;
+  }
 }
 
-.btn-delete-row:hover {
-  background: rgb(158, 54, 54);
-  outline: none;
-}
-
-.btn-delete-row:focus {
-  outline: none;
-}
-
-.cursor-pointer {
-  cursor: pointer;
-}
-
-.cursor-pointer:hover {
-  scale: 2;
-}
-
-.arrow-sort {
-  scale: 1;
-}
-
-.arrow-sort:hover {
-  scale: 2;
-}
+//// 

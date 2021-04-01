@@ -17,7 +17,7 @@ export async function ValidToken() {
         console.log(res.data);
         store.dispatch({
           type: constants.AUTHENTICATED,
-          payload: res.data,
+          payload: true//res.data,
         });
       })
       .catch((error) => console.log(error.message));
@@ -46,7 +46,7 @@ export async function userLogIn(username, password) {
 }
 
 export async function whoAmI() {
-  console.log("WhoAmI");
+  console.log("WhoAmI()");
   let token = sessionStorage.getItem("token");
   await axios
     .get(`${constants.BASE_URL}/api/frontend/whoami`, {

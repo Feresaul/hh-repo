@@ -18,14 +18,26 @@ import LogIn from "./pages/logIn";
 import { useSelector } from "react-redux";
 import { ValidToken } from "./redux/actions/login-actions";
 
+export const dM = () => {
+  let darkMode = JSON.parse(localStorage.getItem("site-dark-mode"));
+  if (darkMode === null) darkMode = false;
+
+  !darkMode
+    ? document.body.classList.add("dark")
+    : document.body.classList.remove("dark");
+    
+  let json = JSON.stringify(!darkMode);
+  localStorage.setItem("site-dark-mode", json);
+};
+
 export default function App() {
   const auth = useSelector((state) => state.auth).authenticated;
 
   useEffect(() => {
+    dM();
     if (auth === undefined) {
       ValidToken();
-    } 
-    else if (!auth && window.location.pathname !== "/logIn") {
+    } else if (!auth && window.location.pathname !== "/logIn") {
       window.location.href = "/logIn";
     }
   });

@@ -50,10 +50,11 @@ export default function Inicio() {
     <React.Fragment>
       <div className="page-container p-lg-3 p-md-4 p-1">
         <div className="row d-flex justify-content-center m-0 p-1 p-sm-2 p-lg-4">
-          {profile.cargo !== undefined
-            ? profile.cargo.map((cargo) =>
-                data.map((item) =>
-                  !cargo.includes("e") ? (
+          {profile.cargo !== undefined &&
+            profile.cargo.map((cargo) =>
+              data.map(
+                (item) =>
+                  cargo.includes(item.name) && (
                     <React.Fragment key={item.id}>
                       <div className="col col-lg-4 col-sm-6 p-2 p-lg-3 d-inline-block c-card">
                         <div
@@ -65,7 +66,7 @@ export default function Inicio() {
                           <h5 className="card-title bg-container text-center pt-4 m-0">
                             {item.title}
                           </h5>
-                          <p className="p-2 m-0 text-center">
+                          <p className="p-2 m-0 text-center t-primary">
                             {item.subtitle !== undefined ? item.subtitle : "."}
                           </p>
                           <img
@@ -77,10 +78,9 @@ export default function Inicio() {
                         </div>
                       </div>
                     </React.Fragment>
-                  ) : null
-                )
+                  )
               )
-            : null}
+            )}
         </div>
       </div>
     </React.Fragment>
