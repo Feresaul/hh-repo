@@ -92,7 +92,6 @@ export default function UserForm({ user, submitForm, goBack }) {
       [element.name]: user !== null ? user[element.name] : null,
     };
   });
-
   
   let medico_data = {};
   inputs.medico.forEach((element) => {
@@ -111,7 +110,7 @@ export default function UserForm({ user, submitForm, goBack }) {
 
   return (
     <React.Fragment>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} autocomplete="off">
         <div className="row m-0">
           <div className="item-container col p-4 mb-2 d-inline-block">
             <p className="t-blue-l">Agregar/Modificar usuario</p>
@@ -119,11 +118,11 @@ export default function UserForm({ user, submitForm, goBack }) {
             {inputs.user.map((item) => (
               <React.Fragment key={item.id}>
                 <CustomInput
+                  {...item}
                   id={item.name}
                   name={item.name}
                   label={item.label}
-                  type={item.type !== null ? item.type : "text"}
-                  cClass={item.classAdd}
+                  classAdd={item.classAdd}
                   register={register(requiredField)}
                   error={errors[item.name]}
                   defaultValue={user_data[item.name]}
@@ -135,6 +134,7 @@ export default function UserForm({ user, submitForm, goBack }) {
               id="cargo"
               name="cargo"
               label="Cargo(s):"
+              button_label="Agregar"
               type="text"
               cClass="col-12"
               register={register(requiredField)}
@@ -142,7 +142,7 @@ export default function UserForm({ user, submitForm, goBack }) {
               options={inputs.cargo.checkbox}
               resFunction={checkRoles}
               multiselect={true}
-              defaultValue={user !== null && user.cargo}
+              defaultValue={user !== null ? user.cargo : null}
             />
           </div>
 
@@ -154,10 +154,7 @@ export default function UserForm({ user, submitForm, goBack }) {
                 <React.Fragment key={item.id}>
                   <CustomInput
                     id={item.name}
-                    name={item.name}
-                    label={item.label}
-                    type={item.type !== null ? item.type : "text"}
-                    cClass={item.classAdd}
+                    {...item}
                     register={register(requiredField)}
                     error={errors[item.name]}
                     defaultValue={medico_data[item.name]}

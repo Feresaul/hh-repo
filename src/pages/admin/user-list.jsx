@@ -103,7 +103,8 @@ class UserList extends Component {
     return data;
   };
 
-  onFilterActive = (value) => {
+  onFilterActive = (event) => {
+    let value = event.target.value;
     this.setState({
       ...this.state,
       filter: value,
@@ -111,7 +112,7 @@ class UserList extends Component {
   };
 
   buscar = {
-    id: 0,
+    id: "buscar",
     name: "buscar",
     label: "Buscar:",
     required: false,
@@ -122,8 +123,8 @@ class UserList extends Component {
     let { users } = this.props;
     let data = users.length !== undefined ? [...users] : [];
     return this.f_data_size < 1 ? (
-      <div className="col-12 bg-blue-a">
-        <p className="p-2 l-text text-center">
+      <div className="col-12 secondary-bg">
+        <p className="p-2 text-center">
           {data.length < 1
             ? "Cargando..."
             : "No hay datos que coincidan con la búsqueda"}
@@ -154,8 +155,8 @@ class UserList extends Component {
           <div className="p-4 item-container">
             <p className="t-blue-l">Listado de usuarios/médicos</p>
             <TableContainer>
-              <div className="col-12 bg-blue-a pt-3 pl-4 pr-4 mb-2">
-                <CustomInput objeto={this.buscar} />
+              <div className="col-12 secondary-bg pl-4 pr-4 pb-2 mb-2">
+                <CustomInput {...this.buscar} />
               </div>
 
               <Table>

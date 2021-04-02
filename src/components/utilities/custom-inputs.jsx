@@ -4,14 +4,15 @@ import "./custom-inputs.scss";
 export default function CustomInput({
   register,
   error,
-  cClass,
+  classAdd,
   label,
+  handleChange,
   ...inputProps
 }) {
   let { name } = { ...inputProps };
   if (name === undefined) console.error("Missing name for custom-input");
 
-  let cs = "c-input " + cClass;
+  let cs = "c-input " + classAdd;
   return (
     <React.Fragment>
       <div className={cs}>
@@ -21,17 +22,14 @@ export default function CustomInput({
             ref={register}
             placeholder={" "}
             {...inputProps}
+            onChange={handleChange}
           />
           <label htmlFor={name} className={`c-input-label`}>
             {label}
+            {error && <span className="pl-2">{error.message}</span>}
           </label>
           <div className={`c-input-line`}></div>
         </div>
-        {error && (
-          <p className="c-input-error text-danger t-sm text-right col-12 m-0 p-0 pr-3">
-            {error.message}
-          </p>
-        )}
       </div>
     </React.Fragment>
   );

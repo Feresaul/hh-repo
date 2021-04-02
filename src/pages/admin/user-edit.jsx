@@ -23,14 +23,15 @@ export default function EditUser() {
     <React.Fragment>
       <div className="page-container p-2 p-md-4">
         <UserForm
-          user={{
+          user={user}
+          /*{{
             usuario: "popo",
             contrasenia: "dewdew",
             turno: "M-3",
             nombre: "Ded",
             cargo: ["Médico", "Administrador"],
             medico: {especialidad: "popo", cedula: "DIB484362DOEW", universidad: "San HSAIHS", direccion: "ddscdsc"}
-          }}
+          }}*/
           submitForm={submitForm}
           goBack={goBack}
         />

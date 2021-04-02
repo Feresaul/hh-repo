@@ -1,5 +1,6 @@
 import React from "react";
 import CustomInput from "./utilities/custom-inputs";
+import CustomMultiSelect from "./utilities/custom-multi-select";
 import { useForm } from "react-hook-form";
 
 export default function PatientForm({ patient, submitForm, goBack }) {
@@ -17,14 +18,25 @@ export default function PatientForm({ patient, submitForm, goBack }) {
       name: "curp",
       label: "CURP:",
       classAdd: "m-0 col-12 col-sm-6 d-inline-block",
-      validation: { required: { value: true, message: "Campo requerido" } },
+      validation: {
+        required: { value: true, message: "Campo requerido" },
+        minLength: { value: 18, message: "Debe tener 18 caracteres" },
+      },
+      maxLength: 18,
     },
     {
       id: 2,
       name: "edad",
       label: "Edad:",
       classAdd: "m-0 col-12 col-sm-6 d-inline-block",
-      validation: { required: { value: true, message: "Campo requerido" } },
+      validation: {
+        required: { value: true, message: "Campo requerido" },
+        min: { value: 0, message: "El valor mínimo es 0" },
+        max: { value: 120, message: "El valor máximo es 120"}
+      },
+      type: "number",
+      min: "0",
+      max: "120",
     },
     {
       id: 3,
@@ -32,6 +44,7 @@ export default function PatientForm({ patient, submitForm, goBack }) {
       label: "Sexo:",
       classAdd: "m-0 col-12 col-sm-6 d-inline-block",
       validation: { required: { value: true, message: "Campo requerido" } },
+      options: ["masculino", "femenino", "otro"],
     },
     {
       id: 4,
@@ -63,23 +76,38 @@ export default function PatientForm({ patient, submitForm, goBack }) {
 
   return (
     <React.Fragment>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <div className="row m-0">
           <div className="item-container col p-4 mb-2 d-inline-block">
             <p className="t-blue-l">Agregar/Modificar paciente</p>
 
             {inputs.map((item) => (
               <React.Fragment key={item.id}>
-                <CustomInput
-                  id={item.name}
-                  name={item.name}
-                  label={item.label}
-                  type={item.type !== null ? item.type : "text"}
-                  cClass={item.classAdd}
-                  register={register(item.validation)}
-                  error={errors[item.name]}
-                  defaultValue={data[item.name]}
-                />
+                {item.id !== 3 ? (
+                  <CustomInput
+                    {...item}
+                    id={item.name}
+                    name={item.name}
+                    label={item.label}
+                    classAdd={item.classAdd}
+                    register={register(item.validation)}
+                    error={errors[item.name]}
+                    defaultValue={data[item.name]}
+                  />
+                ) : (
+                  <CustomMultiSelect
+                    id={item.id}
+                    name={item.name}
+                    label={item.label}
+                    button_label="Seleccionar"
+                    type="text"
+                    cClass={item.classAdd}
+                    register={register(item.validation)}
+                    error={errors[item.name]}
+                    options={item.options}
+                    defaultValue={data[item.name]}
+                  />
+                )}
               </React.Fragment>
             ))}
           </div>

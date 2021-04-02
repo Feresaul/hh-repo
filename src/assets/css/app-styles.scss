@@ -1,4 +1,4 @@
-.user-name{
+.user-name {
   text-overflow: clip;
 }
 
@@ -21,11 +21,11 @@ body.dark {
   $t-primary-color: $white-s;
   $c-btn-d: rgb(107, 107, 107);
 
-  .t-primary{
+  .t-primary {
     color: $t-primary-color;
   }
 
-   .secondary-bg{
+  .secondary-bg {
     background: $bg-secondary;
     color: $white-s;
   }
@@ -57,7 +57,7 @@ body.dark {
     overflow: hidden;
   }
 
-  .card-title{
+  .card-title {
     color: $t-primary-color;
   }
 
@@ -191,28 +191,6 @@ body.dark {
     user-select: none;
   }
 
-  //ScrollBar
-
-  /* width */
-  ::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: $bg-item-container;
-  }
-
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: $blue-accent;
-  }
-
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: $blue-accent * 1.6;
-  }
-
   .MuiTable-root {
     tr {
       border-bottom: solid;
@@ -238,13 +216,6 @@ body.dark {
       color: $t-table-color;
     }
   }
-
-  /*.MuiInputBase-root,
-  .MuiInput-root {
-    input {
-      color: red;
-    }
-  }*/
 
   .delete-row {
     background: #353434;
@@ -326,11 +297,11 @@ body {
   $t-primary-color: $black;
   $c-btn-d: rgb(107, 107, 107);
 
-  .t-primary{
+  .t-primary {
     color: $t-primary-color;
   }
 
-  .secondary-bg{
+  .secondary-bg {
     background: $bg-secondary;
     color: $t-primary-color;
   }
@@ -362,7 +333,7 @@ body {
     overflow: hidden;
   }
 
-  .card-title{
+  .card-title {
     color: $t-primary-color;
   }
 
@@ -496,28 +467,6 @@ body {
     user-select: none;
   }
 
-  //ScrollBar
-
-  /* width */
-  ::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: $bg-item-container;
-  }
-
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: $blue-accent;
-  }
-
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: $blue-accent * 1.6;
-  }
-
   .MuiTable-root {
     tr {
       border-bottom: solid;
@@ -602,5 +551,3 @@ body {
     scale: 2;
   }
 }
-
-//// 

@@ -3,6 +3,15 @@ $white-s: rgb(243, 243, 243);
 $label-filled-b: rgb(151, 159, 173);
 $label-filled-d: rgb(104, 118, 148);
 
+.c-options {
+  border-radius: 6px;
+  .c-option {
+    background: transparent !important;
+    cursor: pointer;
+    transition: .2s ease;
+  }
+}
+
 .chip {
   border-radius: 20px;
   text-align: center;
@@ -34,18 +43,12 @@ $label-filled-d: rgb(104, 118, 148);
 
 .label {
   font-size: 14px;
+  cursor: pointer;
 }
 
 .active-label {
   font-size: 12px;
-}
-
-select {
-  border: none;
-  max-width: 18px;
-  option {
-    margin: 20px;
-  }
+  cursor: pointer;
 }
 
 body.dark {
@@ -78,14 +81,12 @@ body.dark {
   .active-label {
     color: $label-filled;
   }
-
-  select {
-    background: transparent !important;
-    option {
-      background: rgb(73, 75, 78) !important;
-    }
-    option:hover {
-      color: red !important;
+  .c-options {
+    background: rgba(128, 128, 128, 0.185);
+    color: $t-color;
+    .c-option:hover {
+      background: $bg-primary !important;
+      transition: 0.2s ease;
     }
   }
 }
@@ -123,13 +124,12 @@ body:not(.dark) {
   .active-label {
     color: $label-filled;
   }
-  select {
-    background: transparent !important;
-    option {
-      background: rgb(211, 211, 211) !important;
-    }
-    option:hover {
-      color: red !important;
+  .c-options {
+    background: rgba(128, 128, 128, 0.185);
+    color: $t-color;
+    .c-option:hover {
+      background: $bg-primary !important;
+      transition: 0.2s ease;
     }
   }
 }
