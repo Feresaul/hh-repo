@@ -270,7 +270,7 @@ class UserList extends Component {
                               <Link
                                 className="btn btn-link"
                                 to={{
-                                  pathname: `${this.editUrl}editar/${item?.usuario}`,
+                                  pathname: `${this.editUrl}${item?.usuario}`,
                                   state: {
                                     id: item.medico.id,
                                   },
@@ -309,17 +309,18 @@ class UserList extends Component {
             />
 
             <div className="d-flex flex-row-reverse">
-              <Link
+              {/*<Link
                 className="c-btn text-center col-12 col-lg-3 mt-3"
                 to={{
-                  pathname: `${this.editUrl}agregar/nuevo`,
+                  pathname: `${this.editUrl}nuevo`,
                   state: {
                     id: -1,
                   },
                 }}
               >
                 <p className="l-text m-0 p-0">Agregar nuevo usuario</p>
-              </Link>
+              </Link>*/}
+              <button onClick={()=>this.props.history.replace("usuarios/nuevo", {id: -1})}> Agregar </button>
             </div>
           </div>
         </div>

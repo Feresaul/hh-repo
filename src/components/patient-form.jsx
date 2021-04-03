@@ -32,7 +32,8 @@ export default function PatientForm({ patient, submitForm, goBack }) {
       validation: {
         required: { value: true, message: "Campo requerido" },
         min: { value: 0, message: "El valor mínimo es 0" },
-        max: { value: 120, message: "El valor máximo es 120"}
+        max: { value: 120, message: "El valor máximo es 120"},
+        type: { value: "number", message: "Debe ser un número"}
       },
       type: "number",
       min: "0",
@@ -76,7 +77,7 @@ export default function PatientForm({ patient, submitForm, goBack }) {
 
   return (
     <React.Fragment>
-      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row m-0">
           <div className="item-container col p-4 mb-2 d-inline-block">
             <p className="t-blue-l">Agregar/Modificar paciente</p>

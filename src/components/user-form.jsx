@@ -110,7 +110,7 @@ export default function UserForm({ user, submitForm, goBack }) {
 
   return (
     <React.Fragment>
-      <form onSubmit={handleSubmit(onSubmit)} autocomplete="off">
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row m-0">
           <div className="item-container col p-4 mb-2 d-inline-block">
             <p className="t-blue-l">Agregar/Modificar usuario</p>

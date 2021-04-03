@@ -18,6 +18,7 @@ export default function CustomInput({
       <div className={cs}>
         <div className={`m-0 p-0${!error && "pb-2"}`}>
           <input
+            autoComplete="off"
             className={`c-input-input ${error && "error"}`}
             ref={register}
             placeholder={" "}

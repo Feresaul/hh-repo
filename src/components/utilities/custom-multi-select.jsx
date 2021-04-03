@@ -64,7 +64,12 @@ export default function CustomMultiSelect({
             {error && values.length < 1 && (
               <span className="pl-2">{error.message}</span>
             )}
-            <span className="p-2"> { !show ? button_label : "Cerrar"} </span>
+            <span className="p-2">
+              {" "}
+              {!show
+                ? values.length < options.length && button_label
+                : "Cerrar"}{" "}
+            </span>
           </label>
 
           {show && values.length < options.length ? (
@@ -73,7 +78,7 @@ export default function CustomMultiSelect({
                 (item) =>
                   values.indexOf(item) === -1 && (
                     <div
-                      className="c-option p-2 t-md"
+                      className="c-option p-2 t-md text-truncate"
                       key={item}
                       onClick={() => addValue(item)}
                     >
