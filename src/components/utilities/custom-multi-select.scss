@@ -1,0 +1,171 @@
+$black: rgb(0, 0, 0);
+$white-s: rgb(213, 218, 224);
+$label-filled-b: rgb(151, 159, 173);
+$label-filled-d: rgb(104, 118, 148);
+
+.c-multi {
+  position: relative;
+  min-height: 42px;
+
+  .label {
+    position: absolute;
+    bottom: 0px;
+    font-size: 14px;
+    z-index: 1;
+    cursor: pointer;
+    height: auto;
+    transition: 0.4s ease;
+  }
+
+  .label.active {
+    position: absolute;
+    top: 0;
+    font-size: 12px;
+    max-height: 14px;
+    transition: 0.4s ease;
+  }
+
+  .inner {
+    position: relative;
+    top: 14px;
+    margin-top: 20px;
+    padding: 40px;
+  }
+
+  .line {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+  }
+
+  .line.active {
+    position: absolute;
+    bottom: 0px;
+  }
+
+  .c-options {
+    position: absolute;
+    top: 14.6px;
+    width: 100%;
+    border-radius: 6px;
+    z-index: 2;
+    .c-option {
+      cursor: pointer;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+        0 4px 6px 0 rgba(0, 0, 0, 0.19);
+      transition: 0.2s ease;
+    }
+  }
+}
+
+.chip {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 6px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 20px;
+  font-family: Helvetica, sans-serif;
+  button {
+    background: transparent !important;
+    border: none;
+    outline: none;
+  }
+  button:hover {
+    transform: scale(1.2);
+    transition: 0.2s ease;
+    outline: none;
+    border-radius: 20px;
+  }
+  outline: none;
+}
+
+.options-btn{
+  min-width: 100%;
+  outline: none;
+  text-decoration: none;
+  border: none;
+  text-align: initial;
+}
+
+.options-btn:focus{
+  outline: none;
+}
+
+body.dark {
+  $bg-primary: rgb(44, 77, 122);
+  $t-color: $white-s;
+  $label-filled: $label-filled-d;
+
+  .chip {
+    background: $bg-primary;
+    color: $t-color;
+  }
+  .line {
+    background: $t-color;
+  }
+  .line.error {
+    background: red;
+  }
+  .line.active {
+    background: $label-filled;
+  }
+  .label {
+    color: $t-color;
+  }
+  .label.error {
+    color: red;
+  }
+  .label.active {
+    color: $label-filled;
+  }
+  .c-options {
+    color: $t-color;
+    .c-option {
+      background: rgb(66, 66, 66);
+    }
+    .c-option:hover {
+      background: $bg-primary !important;
+      transition: 0.2s ease;
+    }
+  }
+}
+
+body:not(.dark) {
+  $bg-primary: rgb(207, 221, 245);
+  $t-color: $black;
+  $label-filled: $label-filled-b;
+
+  .chip {
+    background: $bg-primary;
+    color: $t-color;
+    button {
+      color: rgb(119, 149, 190);
+    }
+  }
+  .line {
+    background: $t-color;
+  }
+  .line.error {
+    background: red;
+  }
+  .line.active {
+    background: $label-filled;
+  }
+  .label {
+    color: $t-color;
+  }
+  .label.error {
+    color: red;
+  }
+  .label.active {
+    color: $label-filled;
+  }
+  .c-options {
+    color: $t-color;
+    .c-option {
+      background: rgb(238, 238, 238);
+    }
+    .c-option:hover {
+      background: $bg-primary !important;
+      transition: 0.2s ease;
+    }
+  }
+}

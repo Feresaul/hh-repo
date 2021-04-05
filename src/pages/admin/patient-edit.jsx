@@ -1,61 +1,41 @@
-import React, { Component } from "react";
-import PatientFormRedux from "../../components/patient-form";
-import { withRouter } from "react-router-dom";
-//Redux
-import { connect } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import PatientForm from "../../components/patient-form";
+import { GoBack } from "../../components/header";
 
-class EditPatient extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+export default function EditPatient({path}) {
+  const history = useHistory();
+  const l_state = history.location.state;
+  const id = l_state !== undefined ? l_state.id : null;
+  const patients = useSelector((state) => state.users); // cambiar por pacientes
+  const patient =
+    id !== -1 && id !== null
+      ? patients.find((patient) => patient.medico.id === id)
+      : null;
 
-  componentDidMount() {
-    let state = this.props.location.state;
-    if (state === undefined || state?.id === undefined) {
-      this.props.history.goBack();
-    } else if (state !== null && state.id !== -1) {
-      let patient = this.props.patients.find((patient) => patient.medico.id === state.id);
-      this.setState({
-        patient: patient
-      })
-    }
-  }
+  useEffect(() => {
+    if (id === null) history.replace(path);
+  });
 
-  goBack = () => {
-    this.props.history.goBack();
+  const goBack = () => {
+    GoBack(history, history.location.pathname);
   };
 
-  submitForm = (values) => {
+  const submitForm = (values) => {
     console.log(values);
-    this.goBack();
+    //goBack();
   };
 
-  render() {
-    let { patient } = this.state;
-    let { id } = this.props.location.state;
-    return (
-      <React.Fragment>
-        <div className="page-container p-2 p-md-4">
-          { patient !== undefined || id === -1 ? (
-            <PatientFormRedux
-              patient={id === -1 ? null : patient}
-              submitForm={this.submitForm}
-              goBack={this.goBack}
-            />
-          ) : null}
-        </div>
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      <div className="page-container p-2 p-md-4">
+        <PatientForm
+          patient={patient}
+          submitForm={submitForm}
+          goBack={goBack}
+        />
+      </div>
+    </React.Fragment>
+  );
 }
-
-const mapStateToProps = (state) => ({
-  patients: state.users,
-});
-
-const mapDispatchActions = {};
-
-export default withRouter(
-  connect(mapStateToProps, mapDispatchActions)(EditPatient)
-);

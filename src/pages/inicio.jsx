@@ -2,29 +2,30 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-export default function Inicio() {
-  const inicioUrl = "/";
-  const data = [
+export function useRoles() {
+  const roles = [
     {
       id: 0,
       name: "Doctor",
       title: "Médico",
       subtitle: "Recetas médicas",
-      url: `${inicioUrl}medico/recetas`,
+      url: `/recetas`,
       img: "https://bralowmedicalgroup.com/wp-content/uploads/2018/06/blog.jpg",
     },
     {
       id: 1,
       name: "Farmacia",
       title: "Farmacia",
-      url: `${inicioUrl}farmacia`,
+      subtitle: "Control de farmacia",
+      url: `/farmacia`,
       img: "https://bralowmedicalgroup.com/wp-content/uploads/2018/06/blog.jpg",
     },
     {
       id: 2,
       name: "Responsable Sanitario",
       title: "Responsable Sanitario",
-      url: `${inicioUrl}resp-sanitario`,
+      subtitle: "Control de fármacos",
+      url: `resp-sanitario`,
       img: "https://bralowmedicalgroup.com/wp-content/uploads/2018/06/blog.jpg",
     },
     {
@@ -32,17 +33,23 @@ export default function Inicio() {
       name: "Doctor",
       title: "Recepción médica",
       subtitle: "Alta de pacientes",
-      url: `${inicioUrl}pacientes`,
+      url: `/pacientes`,
       img: "https://bralowmedicalgroup.com/wp-content/uploads/2018/06/blog.jpg",
     },
     {
       id: 4,
       name: "Administrador",
       title: "Administrador",
-      url: `${inicioUrl}admin`,
+      subtitle: "Usuarios/Médicos",
+      url: `/usuarios`,
       img: "https://bralowmedicalgroup.com/wp-content/uploads/2018/06/blog.jpg",
     },
   ];
+  return roles;
+}
+
+export default function Inicio() {
+  const roles = useRoles();
   const profile = useSelector((state) => state.profile);
   const history = useHistory();
 
@@ -50,10 +57,11 @@ export default function Inicio() {
     <React.Fragment>
       <div className="page-container p-lg-3 p-md-4 p-1">
         <div className="row d-flex justify-content-center m-0 p-1 p-sm-2 p-lg-4">
-          {profile.cargo !== undefined
-            ? profile.cargo.map((cargo) =>
-                data.map((item) =>
-                  !cargo.includes("e") ? (
+          {profile.cargo !== undefined &&
+            profile.cargo.map((cargo) =>
+              roles.map(
+                (item) =>
+                  cargo.includes(item.name) && (
                     <React.Fragment key={item.id}>
                       <div className="col col-lg-4 col-sm-6 p-2 p-lg-3 d-inline-block c-card">
                         <div
@@ -65,7 +73,7 @@ export default function Inicio() {
                           <h5 className="card-title bg-container text-center pt-4 m-0">
                             {item.title}
                           </h5>
-                          <p className="p-2 m-0 text-center">
+                          <p className="p-2 m-0 text-center t-primary">
                             {item.subtitle !== undefined ? item.subtitle : "."}
                           </p>
                           <img
@@ -77,10 +85,9 @@ export default function Inicio() {
                         </div>
                       </div>
                     </React.Fragment>
-                  ) : null
-                )
+                  )
               )
-            : null}
+            )}
         </div>
       </div>
     </React.Fragment>

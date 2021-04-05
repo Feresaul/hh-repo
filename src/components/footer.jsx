@@ -7,11 +7,11 @@ export default function Footer() {
   return (
     <React.Fragment>
       <nav className="navbar footer p-3">
-        <div className="col-10 l-text">
+        <div className="col-10">
           <div className="row p-2 p-md-3">
             <div className="p-0 pl-2">
               <p className="p-0 m-0 t-sm"> Desarrollado por: </p>
-              <i className="l-text t-bold t-sm p-0 m-0">
+              <i className="t-bold t-sm p-0 m-0">
                 Universidad Panamericana Campus Aguascalientes
               </i>
             </div>
@@ -21,7 +21,7 @@ export default function Footer() {
           <p className="m-auto text-right">
             <span>
               <IconButton>
-                <BusinessIcon className="l-text" />
+                <BusinessIcon className="iconC" />
               </IconButton>
             </span>
           </p>
