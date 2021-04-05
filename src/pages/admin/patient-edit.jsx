@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import PatientForm from "../../components/patient-form";
+import { GoBack } from "../../components/header";
 
 export default function EditPatient({path}) {
   const history = useHistory();
@@ -18,7 +19,7 @@ export default function EditPatient({path}) {
   });
 
   const goBack = () => {
-    history.goBack();
+    GoBack(history, history.location.pathname);
   };
 
   const submitForm = (values) => {

@@ -17,7 +17,7 @@ export async function ValidToken() {
         console.log(res.data);
         store.dispatch({
           type: constants.AUTHENTICATED,
-          payload: res.data,
+          payload: true//res.data,
         });
       })
       .catch((error) => console.log(error.message));

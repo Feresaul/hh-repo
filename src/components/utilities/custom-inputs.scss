@@ -105,14 +105,16 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  box-shadow: 0px;
-  -webkit-box-shadow: 0 0 0 0px transparent !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .c-input {
+  position: relative;
+  min-height: 42px;
+
   .c-input-label {
-    position: relative;
-    bottom: 2px;
+    position: absolute;
+    bottom: 0px;
     left: 0px;
     width: 100%;
     margin: 0;
@@ -121,37 +123,36 @@ input:-webkit-autofill:active {
     cursor: pointer;
   }
   .c-input-input {
-    position: relative;
-    bottom: -22px;
+    position: absolute;
+    bottom: 0px;
     left: 0px;
     width: 100%;
     outline: none;
-    border: 0px;
+    border: none;
     background: transparent !important;
     cursor: pointer;
   }
   .c-input-line {
-    position: relative;
-    bottom: 2px;
-    left: 0px;
+    position: absolute;
+    bottom: 0px;
     width: 100%;
-    padding: 1px;
+    height: 1px;
   }
 }
 
 .c-input-input:not(:placeholder-shown) {
   ~ .c-input-label {
     font-size: 12px;
-    transform: translateY(-24px);
-    transition: 0.12s;
+    transform: translateY(-26px);
+    transition: 0.32s;
   }
 }
 
 .c-input:focus-within {
   .c-input-label {
     font-size: 12px;
-    transform: translateY(-24px);
-    transition: 0.12s;
+    transform: translateY(-29px);
+    transition: 0.32s;
   }
 }
 
@@ -171,7 +172,7 @@ input:-webkit-autofill:active {
 .c-input-input:disabled {
   ~ .c-input-label {
     cursor: default;
-    top: -10px;
+    top: 0px;
     font-size: 12px;
     color: gray;
     border-style: none;

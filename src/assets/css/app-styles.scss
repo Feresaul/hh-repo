@@ -1,9 +1,151 @@
-.user-name {
-  text-overflow: clip;
-}
-
 .header {
   height: 71.45px;
+}
+
+.footer {
+  height: 105.6px;
+}
+
+.page-container {
+  transition: 0.3s ease-out;
+  min-height: calc(100vh - 177px);
+}
+
+.c-card {
+  min-width: 300px;
+}
+
+.c-card-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.hover-grow {
+  scale: 1;
+  transition: 0.1s;
+}
+
+.hover-grow:hover {
+  transform: scale(1.08);
+}
+
+.item-container {
+  border-width: 0px;
+  border-style: solid;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 6px 0 rgba(0, 0, 0, 0.19);
+  transition: 0.1s ease-out;
+}
+
+.t-bold {
+  font-weight: bold;
+}
+
+.c-btn {
+  border: 0px;
+  border-radius: 3px;
+  padding: 6px;
+  font-size: 0.92rem;
+  font-family: Helvetica, sans-serif;
+}
+
+.t-blue-l {
+  font-family: Helvetica, monospace;
+  font-size: 14px;
+}
+
+p {
+  font-family: Helvetica, sans-serif, monospace;
+}
+
+.l-text {
+  font-family: Helvetica, sans-serif;
+}
+
+.t-sm {
+  font-size: 12px;
+}
+
+.t-md {
+  font-size: 14px;
+}
+
+.t-lg {
+  font-size: 20px;
+}
+
+.t-xl {
+  font-size: 30px;
+}
+
+.icon-t,
+.no-selectable {
+  cursor: pointer;
+  -webkit-touch-callout: none; 
+  -webkit-user-select: none; 
+  -khtml-user-select: none; 
+  -moz-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none;
+}
+
+.delete-row {
+  background: #353434;
+  transition: 0.64s;
+  opacity: 0;
+  height: 0px;
+  input {
+    background: transparent !important;
+    outline: none;
+  }
+}
+
+.row {
+  transition: 0.64s;
+  opacity: 1;
+}
+
+.delete-row:focus-within {
+  opacity: 1;
+  background: rgb(109, 51, 51);
+  .btn-delete-row {
+    opacity: 1;
+  }
+}
+
+.btn-delete-row {
+  opacity: 0;
+  outline: none;
+  border: none;
+  background: rgb(109, 51, 51);
+  transition: 0.64s;
+}
+
+.btn-delete-row:hover {
+  background: rgb(158, 54, 54);
+  outline: none;
+}
+
+.btn-delete-row:focus {
+  outline: none;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.cursor-pointer:hover {
+  scale: 2;
+}
+
+.arrow-sort {
+  scale: 1;
+}
+
+.arrow-sort:hover {
+  scale: 2;
 }
 
 body.dark {
@@ -36,8 +178,6 @@ body.dark {
 
   .page-container {
     background-color: $bg-page-container;
-    transition: 0.3s ease-out;
-    min-height: calc(100vh - 177px);
   }
 
   .header,
@@ -50,17 +190,6 @@ body.dark {
     color: $white-s !important;
   }
 
-  .c-card {
-    min-width: 300px;
-  }
-
-  .c-card-image {
-    width: 100%;
-    max-height: 300px;
-    object-fit: cover;
-    overflow: hidden;
-  }
-
   .card-title {
     color: $t-primary-color;
   }
@@ -70,46 +199,17 @@ body.dark {
     color: $t-primary-color;
   }
 
-  .hover-grow {
-    scale: 1;
-    transition: 0.1s;
-  }
-
-  .hover-grow:hover {
-    transform: scale(1.08);
-  }
-
   .item-container {
     background-color: $bg-item-container;
-    border-width: 0px;
-    border-style: solid;
-    border-radius: 3px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 6px 0 rgba(0, 0, 0, 0.19);
-    transition: 0.1s ease-out;
-  }
-
-  .back-shape {
-    position: relative;
-    top: 0;
-    left: 5%;
-    right: 5%;
-    width: 90%;
-    border-bottom-left-radius: 50px;
-    border-bottom-right-radius: 50px;
-    height: 80%;
-  }
-
-  .t-bold {
-    font-weight: bold;
   }
 
   .c-btn {
     background-color: $bg-secondary;
     color: $white-s;
-    border: 0px;
-    border-radius: 3px;
-    padding: 6px;
-    font-size: 0.92rem;
+  }
+
+  .c-btn:hover {
+    background-color: $bg-secondary * 0.9;
   }
 
   .c-btn:disabled {
@@ -127,33 +227,10 @@ body.dark {
 
   .t-blue-l {
     color: $blue-light;
-    font-family: Helvetica, monospace;
-    font-size: 14px;
-  }
-
-  p {
-    font-family: Helvetica, sans-serif, monospace;
   }
 
   .l-text {
     color: $t-primary-color;
-    font-family: Helvetica, sans-serif;
-  }
-
-  .t-sm {
-    font-size: 12px;
-  }
-
-  .t-md {
-    font-size: 14px;
-  }
-
-  .t-lg {
-    font-size: 20px;
-  }
-
-  .t-xl {
-    font-size: 30px;
   }
 
   .btn-link {
@@ -184,17 +261,6 @@ body.dark {
     }
   }
 
-  .icon-t,
-  .no-selectable {
-    cursor: pointer;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Old versions of Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none;
-  }
-
   .MuiTable-root {
     tr {
       border-bottom: solid;
@@ -221,62 +287,8 @@ body.dark {
     }
   }
 
-  .delete-row {
-    background: #353434;
-    transition: 0.64s;
-    opacity: 0;
-    height: 0px;
-    input {
-      background: transparent !important;
-      outline: none;
-    }
-  }
-
-  .row {
-    transition: 0.64s;
-    opacity: 1;
-  }
-
-  .delete-row:focus-within {
-    opacity: 1;
-    background: rgb(109, 51, 51);
-    .btn-delete-row {
-      opacity: 1;
-    }
-  }
-
   .btn-delete-row {
-    opacity: 0;
     color: $t-table-color;
-    outline: none;
-    border: none;
-    background: rgb(109, 51, 51);
-    transition: 0.64s;
-  }
-
-  .btn-delete-row:hover {
-    background: rgb(158, 54, 54);
-    outline: none;
-  }
-
-  .btn-delete-row:focus {
-    outline: none;
-  }
-
-  .cursor-pointer {
-    cursor: pointer;
-  }
-
-  .cursor-pointer:hover {
-    scale: 2;
-  }
-
-  .arrow-sort {
-    scale: 1;
-  }
-
-  .arrow-sort:hover {
-    scale: 2;
   }
 }
 
@@ -312,8 +324,6 @@ body {
 
   .page-container {
     background-color: $bg-page-container;
-    transition: 0.3s ease-out;
-    min-height: calc(100vh - 177px);
   }
 
   .header,
@@ -326,17 +336,6 @@ body {
     color: $white-s !important;
   }
 
-  .c-card {
-    min-width: 300px;
-  }
-
-  .c-card-image {
-    width: 100%;
-    max-height: 300px;
-    object-fit: cover;
-    overflow: hidden;
-  }
-
   .card-title {
     color: $t-primary-color;
   }
@@ -346,46 +345,17 @@ body {
     color: $t-primary-color;
   }
 
-  .hover-grow {
-    scale: 1;
-    transition: 0.1s;
-  }
-
-  .hover-grow:hover {
-    transform: scale(1.08);
-  }
-
   .item-container {
     background-color: $bg-item-container;
-    border-width: 0px;
-    border-style: solid;
-    border-radius: 3px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 6px 0 rgba(0, 0, 0, 0.19);
-    transition: 0.1s ease-out;
-  }
-
-  .back-shape {
-    position: relative;
-    top: 0;
-    left: 5%;
-    right: 5%;
-    width: 90%;
-    border-bottom-left-radius: 50px;
-    border-bottom-right-radius: 50px;
-    height: 80%;
-  }
-
-  .t-bold {
-    font-weight: bold;
   }
 
   .c-btn {
     background-color: $bg-secondary;
     color: $black;
-    border: 0px;
-    border-radius: 3px;
-    padding: 6px;
-    font-size: 0.92rem;
+  }
+
+  .c-btn:hover {
+    background-color: $bg-secondary * 0.9;
   }
 
   .c-btn:disabled {
@@ -403,33 +373,10 @@ body {
 
   .t-blue-l {
     color: $blue-light;
-    font-family: Helvetica, monospace;
-    font-size: 14px;
-  }
-
-  p {
-    font-family: Helvetica, sans-serif, monospace;
   }
 
   .l-text {
     color: $t-primary-color;
-    font-family: Helvetica, sans-serif;
-  }
-
-  .t-sm {
-    font-size: 12px;
-  }
-
-  .t-md {
-    font-size: 14px;
-  }
-
-  .t-lg {
-    font-size: 20px;
-  }
-
-  .t-xl {
-    font-size: 30px;
   }
 
   .btn-link {
@@ -460,17 +407,6 @@ body {
     }
   }
 
-  .icon-t,
-  .no-selectable {
-    cursor: pointer;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Old versions of Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none;
-  }
-
   .MuiTable-root {
     tr {
       border-bottom: solid;
@@ -497,61 +433,7 @@ body {
     }
   }
 
-  .delete-row {
-    background: #353434;
-    transition: 0.64s;
-    opacity: 0;
-    height: 0px;
-    input {
-      background: transparent !important;
-      outline: none;
-    }
-  }
-
-  .row {
-    transition: 0.64s;
-    opacity: 1;
-  }
-
-  .delete-row:focus-within {
-    opacity: 1;
-    background: rgb(109, 51, 51);
-    .btn-delete-row {
-      opacity: 1;
-    }
-  }
-
   .btn-delete-row {
-    opacity: 0;
     color: $t-table-color;
-    outline: none;
-    border: none;
-    background: rgb(109, 51, 51);
-    transition: 0.64s;
-  }
-
-  .btn-delete-row:hover {
-    background: rgb(158, 54, 54);
-    outline: none;
-  }
-
-  .btn-delete-row:focus {
-    outline: none;
-  }
-
-  .cursor-pointer {
-    cursor: pointer;
-  }
-
-  .cursor-pointer:hover {
-    scale: 2;
-  }
-
-  .arrow-sort {
-    scale: 1;
-  }
-
-  .arrow-sort:hover {
-    scale: 2;
   }
 }

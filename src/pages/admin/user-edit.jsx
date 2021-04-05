@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import UserForm from "../../components/user-form";
+import { GoBack } from "../../components/header";
 
-export default function EditUser({path}) {
+export default function EditUser({ path }) {
   const history = useHistory();
   const l_state = history.location.state;
   const id = l_state !== undefined ? l_state.id : null;
@@ -18,7 +19,7 @@ export default function EditUser({path}) {
   });
 
   const goBack = () => {
-    history.goBack();
+    GoBack(history, history.location.pathname);
   };
 
   const submitForm = (values) => {

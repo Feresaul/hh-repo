@@ -21,6 +21,18 @@ function dM() {
     : document.body.classList.remove("dark");
 }
 
+export function GoBack(history, pathname) {
+  let data = pathname.split("/");
+  data.splice(0, 1);
+  data.pop();
+  let n_url = "";
+  data.forEach((element) => {
+    n_url += "/" + element;
+  });
+  if (n_url === "") n_url = "/inicio";
+  history.replace(n_url);
+}
+
 function Header() {
   const inicioUrl = "/inicio";
   const history = useHistory();
@@ -31,17 +43,7 @@ function Header() {
     JSON.parse(localStorage.getItem("site-dark-mode"))
   );
   const roles = useRoles();
-
-  const goBack = () => {
-    let data = pathname.split("/");
-    data.splice(0, 1);
-    data.pop();
-    let n_url = "";
-    data.forEach((element) => {
-      n_url += "/" + element;
-    });
-    history.replace(n_url);
-  };
+  const goBack = GoBack;
 
   useEffect(() => {
     dM();
@@ -51,7 +53,7 @@ function Header() {
         type: "FETCH_PROFILE",
         payload: {
           usuario: "EsaulFR",
-          cargo: ["Doctor", "Farmacia", "Administrador"],
+          cargo: ["Doctor", "Farmaci", "Administrador"],
         },
       });
     } else if (profile.cargo !== undefined) {
@@ -78,7 +80,7 @@ function Header() {
               {pathname !== inicioUrl && (
                 <button
                   className="btn btn-link hover-grow"
-                  onClick={() => goBack()}
+                  onClick={() => goBack(history, pathname)}
                 >
                   <ArrowBackIcon className="iconC" />
                 </button>

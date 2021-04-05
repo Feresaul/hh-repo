@@ -17,7 +17,7 @@ export default function PatientForm({ patient, submitForm, goBack }) {
       id: 1,
       name: "curp",
       label: "CURP:",
-      classAdd: "m-0 col-12 col-sm-6 d-inline-block",
+      classAdd: "m-0 col-12 col-sm-6",
       validation: {
         required: { value: true, message: "Campo requerido" },
         minLength: { value: 18, message: "Debe tener 18 caracteres" },
@@ -28,12 +28,12 @@ export default function PatientForm({ patient, submitForm, goBack }) {
       id: 2,
       name: "edad",
       label: "Edad:",
-      classAdd: "m-0 col-12 col-sm-6 d-inline-block",
+      classAdd: "m-0 col-3 col-sm-2",
       validation: {
         required: { value: true, message: "Campo requerido" },
         min: { value: 0, message: "El valor mínimo es 0" },
-        max: { value: 120, message: "El valor máximo es 120"},
-        type: { value: "number", message: "Debe ser un número"}
+        max: { value: 120, message: "El valor máximo es 120" },
+        type: { value: "number", message: "Debe ser un número" },
       },
       type: "number",
       min: "0",
@@ -43,7 +43,7 @@ export default function PatientForm({ patient, submitForm, goBack }) {
       id: 3,
       name: "sexo",
       label: "Sexo:",
-      classAdd: "m-0 col-12 col-sm-6 d-inline-block",
+      classAdd: "m-0 col-6 col-sm-3",
       validation: { required: { value: true, message: "Campo requerido" } },
       options: ["masculino", "femenino", "otro"],
     },
@@ -51,7 +51,7 @@ export default function PatientForm({ patient, submitForm, goBack }) {
       id: 4,
       name: "domicilio",
       label: "Domicilio:",
-      classAdd: "m-0 col-12 col-sm-6 d-inline-block",
+      classAdd: "m-0 col-12 col-sm-6",
       validation: { required: { value: true, message: "Campo requerido" } },
     },
     {
@@ -81,36 +81,37 @@ export default function PatientForm({ patient, submitForm, goBack }) {
         <div className="row m-0">
           <div className="item-container col p-4 mb-2 d-inline-block">
             <p className="t-blue-l">Agregar/Modificar paciente</p>
-
-            {inputs.map((item) => (
-              <React.Fragment key={item.id}>
-                {item.id !== 3 ? (
-                  <CustomInput
-                    {...item}
-                    id={item.name}
-                    name={item.name}
-                    label={item.label}
-                    classAdd={item.classAdd}
-                    register={register(item.validation)}
-                    error={errors[item.name]}
-                    defaultValue={data[item.name]}
-                  />
-                ) : (
-                  <CustomMultiSelect
-                    id={item.id}
-                    name={item.name}
-                    label={item.label}
-                    button_label="Seleccionar"
-                    type="text"
-                    cClass={item.classAdd}
-                    register={register(item.validation)}
-                    error={errors[item.name]}
-                    options={item.options}
-                    defaultValue={data[item.name]}
-                  />
-                )}
-              </React.Fragment>
-            ))}
+            <div className="row m-0 p-2">
+              {inputs.map((item) => (
+                <React.Fragment key={item.id}>
+                  {item.id !== 3 ? (
+                    <CustomInput
+                      {...item}
+                      id={item.name}
+                      name={item.name}
+                      label={item.label}
+                      classAdd={item.classAdd}
+                      register={register(item.validation)}
+                      error={errors[item.name]}
+                      defaultValue={data[item.name]}
+                    />
+                  ) : (
+                    <CustomMultiSelect
+                      id={item.id}
+                      name={item.name}
+                      label={item.label}
+                      button_label="Seleccionar"
+                      type="text"
+                      cClass={item.classAdd}
+                      register={register(item.validation)}
+                      error={errors[item.name]}
+                      options={item.options}
+                      defaultValue={data[item.name]}
+                    />
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
           </div>
         </div>
 

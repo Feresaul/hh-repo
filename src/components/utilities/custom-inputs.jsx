@@ -12,13 +12,12 @@ export default function CustomInput({
   let { name } = { ...inputProps };
   if (name === undefined) console.error("Missing name for custom-input");
 
-  let cs = "c-input " + classAdd;
+  let cs = classAdd + " p-1 pr-2 pl-2";
   return (
     <React.Fragment>
       <div className={cs}>
-        <div className={`m-0 p-0${!error && "pb-2"}`}>
+        <div className="c-input">
           <input
-            autoComplete="off"
             className={`c-input-input ${error && "error"}`}
             ref={register}
             placeholder={" "}
@@ -29,7 +28,7 @@ export default function CustomInput({
             {label}
             {error && <span className="pl-2">{error.message}</span>}
           </label>
-          <div className={`c-input-line`}></div>
+          <div className={`c-input-line`} />
         </div>
       </div>
     </React.Fragment>

@@ -42,75 +42,87 @@ export default function CustomMultiSelect({
 
   return (
     <React.Fragment>
-      <input
-        id={name}
-        name={name}
-        ref={register}
-        readOnly
-        value={values}
-        hidden
-      />
-      <div className={cClass}>
-        <div className={`m-0 p-0${!error && "pb-2"}`}>
+      <div className={cClass + " p-1 pl-2 pr-2"}>
+        <div className="c-multi">
+          <input
+            className="c-multi-input"
+            id={name}
+            name={name}
+            ref={register}
+            readOnly
+            value={values}
+            hidden
+          />
           <label
             onClick={() => {
               if (values.length < options.length) setShow(!show);
             }}
-            className={`col p-0 m-0 mb-2 ${
-              values.length > 0 ? "active-label mt-2" : "label mt-3"
-            }  ${error && "error"}`}
+            className={`col p-0 m-0 label ${
+              (values.length > 0 || show) && "active"
+            }  ${error ? "error" : ""}`}
           >
             {label}
             {error && values.length < 1 && (
               <span className="pl-2">{error.message}</span>
             )}
-            <span className="p-2">
-              {" "}
+            <span className="pl-2">
               {!show
                 ? values.length < options.length && button_label
-                : "Cerrar"}{" "}
+                : "Cerrar"}
             </span>
           </label>
 
-          {show && values.length < options.length ? (
-            <div className="c-options mb-2">
-              {options.map(
-                (item) =>
-                  values.indexOf(item) === -1 && (
-                    <div
-                      className="c-option p-2 t-md text-truncate"
-                      key={item}
-                      onClick={() => addValue(item)}
-                    >
-                      <LabelImportantIcon className="p-1" fontSize="small" />{" "}
-                      {item}
-                    </div>
-                  )
-              )}
-            </div>
-          ) : (
-            <div className="p-0">
-              {values.map((item) => (
-                <div
-                  className="chip d-inline-block pl-3 pr-1 m-1 text-truncate"
-                  key={item}
-                >
-                  {item}
-                  <button type="button" onClick={() => deleteValue(item)}>
-                    X
-                  </button>
-                </div>
-              ))}
-            </div>
+          {values.length < 1 && (
+            <div
+              className={`line ${values.length > 0 && "active"} ${
+                error && "error"
+              }`}
+            />
           )}
 
-          <div
-            className={`${values.length > 0 ? "active-line" : "line"} ${
-              error && "error"
-            }`}
-          />
+          <div className="row p-0 m-0 inner">
+            {values.map((item) => (
+              <div className="chip t-sm pl-3 pr-1 m-1 text-truncate" key={item}>
+                {item}
+                <button type="button" onClick={() => deleteValue(item)}>
+                  X
+                </button>
+              </div>
+            ))}
+            {values.length > 0 && (
+              <div
+                className={`line ${values.length > 0 && "active"} ${
+                  error && "error"
+                }`}
+              />
+            )}
+          </div>
+
+          {show && values.length < options.length && (
+            <div className="c-options mb-1">
+              <button className="m-0 p-0 options-btn" autoFocus onBlur={() => setShow(false)}>
+                {options.map(
+                  (item) =>
+                    values.indexOf(item) === -1 && (
+                      <div
+                        className="c-option p-1 t-md text-truncate"
+                        key={item}
+                        onClick={() => addValue(item)}
+                      >
+                        <LabelImportantIcon className="p-1" fontSize="small" />
+                        {item}
+                      </div>
+                    )
+                )}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </React.Fragment>
   );
 }
+
+/**
+ *
+ */

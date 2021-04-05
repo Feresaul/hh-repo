@@ -1,21 +1,68 @@
 $black: rgb(0, 0, 0);
-$white-s: rgb(243, 243, 243);
+$white-s: rgb(213, 218, 224);
 $label-filled-b: rgb(151, 159, 173);
 $label-filled-d: rgb(104, 118, 148);
 
-.c-options {
-  border-radius: 6px;
-  .c-option {
-    background: transparent !important;
+.c-multi {
+  position: relative;
+  min-height: 42px;
+
+  .label {
+    position: absolute;
+    bottom: 0px;
+    font-size: 14px;
+    z-index: 1;
     cursor: pointer;
-    transition: .2s ease;
+    height: auto;
+    transition: 0.4s ease;
+  }
+
+  .label.active {
+    position: absolute;
+    top: 0;
+    font-size: 12px;
+    max-height: 14px;
+    transition: 0.4s ease;
+  }
+
+  .inner {
+    position: relative;
+    top: 14px;
+    margin-top: 20px;
+    padding: 40px;
+  }
+
+  .line {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+  }
+
+  .line.active {
+    position: absolute;
+    bottom: 0px;
+  }
+
+  .c-options {
+    position: absolute;
+    top: 14.6px;
+    width: 100%;
+    border-radius: 6px;
+    z-index: 2;
+    .c-option {
+      cursor: pointer;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+        0 4px 6px 0 rgba(0, 0, 0, 0.19);
+      transition: 0.2s ease;
+    }
   }
 }
 
 .chip {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 6px 0 rgba(0, 0, 0, 0.19);
   border-radius: 20px;
-  text-align: center;
-  font-size: 14px;
+  font-family: Helvetica, sans-serif;
   button {
     background: transparent !important;
     border: none;
@@ -30,25 +77,16 @@ $label-filled-d: rgb(104, 118, 148);
   outline: none;
 }
 
-.add-btn {
-  background: transparent !important;
-  border: none;
+.options-btn{
+  min-width: 100%;
   outline: none;
+  text-decoration: none;
+  border: none;
+  text-align: initial;
 }
 
-.line,
-.active-line {
-  padding: 1px;
-}
-
-.label {
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.active-label {
-  font-size: 12px;
-  cursor: pointer;
+.options-btn:focus{
+  outline: none;
 }
 
 body.dark {
@@ -66,11 +104,8 @@ body.dark {
   .line.error {
     background: red;
   }
-  .active-line {
+  .line.active {
     background: $label-filled;
-  }
-  .add-btn {
-    color: $t-color;
   }
   .label {
     color: $t-color;
@@ -78,12 +113,14 @@ body.dark {
   .label.error {
     color: red;
   }
-  .active-label {
+  .label.active {
     color: $label-filled;
   }
   .c-options {
-    background: rgba(128, 128, 128, 0.185);
     color: $t-color;
+    .c-option {
+      background: rgb(66, 66, 66);
+    }
     .c-option:hover {
       background: $bg-primary !important;
       transition: 0.2s ease;
@@ -109,11 +146,8 @@ body:not(.dark) {
   .line.error {
     background: red;
   }
-  .active-line {
+  .line.active {
     background: $label-filled;
-  }
-  .add-btn {
-    color: $t-color;
   }
   .label {
     color: $t-color;
@@ -121,12 +155,14 @@ body:not(.dark) {
   .label.error {
     color: red;
   }
-  .active-label {
+  .label.active {
     color: $label-filled;
   }
   .c-options {
-    background: rgba(128, 128, 128, 0.1);
     color: $t-color;
+    .c-option {
+      background: rgb(238, 238, 238);
+    }
     .c-option:hover {
       background: $bg-primary !important;
       transition: 0.2s ease;

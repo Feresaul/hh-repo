@@ -16,20 +16,20 @@ export default function UserForm({ user, submitForm, goBack }) {
         id: 1,
         name: "usuario",
         label: "Usuario:",
-        classAdd: "m-0 col-12 col-sm-6 d-inline-block",
+        classAdd: "m-0 col-12 col-sm-6",
       },
       {
         id: 2,
         name: "contrasenia",
         label: "Contraseña:",
-        classAdd: "m-0 col-12 col-sm-6 d-inline-block",
+        classAdd: "m-0 col-12 col-sm-6",
         type: "password",
       },
       {
         id: 3,
         name: "turno",
         label: "Turno:",
-        classAdd: "m-0 col-sm-6 col-12 d-inline-block",
+        classAdd: "m-0 col-12 col-sm-6",
       },
     ],
     medico: [
@@ -37,25 +37,25 @@ export default function UserForm({ user, submitForm, goBack }) {
         id: 4,
         name: "especialidad",
         label: "Especialidad:",
-        classAdd: "m-0 col",
+        classAdd: "m-0 col-12",
       },
       {
         id: 5,
         name: "cedula",
         label: "Cedula:",
-        classAdd: "m-0 col",
+        classAdd: "m-0 col-12",
       },
       {
         id: 6,
         name: "universidad",
         label: "Universidad:",
-        classAdd: "m-0 col",
+        classAdd: "m-0 col-12",
       },
       {
         id: 7,
         name: "direccion",
         label: "Dirección:",
-        classAdd: "m-0 col mb-3",
+        classAdd: "m-0 col-12 mb-2",
       },
     ],
     cargo: {
@@ -92,7 +92,7 @@ export default function UserForm({ user, submitForm, goBack }) {
       [element.name]: user !== null ? user[element.name] : null,
     };
   });
-  
+
   let medico_data = {};
   inputs.medico.forEach((element) => {
     medico_data = {
@@ -114,36 +114,37 @@ export default function UserForm({ user, submitForm, goBack }) {
         <div className="row m-0">
           <div className="item-container col p-4 mb-2 d-inline-block">
             <p className="t-blue-l">Agregar/Modificar usuario</p>
+            <div className="row m-0 p-2">
+              {inputs.user.map((item) => (
+                <React.Fragment key={item.id}>
+                  <CustomInput
+                    {...item}
+                    id={item.name}
+                    name={item.name}
+                    label={item.label}
+                    classAdd={item.classAdd}
+                    register={register(requiredField)}
+                    error={errors[item.name]}
+                    defaultValue={user_data[item.name]}
+                  />
+                </React.Fragment>
+              ))}
 
-            {inputs.user.map((item) => (
-              <React.Fragment key={item.id}>
-                <CustomInput
-                  {...item}
-                  id={item.name}
-                  name={item.name}
-                  label={item.label}
-                  classAdd={item.classAdd}
-                  register={register(requiredField)}
-                  error={errors[item.name]}
-                  defaultValue={user_data[item.name]}
-                />
-              </React.Fragment>
-            ))}
-
-            <CustomMultiSelect
-              id="cargo"
-              name="cargo"
-              label="Cargo(s):"
-              button_label="Agregar"
-              type="text"
-              cClass="col-12"
-              register={register(requiredField)}
-              error={errors.cargo}
-              options={inputs.cargo.checkbox}
-              resFunction={checkRoles}
-              multiselect={true}
-              defaultValue={user !== null ? user.cargo : null}
-            />
+              <CustomMultiSelect
+                id="cargo"
+                name="cargo"
+                label="Cargo(s):"
+                button_label="Agregar"
+                type="text"
+                cClass="col-12"
+                register={register(requiredField)}
+                error={errors.cargo}
+                options={inputs.cargo.checkbox}
+                resFunction={checkRoles}
+                multiselect={true}
+                defaultValue={user !== null ? user.cargo : null}
+              />
+            </div>
           </div>
 
           {medico === true ? (
@@ -153,8 +154,11 @@ export default function UserForm({ user, submitForm, goBack }) {
               {inputs.medico.map((item) => (
                 <React.Fragment key={item.id}>
                   <CustomInput
-                    id={item.name}
                     {...item}
+                    id={item.name}
+                    name={item.name}
+                    label={item.label}
+                    classAdd={item.classAdd}
                     register={register(requiredField)}
                     error={errors[item.name]}
                     defaultValue={medico_data[item.name]}

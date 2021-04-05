@@ -16,13 +16,13 @@ import EditPrescription from "./pages/prescription-edit";
 //import Admin from "./pages/admin/admin";
 import Inicio from "./pages/inicio";
 import LogIn from "./pages/logIn";
+import DrugList from "./pages/drug-list";
 
-
-function RedirectHome(){
+function RedirectHome() {
   useEffect(() => {
-    window.location.href = "/inicio"
-  })
-  return <></>
+    window.location.href = "/inicio";
+  });
+  return <></>;
 }
 
 export default function App() {
@@ -57,6 +57,7 @@ export default function App() {
               <Route path="/pacientes/:paciente" exact>
                 <EditPatient path="/pacientes" />
               </Route>
+              <Route path="/farmacia" exact component={DrugList} />
               <Route path="/recetas" exact component={PrescriptionList} />
               <Route
                 exact
@@ -64,7 +65,7 @@ export default function App() {
                 component={EditPrescription}
               ></Route>
               <Route path="*">
-                <RedirectHome/>
+                <RedirectHome />
               </Route>
             </Switch>
           </React.Fragment>
