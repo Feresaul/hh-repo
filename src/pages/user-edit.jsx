@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import UserForm from "../../components/user-form";
-import { GoBack } from "../../components/header";
+import UserForm from "../components/user-form";
+import { GoBack } from "../components/header";
 
 export default function EditUser({ path }) {
   const history = useHistory();
@@ -10,16 +10,16 @@ export default function EditUser({ path }) {
   const id = l_state !== undefined ? l_state.id : null;
   const users = useSelector((state) => state.users);
   const user =
-    id !== -1 && id !== null
+    id !== -1 && id !== null && users.length !== undefined
       ? users.find((user) => user.medico.id === id)
       : null;
 
   useEffect(() => {
-    if (id === null) history.replace(path);
+    if (id === null || users.length === undefined) history.replace(path);
   });
 
   const goBack = () => {
-    GoBack(history, history.location.pathname);
+    history.replace(GoBack(history.location.pathname));
   };
 
   const submitForm = (values) => {

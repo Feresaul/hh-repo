@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import PatientForm from "../../components/patient-form";
-import { GoBack } from "../../components/header";
+import PatientForm from "../components/patient-form";
+import { GoBack } from "../components/header";
 
 export default function EditPatient({path}) {
   const history = useHistory();
@@ -10,16 +10,16 @@ export default function EditPatient({path}) {
   const id = l_state !== undefined ? l_state.id : null;
   const patients = useSelector((state) => state.users); // cambiar por pacientes
   const patient =
-    id !== -1 && id !== null
+    id !== -1 && id !== null && patients !== undefined
       ? patients.find((patient) => patient.medico.id === id)
       : null;
 
   useEffect(() => {
-    if (id === null) history.replace(path);
+    if (id === null || patients.length === undefined) history.replace(path);
   });
 
   const goBack = () => {
-    GoBack(history, history.location.pathname);
+    history.replace(GoBack(history.location.pathname));
   };
 
   const submitForm = (values) => {
@@ -29,7 +29,7 @@ export default function EditPatient({path}) {
 
   return (
     <React.Fragment>
-      <div className="page-container p-2 p-md-4">
+      <div className="page-container p-2 p-md-4" aling="center">
         <PatientForm
           patient={patient}
           submitForm={submitForm}

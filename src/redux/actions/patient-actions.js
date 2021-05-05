@@ -2,8 +2,8 @@ import axios from "axios";
 import * as constants from "../constants";
 import store from "../store";
 
-export const getUserList = () => {
-  console.log("getUserList()");
+export const getPatientList = () => {
+  console.log("getPatientList()");
   let token = sessionStorage.getItem("token");
   axios
     .get(`${constants.BASE_URL}/api/frontend/doctors`, {

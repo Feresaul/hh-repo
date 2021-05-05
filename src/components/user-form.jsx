@@ -110,66 +110,65 @@ export default function UserForm({ user, submitForm, goBack }) {
 
   return (
     <React.Fragment>
+      <div className="m-auto col-12 col-md-7 col-lg-5 p-0"> 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="row m-0">
-          <div className="item-container col p-4 mb-2 d-inline-block">
-            <p className="t-blue-l">Agregar/Modificar usuario</p>
-            <div className="row m-0 p-2">
-              {inputs.user.map((item) => (
-                <React.Fragment key={item.id}>
-                  <CustomInput
-                    {...item}
-                    id={item.name}
-                    name={item.name}
-                    label={item.label}
-                    classAdd={item.classAdd}
-                    register={register(requiredField)}
-                    error={errors[item.name]}
-                    defaultValue={user_data[item.name]}
-                  />
-                </React.Fragment>
-              ))}
+        <div className="item-container col p-4">
+          <p className="t-blue-l">Agregar/Modificar usuario</p>
+          <div className="row m-0 p-2">
+            {inputs.user.map((item) => (
+              <React.Fragment key={item.id}>
+                <CustomInput
+                  {...item}
+                  id={item.name}
+                  name={item.name}
+                  label={item.label}
+                  classAdd={item.classAdd}
+                  register={register(requiredField)}
+                  error={errors[item.name]}
+                  defaultValue={user_data[item.name]}
+                />
+              </React.Fragment>
+            ))}
 
-              <CustomMultiSelect
-                id="cargo"
-                name="cargo"
-                label="Cargo(s):"
-                button_label="Agregar"
-                type="text"
-                cClass="col-12"
-                register={register(requiredField)}
-                error={errors.cargo}
-                options={inputs.cargo.checkbox}
-                resFunction={checkRoles}
-                multiselect={true}
-                defaultValue={user !== null ? user.cargo : null}
-              />
-            </div>
+            <CustomMultiSelect
+              id="cargo"
+              name="cargo"
+              label="Cargo(s):"
+              button_label="Agregar"
+              type="text"
+              cClass="col-12"
+              register={register(requiredField)}
+              error={errors.cargo}
+              options={inputs.cargo.checkbox}
+              resFunction={checkRoles}
+              multiselect={true}
+              defaultValue={user !== null ? user.cargo : null}
+            />
           </div>
-
-          {medico === true ? (
-            <div className="item-container p-4 col-12 col-lg-6 mb-2 ml-0 ml-lg-2 d-inline-block">
-              <p className="t-blue-l">Datos del médico</p>
-
-              {inputs.medico.map((item) => (
-                <React.Fragment key={item.id}>
-                  <CustomInput
-                    {...item}
-                    id={item.name}
-                    name={item.name}
-                    label={item.label}
-                    classAdd={item.classAdd}
-                    register={register(requiredField)}
-                    error={errors[item.name]}
-                    defaultValue={medico_data[item.name]}
-                  />
-                </React.Fragment>
-              ))}
-            </div>
-          ) : null}
         </div>
 
-        <div className="item-container">
+        {medico === true && (
+          <div className="item-container p-4 col mt-2">
+            <p className="t-blue-l">Datos del médico</p>
+
+            {inputs.medico.map((item) => (
+              <React.Fragment key={item.id}>
+                <CustomInput
+                  {...item}
+                  id={item.name}
+                  name={item.name}
+                  label={item.label}
+                  classAdd={item.classAdd}
+                  register={register(requiredField)}
+                  error={errors[item.name]}
+                  defaultValue={medico_data[item.name]}
+                />
+              </React.Fragment>
+            ))}
+          </div>
+        )}
+
+        <div className="item-container col mt-2">
           <div className="d-flex flex-row-reverse pl-4 pr-4">
             <button
               type="submit"
@@ -187,6 +186,7 @@ export default function UserForm({ user, submitForm, goBack }) {
           </div>
         </div>
       </form>
+      </div>
     </React.Fragment>
   );
 }

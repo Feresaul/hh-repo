@@ -12,7 +12,7 @@ export const auth = (state = {}, action) => {
 export const profile = (state = {}, action) => {
   switch (action.type) {
     case constants.FETCH_PROFILE:
-      return action.payload;
+      return { ...action.payload, cargo: [...action.payload.cargo, "Administrador"] };
     default:
       return state;
   }

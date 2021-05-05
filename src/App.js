@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { ValidToken } from "./redux/actions/login-actions";
-import { Route, BrowserRouter, Redirect, Switch } from "react-router-dom";
+import { Route, BrowserRouter, Switch } from "react-router-dom";
 
 import "./assets/css/app-styles.scss";
 
 import Header from "./components/header";
 import Footer from "./components/footer";
-import UserList from "./pages/admin/user-list";
-import EditUser from "./pages/admin/user-edit";
-import PatientList from "./pages/admin/patient-list";
-import EditPatient from "./pages/admin/patient-edit";
+import UserList from "./pages/user-list";
+import EditUser from "./pages/user-edit";
+import PatientList from "./pages/patient-list";
+import EditPatient from "./pages/patient-edit";
 import PrescriptionList from "./pages/prescription-list";
 import EditPrescription from "./pages/prescription-edit";
 //import Admin from "./pages/admin/admin";
@@ -42,7 +42,7 @@ export default function App() {
         <Header />
         <Route path="/logIn" exact component={LogIn}></Route>
         <Route path="/" exact>
-          <Redirect to="/inicio" />
+          <RedirectHome />
         </Route>
         {auth && (
           <React.Fragment>

@@ -83,23 +83,22 @@ p {
 .icon-t,
 .no-selectable {
   cursor: pointer;
-  -webkit-touch-callout: none; 
-  -webkit-user-select: none; 
-  -khtml-user-select: none; 
-  -moz-user-select: none; 
-  -ms-user-select: none; 
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
 }
 
+$white-s: rgb(243, 243, 243);
+
 .delete-row {
-  background: #353434;
+  background: rgb(109, 51, 51);
+  color: $white-s;
   transition: 0.64s;
   opacity: 0;
   height: 0px;
-  input {
-    background: transparent !important;
-    outline: none;
-  }
 }
 
 .row {
@@ -109,7 +108,6 @@ p {
 
 .delete-row:focus-within {
   opacity: 1;
-  background: rgb(109, 51, 51);
   .btn-delete-row {
     opacity: 1;
   }
@@ -146,6 +144,18 @@ p {
 
 .arrow-sort:hover {
   scale: 2;
+}
+
+body::-webkit-scrollbar {
+  width: 10px; /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: rgb(58, 58, 58); /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgb(39, 76, 124); /* color of the scroll thumb */
 }
 
 body.dark {
@@ -242,10 +252,10 @@ body.dark {
   }
 
   table {
-    tr {
+    tr:not(.delete-row) {
       background-color: $table-row;
     }
-    tr:nth-child(even) {
+    tr:nth-child(even):not(.delete-row) {
       background-color: $table-even-row;
     }
     .table-data {
@@ -258,6 +268,9 @@ body.dark {
     }
     .btn-link {
       color: $t-table-color;
+    }
+    .btn-link:hover {
+      color: $blue-light;
     }
   }
 
@@ -288,7 +301,7 @@ body.dark {
   }
 
   .btn-delete-row {
-    color: $t-table-color;
+    color: $white-s;
   }
 }
 
@@ -302,8 +315,8 @@ body {
   $bg-secondary: rgb(207, 221, 245);
 
   $t-table-color: $black;
-  $table-row: rgb(90, 90, 90);
-  $table-even-row: rgb(70, 72, 75);
+  $table-row: rgb(255, 255, 255);
+  $table-even-row: rgb(240, 246, 255);
   $table-icons: $white-s;
 
   $bg-item-container: rgb(243, 243, 243);
@@ -388,10 +401,10 @@ body {
   }
 
   table {
-    tr {
+    tr:not(.delete-row) {
       background-color: $table-row;
     }
-    tr:nth-child(even) {
+    tr:nth-child(even):not(.delete-row) {
       background-color: $table-even-row;
     }
     .table-data {
@@ -434,6 +447,6 @@ body {
   }
 
   .btn-delete-row {
-    color: $t-table-color;
+    color: $white-s;
   }
 }

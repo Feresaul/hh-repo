@@ -10,8 +10,6 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import NightsStayIcon from "@material-ui/icons/NightsStay";
 import WbSunnyIcon from "@material-ui/icons/WbSunny";
 
-import store from "../redux/store";
-
 function dM() {
   let darkMode = JSON.parse(localStorage.getItem("site-dark-mode"));
   if (darkMode === null) darkMode = false;
@@ -21,7 +19,7 @@ function dM() {
     : document.body.classList.remove("dark");
 }
 
-export function GoBack(history, pathname) {
+export function GoBack(pathname, default_path) {
   let data = pathname.split("/");
   data.splice(0, 1);
   data.pop();
@@ -29,8 +27,8 @@ export function GoBack(history, pathname) {
   data.forEach((element) => {
     n_url += "/" + element;
   });
-  if (n_url === "") n_url = "/inicio";
-  history.replace(n_url);
+  if (n_url === "") n_url = default_path;
+  return n_url;
 }
 
 function Header() {
@@ -49,18 +47,12 @@ function Header() {
     dM();
     if (profile.usuario === undefined && auth) {
       whoAmI();
-      store.dispatch({
-        type: "FETCH_PROFILE",
-        payload: {
-          usuario: "EsaulFR",
-          cargo: ["Doctor", "Farmaci", "Administrador"],
-        },
-      });
     } else if (profile.cargo !== undefined) {
       const role = roles.filter((item) => item.url === pathname);
       if (pathname !== inicioUrl && role.length > 0) {
-        if (profile.cargo.indexOf(role[0].name) === -1)
-          history.replace("/inicio");
+        if (profile.cargo.indexOf(role[0].name) === -1) {
+          history.replace(inicioUrl);
+        }
       }
     }
   });
@@ -78,12 +70,12 @@ function Header() {
           <div className="col-8 p-0">
             <span title="Volver">
               {pathname !== inicioUrl && (
-                <button
+                <Link
                   className="btn btn-link hover-grow"
-                  onClick={() => goBack(history, pathname)}
+                  to={() => goBack(pathname, inicioUrl)}
                 >
                   <ArrowBackIcon className="iconC" />
-                </button>
+                </Link>
               )}
             </span>
 
