@@ -122,7 +122,3 @@ export default function CustomMultiSelect({
     </React.Fragment>
   );
 }
-
-/**
- *
- */

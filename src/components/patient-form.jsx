@@ -43,7 +43,7 @@ export default function PatientForm({ patient, submitForm, goBack }) {
       id: 3,
       name: "sexo",
       label: "Sexo:",
-      classAdd: "m-0 col-6 col-sm-3",
+      classAdd: "m-0 col",
       validation: { required: { value: true, message: "Campo requerido" } },
       options: ["masculino", "femenino", "otro"],
     },
@@ -77,6 +77,7 @@ export default function PatientForm({ patient, submitForm, goBack }) {
 
   return (
     <React.Fragment>
+      <div className="m-auto col-12 col-md-7 col-lg-5 p-0"> 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row m-0">
           <div className="item-container col p-4 mb-2 d-inline-block">
@@ -133,6 +134,7 @@ export default function PatientForm({ patient, submitForm, goBack }) {
           </div>
         </div>
       </form>
+      </div>
     </React.Fragment>
   );
 }
