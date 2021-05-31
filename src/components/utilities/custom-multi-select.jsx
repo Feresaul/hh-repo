@@ -100,7 +100,11 @@ export default function CustomMultiSelect({
 
           {show && values.length < options.length && (
             <div className="c-options mb-1">
-              <button className="m-0 p-0 options-btn" autoFocus onBlur={() => setShow(false)}>
+              <button
+                className="m-0 p-0 options-btn"
+                autoFocus
+                //onBlur={() => setShow(false)}
+              >
                 {options.map(
                   (item) =>
                     values.indexOf(item) === -1 && (
